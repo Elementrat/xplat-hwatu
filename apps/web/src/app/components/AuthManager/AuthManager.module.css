@@ -1,0 +1,10 @@
+.authManager {
+  display: flex;
+  justify-content: center;
+  padding: var(--padding-lg);
+  text-align: center;
+
+  .userName {
+    margin-bottom: 10px;
+  }
+}

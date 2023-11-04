@@ -1,0 +1,15 @@
+@import url("./typography.css");
+@import url("./colors.css");
+@import url("./spacings.css");
+
+:root{
+  --box-shadow-1:0 4px 10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.flex{
+  display: flex;
+}
+
+.column{
+  flex-direction: column;
+}

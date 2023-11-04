@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("/packages/shared/ux/styles/globals.css"); 
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --global-nav-width: 300px;
+  --background-color: white;
+  --heirloom: #571A08;
+  --chili: #FF5724;
+  --blueberry: #5FBDE0;
+  --lime: #FCFF3C;
+  --padding-xsm: 6px;
+  --padding-sm: 20px;
+  --padding-md: 40px;
+  --padding-lg: 50px;
+  --border-radius-sm: 16px;
+  --border-radius-md: 24px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}

@@ -1,0 +1,5 @@
+.homePage {
+  padding-top: 150px;
+  padding-left: var(--padding-lg);
+  padding-right: var(--padding-lg);
+}
