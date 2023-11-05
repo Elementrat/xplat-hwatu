@@ -10,8 +10,7 @@ import {
 
   import mongoose from "mongoose";
 
-  setGlobalOptions({ globalOptions: { disableGlobalCaching: true } }); // does not affect the previous setting of "options"
-
+  // setGlobalOptions({ globalOptions: { disableGlobalCaching: true } }); // does not affect the previous setting of "options"
   
   @post<CardClass>("save", function (doc) {
     if (doc) {
@@ -35,6 +34,7 @@ import {
     },
     options: {
       allowMixed: Severity.ALLOW,
+      disableCaching: true
     },
   })
   
@@ -51,9 +51,17 @@ import {
     id: string;
   }
   
-  const Card = getModelForClass(CardClass);
+let Card = mongoose?.models?.CardClass;
+
+if (!Card){
+  try{
+   Card = getModelForClass(CardClass);
+  }
+  catch (e){
+    //console.log(e)
+  }
+}
 
 
-
-  export { Card, CardClass };
+export { Card, CardClass };
   

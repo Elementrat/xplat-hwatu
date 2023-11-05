@@ -3,6 +3,10 @@ import { deleteCard, getCard, updateCard } from "@/app/lib/card-db";
 import { createErrorResponse } from "@/app/lib/util";
 import { NextResponse } from "next/server";
 
+import { setGlobalOptions } from "@typegoose/typegoose";
+
+setGlobalOptions({ globalOptions: { disableGlobalCaching: true } }); // does not affect the previous setting of "options"
+
 export async function GET(
   _request: Request,
   { params }: { params: { id: string } }

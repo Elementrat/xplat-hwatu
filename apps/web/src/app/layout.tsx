@@ -8,6 +8,7 @@ import AppContent from "./components/AppContent/AppContent";
 import AppWrapperClient from "./context/AppWrapperClient/AppWrapperClient";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
+// import { cardAPI } from "xplat-lib";
 
 const inter = Poppins({ subsets: ["latin"], weight: ["300", "500"] });
 
@@ -22,6 +23,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  //const cards = await cardAPI.load();
+
+  //console.log("__CARDS", cards);
 
   return (
     <html lang="en">
