@@ -2,10 +2,9 @@
 import styles from "./GlobalNavigation.module.css";
 import GlobalNavigationLinks from "../GlobalNavigationLinks/GlobalNavigationLinks";
 import AuthManager from "../AuthManager/AuthManager";
-import { CardClass, cardAPI } from "xplat-lib";
+import { CardClass, useCards } from "xplat-lib";
 
 const GlobalNavigation = () => {
-  const { useCards } = cardAPI;
   const { data, isLoading, isError } = useCards();
 
   return (

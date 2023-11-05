@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import { getHomeItems } from '../../store/selectors';
 import Store from '../../store';
+import { useCards, CardClass } from 'xplat-lib';
 
 const FeedCard = ({ title, type, text, author, authorAvatar, image }) => (
   <Card className="my-4 mx-auto">
@@ -48,6 +49,7 @@ const FeedCard = ({ title, type, text, author, authorAvatar, image }) => (
 const Feed = () => {
   const homeItems = Store.useState(getHomeItems);
   const [showNotifications, setShowNotifications] = useState(false);
+  const { data, isLoading, isError } = useCards();
 
   return (
     <IonPage>
@@ -59,6 +61,10 @@ const Feed = () => {
         </IonHeader>
 
         <div>hi?</div>
+        {data?.cards?.map((card: CardClass) => {
+          return <div key={card.id}>{card.title}</div>;
+        })}
+
         <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
       </IonContent>
     </IonPage>
