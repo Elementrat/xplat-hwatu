@@ -1,6 +1,6 @@
-.btn{
+.btn {
   padding: 6px 20px;
-  background-color: red;
+  background-color: var(--grey-600);
   color: white;
   border-radius: 25px;
 }

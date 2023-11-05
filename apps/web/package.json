@@ -11,20 +11,23 @@
     "format": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
+    "@typegoose/typegoose": "^11.7.0",
     "clsx": "^2.0.0",
+    "mongoose": "^8.0.0",
     "next": "14.0.0",
     "next-auth": "^4.24.4",
-    "ux": "*",
     "react": "^18",
     "react-dom": "^18",
-    "swr": "^2.2.4"
+    "swr": "^2.2.4",
+    "ux": "*",
+    "xplat-lib": "*"
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "eslint-config-custom": "*",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.1",
     "postcss": "^8",

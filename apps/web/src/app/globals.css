@@ -1,16 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("/packages/shared/ux/styles/globals.css"); 
+@import url("/packages/shared/ux/styles/globals.css");
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: var(--grey-300);
+  --global-nav-width-expanded: 300px;
   --global-nav-width: 300px;
   --background-color: white;
-  --heirloom: #571A08;
-  --chili: #FF5724;
-  --blueberry: #5FBDE0;
-  --lime: #FCFF3C;
+  --heirloom: #571a08;
+  --chili: #ff5724;
+  --blueberry: #5fbde0;
+  --lime: #fcff3c;
   --padding-xsm: 6px;
   --padding-sm: 20px;
   --padding-md: 40px;
@@ -28,8 +29,5 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  color: var(--foreground-rgb);
 }

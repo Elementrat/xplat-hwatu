@@ -1,5 +1,5 @@
 .appRoot {
   display: flex;
-  background-color: white;
+  background-color: var(--grey-600);
   font-weight: 300;
 }

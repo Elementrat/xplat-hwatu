@@ -1,20 +1,20 @@
-:root{
-  --chili: #FF5724;
+:root {
+  --chili: #ff5724;
   --heirlook: #570808;
-  --blueberry: #5FBDE0;
+  --blueberry: #5fbde0;
   --dark-blueberry: #154557;
-  --lime: #FCFF3C;
-  --dark-lime: #7F810B;
-  --grey-100: #F6F5F2;
-  --grey-200: #E3E0D9;
-  --grey-300: #C6C0B7;
-  --grey-400: #ACA69B;
+  --lime: #fcff3c;
+  --dark-lime: #7f810b;
+  --grey-100: #f6f5f2;
+  --grey-200: #e3e0d9;
+  --grey-300: #c6c0b7;
+  --grey-400: #aca69b;
   --grey-500: #878178;
-  --grey-600: #605A54;
-  --grey-700: #39342E;
-  --grey_900: #000;
+  --grey-600: #605a54;
+  --grey-700: #39342e;
+  --grey-900: #000;
 }
 
-.chili{
+.chili {
   color: var(--chili);
 }
