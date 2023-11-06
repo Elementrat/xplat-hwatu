@@ -5,4 +5,5 @@
   background-color: var(--grey-700);
   padding: 16px 16px;
   flex-shrink: 0;
+  overflow-y: scroll;
 }

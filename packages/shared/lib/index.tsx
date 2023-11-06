@@ -1,9 +1,5 @@
 import { Card, CardClass } from "./models/Card";
-import { useCards } from "./client-api/cards";
+import { useCards, createCard, deleteAllCards } from "./client-api/cards";
 
-const test = () => {
-    console.log("wow")
-}
-
-export { Card, CardClass, useCards };
+export { Card, CardClass, useCards, createCard, deleteAllCards };
 

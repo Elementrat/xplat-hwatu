@@ -1,7 +1,9 @@
 import connectDB from "@/app/lib/connect-db";
-import { createCard, getCards } from "@/app/lib/card-db";
+import { createCard, deleteAllCards, getCards } from "@/app/lib/card-db";
 import { createErrorResponse } from "@/app/lib/util";
 import { NextRequest, NextResponse } from "next/server";
+
+const LIMIT = 99999;
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,7 +13,7 @@ export async function GET(request: NextRequest) {
     const limit_str = request.nextUrl.searchParams.get("limit");
 
     const page = page_str ? parseInt(page_str, 10) : 1;
-    const limit = limit_str ? parseInt(limit_str, 10) : 10;
+    const limit = limit_str ? parseInt(limit_str, 10) : LIMIT;
 
     const { cards, results, error } = await getCards({ page, limit });
 
@@ -23,6 +25,25 @@ export async function GET(request: NextRequest) {
       status: "success",
       results,
       cards
+    };
+    return NextResponse.json(json_response);
+  } catch (error: any) {
+    return createErrorResponse(error.message, 500);
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    await connectDB();
+
+    const { error } = await deleteAllCards();
+
+    if (error) {
+      throw error;
+    }
+
+    let json_response = {
+      status: "success"
     };
     return NextResponse.json(json_response);
   } catch (error: any) {

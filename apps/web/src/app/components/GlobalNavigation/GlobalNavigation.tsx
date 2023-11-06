@@ -3,17 +3,14 @@ import styles from "./GlobalNavigation.module.css";
 import GlobalNavigationLinks from "../GlobalNavigationLinks/GlobalNavigationLinks";
 import AuthManager from "../AuthManager/AuthManager";
 import { CardClass, useCards } from "xplat-lib";
+import { UserCards } from "ux";
 
 const GlobalNavigation = () => {
-  const { data, isLoading, isError } = useCards();
-
   return (
     <div className={styles.nav}>
       <AuthManager />
       <GlobalNavigationLinks />
-      {data?.cards?.map((card: CardClass) => {
-        return <div key={card.id}>{card.title}</div>;
-      })}
+      <UserCards />
     </div>
   );
 };

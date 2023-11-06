@@ -121,3 +121,20 @@ export async function deleteCard(id: string) {
     return { error };
   }
 }
+
+// Just for debug
+export async function deleteAllCards() {
+  try {
+    await connectDB();
+
+    const card = await Card.deleteMany().exec();
+
+    if (card) {
+      return {};
+    } else {
+      return { error: "Card not found" };
+    }
+  } catch (error) {
+    return { error };
+  }
+}
