@@ -32,7 +32,7 @@ async function connectDB() {
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      bufferCommands: false
     };
 
     cached.promise = connect(MONGODB_URI!, opts)
