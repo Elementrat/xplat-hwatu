@@ -1,6 +1,6 @@
 {
-  "appId": "com.xplat-cards.app",
-  "appName": "nextjs-tailwind-capacitor",
+  "appId": "com.xplatcards.app",
+  "appName": "hwatu",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "out",

@@ -33,7 +33,7 @@ const Feed = () => {
           </IonToolbar>
         </IonHeader>
 
-        <div>hi?</div>
+        <div>11:42?</div>
         <UserCards />
         <InputCard />
 

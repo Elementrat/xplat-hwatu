@@ -1,5 +1,5 @@
 {
-	"appId": "com.xplat-cards.app",
+	"appId": "com.xplatcards.app",
 	"appName": "nextjs-tailwind-capacitor",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
