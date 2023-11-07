@@ -17,39 +17,12 @@ import { useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import { getHomeItems } from '../../store/selectors';
 import Store from '../../store';
-import { useCards, CardClass } from 'xplat-lib';
-
-const FeedCard = ({ title, type, text, author, authorAvatar, image }) => (
-  <Card className="my-4 mx-auto">
-    <div className="h-32 w-full relative">
-      <img
-        className="rounded-t-xl object-cover min-w-full min-h-full max-w-full max-h-full"
-        src={image}
-        alt=""
-      />
-    </div>
-    <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
-      <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{type}</h4>
-      <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">{title}</h2>
-      <p className="sm:text-sm text-s text-gray-500 mr-1 my-3 dark:text-gray-400">{text}</p>
-      <div className="flex items-center space-x-4">
-        <div className="w-10 h-10 relative">
-          <img
-            src={authorAvatar}
-            className="rounded-full object-cover min-w-full min-h-full max-w-full max-h-full"
-            alt=""
-          />
-        </div>
-        <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-sm font-medium">{author}</h3>
-      </div>
-    </div>
-  </Card>
-);
+import { UserCards } from 'ux';
+import { InputCard } from 'ux';
 
 const Feed = () => {
   const homeItems = Store.useState(getHomeItems);
   const [showNotifications, setShowNotifications] = useState(false);
-  const { data, isLoading, isError } = useCards();
 
   return (
     <IonPage>
@@ -61,9 +34,8 @@ const Feed = () => {
         </IonHeader>
 
         <div>hi?</div>
-        {data?.cards?.map((card: CardClass) => {
-          return <div key={card.id}>{card.title}</div>;
-        })}
+        <UserCards />
+        <InputCard />
 
         <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
       </IonContent>

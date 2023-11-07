@@ -7,7 +7,7 @@
   padding: 99px;
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow-1);
-  input {
+  .textInput {
     font-size: 40px;
     text-align: center;
   }

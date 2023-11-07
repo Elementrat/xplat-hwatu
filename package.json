@@ -13,7 +13,7 @@
     "format": "turbo run format"
   },
   "engines": {
-    "node": ">=19.0.0"
+    "node": ">=18.17.1"
   },
   "packageManager": "yarn@1.22.17",
   "devDependencies": {

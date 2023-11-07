@@ -41,6 +41,7 @@ const InputCard = () => {
   return (
     <div className={styles.InputCard}>
       <input
+        className={styles.textInput}
         type="text"
         placeholder={placeholder}
         onChange={onInputChange}
