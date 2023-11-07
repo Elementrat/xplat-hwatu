@@ -4,6 +4,15 @@
     "dev": {
       "cache": false
     },
+    "build": {
+      "env": [
+        "NEXTAUTH_SECRET",
+        "AUTH_GITHUB_CLIENT_ID",
+        "AUTH_GITHUB_CLIENT_SECRET",
+        "MONGODB_URI",
+        "NODE_ENV"
+      ]
+    },
     "lint": {
       "outputs": []
     },
