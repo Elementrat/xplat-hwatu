@@ -1,14 +1,26 @@
 "use client";
 import useSWR from "swr";
+import { Capacitor } from '@capacitor/core';
 import { postRequest, deleteRequest } from "../util/fetch";
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
-const baseURL = "http://localhost:3000";
-const cardsAPIPath = "/api/cards";
+const WEB_ENVIRONMENTS = {
+  DEV: "development",
+  PROD: "production",
+}
 
-const cardsAPIURL = `${baseURL}${cardsAPIPath}`;
+const baseURLS = {
+ LOCAL:  "http://localhost:3000",
+ PROD: "https://xplat-hwatu-web.vercel.app"
+}
+
+const apiBaseURL =  Capacitor.isNativePlatform() ? baseURLS.PROD
+ : process.env.NODE_ENV === WEB_ENVIRONMENTS.DEV ? baseURLS.LOCAL : baseURLS.PROD
+
+const cardsAPIPath = "/api/cards";
+const cardsAPIURL = `${apiBaseURL}${cardsAPIPath}`;
 
 function useCards() {
   const { data, error, isLoading, mutate, isValidating } = useSWR(
