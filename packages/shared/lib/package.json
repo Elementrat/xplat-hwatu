@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
+    "@capacitor/core": "^5.5.1",
     "@typegoose/typegoose": "^11.7.0",
     "aws4": "^1.12.0",
     "mongoose": "^8.0.0",
