@@ -47,7 +47,7 @@ export async function PATCH(
     const id = params.id;
     let body = await request.json();
 
-    const { card, error } = await getCard(id, body);
+    const { card, error } = await getCard(id);
 
     if (error) {
       throw error;
