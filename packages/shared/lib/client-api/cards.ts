@@ -2,7 +2,9 @@
 import useSWR from "swr";
 import { postRequest, deleteRequest } from "../util/fetch";
 
-const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
+const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json());
+
 const baseURL = "http://localhost:3000";
 const cardsAPIPath = "/api/cards";
 
