@@ -1,9 +1,11 @@
 @import url("./typography.css");
 @import url("./colors.css");
 @import url("./spacings.css");
+@import url("./borders.css");
 
 :root {
-  --box-shadow-1: 0 4px 10px rgba(0, 0, 0, 0.12),
+  --box-shadow-1: 0 4px 10px rgba(0, 0, 0, 0.12);
+  --box-shadow-2: 0 28px 30px rgba(0, 0, 0, 0.12),
     0 0 1px rgba(0, 0, 0, 0.05) inset;
 }
 
@@ -22,24 +24,20 @@ input[type="text"] {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* Scroll bar stylings */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: var(--lightestgrey);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

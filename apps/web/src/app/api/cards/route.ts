@@ -2,6 +2,9 @@ import connectDB from "@/app/lib/connect-db";
 import { createCard, deleteAllCards, getCards } from "@/app/lib/card-db";
 import { createErrorResponse } from "@/app/lib/util";
 import { NextRequest, NextResponse } from "next/server";
+import { CONSTANTS } from "xplat-lib";
+import { authOptions } from "@/app/lib/auth";
+import { getServerSession } from "next-auth/next";
 
 const LIMIT = 99999;
 
@@ -9,13 +12,18 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const page_str = request.nextUrl.searchParams.get("page");
-    const limit_str = request.nextUrl.searchParams.get("limit");
+    const page_str = request.nextUrl.searchParams.get(CONSTANTS.PAGE);
+    const limit_str = request.nextUrl.searchParams.get(CONSTANTS.LIMIT);
+    const userID = request.nextUrl.searchParams.get(CONSTANTS.USER_ID);
 
     const page = page_str ? parseInt(page_str, 10) : 1;
     const limit = limit_str ? parseInt(limit_str, 10) : LIMIT;
 
-    const { cards, results, error } = await getCards({ page, limit });
+    if (!userID) {
+      throw "Provide a userID";
+    }
+
+    const { cards, results, error } = await getCards({ page, limit, userID });
 
     if (error) {
       throw error;
@@ -55,13 +63,21 @@ export async function POST(request: Request) {
   try {
     await connectDB();
 
+    const session = await getServerSession(authOptions);
+
+    const userID = session?.user?.id;
+
+    if (!userID) {
+      return createErrorResponse("Sign in to create cards", 400);
+    }
+
     const body = await request.json();
 
     if (!body.title) {
       return createErrorResponse("Card must have a title", 400);
     }
 
-    const { card, error } = await createCard(body.title);
+    const { card, error } = await createCard(body.title, userID);
     if (error) {
       throw error;
     }

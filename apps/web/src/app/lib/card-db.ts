@@ -5,6 +5,7 @@ import { stringToObjectId } from "./util";
 interface CardFilter {
   page?: number;
   limit?: number;
+  userID?: string;
 }
 
 export async function getCards(filter: CardFilter = {}) {
@@ -15,12 +16,18 @@ export async function getCards(filter: CardFilter = {}) {
     const limit = filter.limit ?? 10;
     const skip = (page - 1) * limit;
 
-    const cards = await Card.find().skip(skip).limit(limit).lean().exec();
+    //const userFilter = filter?.userID ? { userID: filter?.userID } : null;
+
+    const cards = await Card.find({ userID: filter?.userID })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+      .exec();
 
     const results = cards.length;
 
     return {
-      cards: cards,
+      cards: cards || [],
       page,
       limit,
       results
@@ -30,11 +37,11 @@ export async function getCards(filter: CardFilter = {}) {
   }
 }
 
-export async function createCard(title: string) {
+export async function createCard(title: string, userID: string) {
   try {
     await connectDB();
 
-    const card = await Card.create({ title });
+    const card = await Card.create({ title, userID });
 
     return {
       card

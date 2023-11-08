@@ -1,5 +1,12 @@
 .appRoot {
   display: flex;
-  background-color: var(--grey-600);
+  justify-content: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: stretch;
+  width: 100%;
+  background-color: var(--grey-800);
+  min-height: 100vh;
+  height: 100%;
   font-weight: 300;
 }

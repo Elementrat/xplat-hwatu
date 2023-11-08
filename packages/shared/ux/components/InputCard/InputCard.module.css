@@ -1,14 +1,48 @@
 .InputCard {
   background-color: transparent;
-  width: 100%;
-  height: 100%;
+  flex: 1;
   display: flex;
   justify-content: center;
   padding: 99px;
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow-1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: border-bottom 0.5s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-height: 300px;
+  transition: all 0.1s ease;
   .textInput {
     font-size: 40px;
     text-align: center;
+  }
+  .textInput::placeholder {
+    color: var(--grey-600);
+  }
+}
+
+.hasValidInput {
+  transform: scale(1.05);
+  box-shadow: var(--box-shadow-2);
+}
+
+.submitted::before {
+  content: "";
+  bottom: 0;
+  height: 0px;
+  animation: myMove 0.4s;
+  background-color: #31afd4;
+  position: absolute;
+}
+
+@keyframes myMove {
+  0% {
+    width: 0%;
+  }
+  50% {
+    height: 10px;
+  }
+  100% {
+    width: 100%;
   }
 }

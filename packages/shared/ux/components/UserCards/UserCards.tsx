@@ -1,14 +1,15 @@
 import React from "react";
-
 import styles from "./UserCards.module.css";
-import { useCards } from "xplat-lib";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { ErrorIndicator } from "../ErrorIndicator/ErrorIndicator";
-import { deleteAllCards } from "xplat-lib/client-api/cards";
+import {
+  deleteAllCards,
+  useCurrentUserCards
+} from "xplat-lib/client-api/cards";
 import { Button } from "../Button/Button";
 
 const UserCards = () => {
-  const { cards, isLoading, isError, mutate } = useCards();
+  const { cards, isLoading, isError, mutate } = useCurrentUserCards();
 
   if (isLoading) {
     return <LoadingIndicator />;

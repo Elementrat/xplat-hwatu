@@ -7,7 +7,6 @@ import styles from "./AuthManager.module.css";
 
 const AuthManager = () => {
   const { data: session, status } = useSession();
-  console.log("DATA", session, status);
   return (
     <div className={styles.authManager}>
       {status === "authenticated" ? (

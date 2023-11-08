@@ -31,3 +31,7 @@
 body {
   color: var(--foreground-rgb);
 }
+
+html {
+  overflow-y: hidden;
+}

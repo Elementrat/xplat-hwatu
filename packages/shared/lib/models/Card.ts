@@ -4,13 +4,10 @@ import {
   getModelForClass,
   index,
   post,
-  prop,
-  setGlobalOptions
+  prop
 } from "@typegoose/typegoose";
 
 import mongoose from "mongoose";
-
-// setGlobalOptions({ globalOptions: { disableGlobalCaching: true } }); // does not affect the previous setting of "options"
 
 @post<CardClass>("save", function (doc) {
   if (doc) {
@@ -39,11 +36,14 @@ import mongoose from "mongoose";
 })
 @index({ title: 1 })
 class CardClass {
-  @prop({ required: true, unique: true })
+  @prop({ required: true })
   title: string;
 
   @prop({ default: false })
   completed: boolean;
+
+  @prop({ required: true })
+  userID: mongoose.Types.ObjectId | string;
 
   _id: mongoose.Types.ObjectId | string;
 

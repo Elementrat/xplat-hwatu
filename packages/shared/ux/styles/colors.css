@@ -5,14 +5,15 @@
   --dark-blueberry: #154557;
   --lime: #fcff3c;
   --dark-lime: #7f810b;
-  --grey-100: #f6f5f2;
-  --grey-200: #e3e0d9;
-  --grey-300: #c6c0b7;
-  --grey-400: #aca69b;
-  --grey-500: #878178;
-  --grey-600: #605a54;
-  --grey-700: #39342e;
-  --grey-900: #000;
+  --grey-100: #f8f9fa;
+  --grey-200: #e9ecef;
+  --grey-300: #dee2e6;
+  --grey-400: #ced4da;
+  --grey-500: #adb5bd;
+  --grey-600: #6c757d;
+  --grey-700: #495057;
+  --grey-800: #343a40;
+  --grey-900: #212529;
 }
 
 .chili {

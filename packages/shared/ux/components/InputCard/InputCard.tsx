@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import styles from "./InputCard.module.css";
-import { useCards, createCard } from "xplat-lib";
+import { useCurrentUserCards, createCard } from "xplat-lib";
+import { clsx } from "clsx";
 
 const placeholder = "new card";
 
@@ -10,9 +11,13 @@ const KEY_CODES = {
   ENTER: 13
 };
 
+const ANIMATION_DURATION = 400;
+
 const InputCard = () => {
   const [cardText, setCardText] = useState("");
-  const { cards, mutate } = useCards();
+  const [submitted, setSubmitted] = useState(false);
+
+  const { cards, mutate } = useCurrentUserCards();
 
   const onInputChange = (e) => {
     setCardText(e.target.value);
@@ -32,14 +37,24 @@ const InputCard = () => {
             revalidate: false
           }
         );
-      }
 
-      setCardText("");
+        setSubmitted(true);
+        setTimeout(() => {
+          setSubmitted(false);
+        }, ANIMATION_DURATION);
+        setCardText("");
+      }
     }
   };
 
+  const cardStyles = clsx({
+    [styles.InputCard]: true,
+    [styles.submitted]: submitted,
+    [styles.hasValidInput]: cardText?.length > 0
+  });
+
   return (
-    <div className={styles.InputCard}>
+    <div className={cardStyles}>
       <input
         className={styles.textInput}
         type="text"
