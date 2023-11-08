@@ -1,4 +1,4 @@
-package com.xplatcards.app;
+package com.hwatucards.app;
 
 import com.getcapacitor.BridgeActivity;
 

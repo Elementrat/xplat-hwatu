@@ -19,9 +19,9 @@ import { getHomeItems } from '../../store/selectors';
 import Store from '../../store';
 import { UserCards } from 'ux';
 import { InputCard } from 'ux';
+import AuthManager from '../ui/AuthManager';
 
 const Feed = () => {
-  const homeItems = Store.useState(getHomeItems);
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
@@ -33,7 +33,8 @@ const Feed = () => {
           </IonToolbar>
         </IonHeader>
 
-        <div>11:42?</div>
+        <div>hello world!</div>
+        <AuthManager />
         <UserCards />
         <InputCard />
 

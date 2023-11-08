@@ -1,5 +1,5 @@
 {
-  "appId": "com.xplatcards.app",
+  "appId": "com.hwatucards.app",
   "appName": "hwatu",
   "bundledWebRuntime": false,
   "npmClient": "npm",
