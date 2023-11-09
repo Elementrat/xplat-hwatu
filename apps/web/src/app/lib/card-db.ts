@@ -37,11 +37,19 @@ export async function getCards(filter: CardFilter = {}) {
   }
 }
 
-export async function createCard(title: string, userID: string) {
+export async function createCard({
+  title,
+  sideB,
+  userID
+}: {
+  title: string;
+  sideB: string;
+  userID: string;
+}) {
   try {
     await connectDB();
 
-    const card = await Card.create({ title, userID });
+    const card = await Card.create({ title, sideB, userID });
 
     return {
       card

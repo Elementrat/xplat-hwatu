@@ -30,7 +30,7 @@ const InputCard = () => {
 
   const onKeyDownSideB = async (e) => {
     if (e.keyCode === KEY_CODES.ENTER) {
-      const createResult = await createCard(cardText);
+      const createResult = await createCard(cardText, cardTextSideB);
       const newCardAPI = createResult?.data?.card;
       if (newCardAPI) {
         const newCards = [...cards, newCardAPI];
@@ -48,6 +48,7 @@ const InputCard = () => {
           setSubmitted(false);
         }, ANIMATION_DURATION);
         setCardText("");
+        setCardTextSideB("");
       }
     }
   };

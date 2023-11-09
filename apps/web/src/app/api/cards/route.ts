@@ -77,7 +77,11 @@ export async function POST(request: Request) {
       return createErrorResponse("Card must have a title", 400);
     }
 
-    const { card, error } = await createCard(body.title, userID);
+    const { card, error } = await createCard({
+      title: body.title,
+      sideB: body.sideB,
+      userID
+    });
     if (error) {
       throw error;
     }

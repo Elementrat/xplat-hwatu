@@ -40,6 +40,7 @@ const UserCards = () => {
           <div key={cardKey} id={cardKey} className="text-sm">
             {" "}
             {card?.title}
+            {card?.sideB}
           </div>
         );
       })}

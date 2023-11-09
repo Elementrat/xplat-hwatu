@@ -39,6 +39,9 @@ class CardClass {
   @prop({ required: true })
   title: string;
 
+  @prop({ required: true })
+  sideB: string;
+
   @prop({ default: false })
   completed: boolean;
 

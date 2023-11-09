@@ -67,8 +67,8 @@ function useCurrentUserCards() {
   };
 }
 
-async function createCard(title: string) {
-  return await postRequest(cardsAPIURL, { title });
+async function createCard(title: string, sideB: string) {
+  return await postRequest(cardsAPIURL, { title, sideB });
 }
 
 async function deleteCardByID(id: string) {
