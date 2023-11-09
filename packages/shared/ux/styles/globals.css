@@ -2,15 +2,12 @@
 @import url("./colors.css");
 @import url("./spacings.css");
 @import url("./borders.css");
+@import url("./z-index.css");
 
 :root {
   --box-shadow-1: 0 4px 10px rgba(0, 0, 0, 0.12);
   --box-shadow-2: 0 28px 30px rgba(0, 0, 0, 0.12),
     0 0 1px rgba(0, 0, 0, 0.05) inset;
-}
-
-.flex {
-  display: flex;
 }
 
 .column {
@@ -19,9 +16,16 @@
 
 input[type="text"] {
   padding: var(--spacing-1) var(--spacing-2);
-  background-color: transparent;
-  border-bottom: 1px solid rgb(255, 255, 255, 0.1);
+  background-color: #111;
+  border: none;
   color: rgba(255, 255, 255, 0.6);
+  border-radius: var(--border-radius-1);
+}
+
+input[type="text"]:focus {
+  background-color: var(--grey-900);
+  outline: none;
+  border: 0px;
 }
 
 ::-webkit-scrollbar {

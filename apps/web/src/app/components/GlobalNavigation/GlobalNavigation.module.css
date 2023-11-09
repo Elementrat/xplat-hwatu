@@ -8,4 +8,44 @@
   color: var(--grey-500);
   border-right: var(--border-1);
   max-height: 100vh;
+  z-index: var(--z-1);
+  display: flex;
+  flex-direction: column;
+  .btnToggleExpand {
+    display: none;
+  }
+  .alwaysVisibleNavContent {
+    display: flex;
+    flex-direction: column;
+  }
+  .visibleWhenExpandedNavContent {
+    display: block;
+    margin-top: var(--spacing-4);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .nav {
+    width: 100%;
+    overflow: hidden;
+    .btnToggleExpand {
+      display: block;
+    }
+    .alwaysVisibleNavContent {
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .visibleWhenExpandedNavContent {
+      display: none;
+    }
+  }
+  .nav.expanded {
+    height: 100vh;
+    position: absolute;
+    .visibleWhenExpandedNavContent {
+      display: block;
+    }
+  }
 }

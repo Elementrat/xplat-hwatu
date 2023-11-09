@@ -5,7 +5,7 @@ import styles from "./InputCard.module.css";
 import { useCurrentUserCards, createCard } from "xplat-lib";
 import { clsx } from "clsx";
 
-const placeholder = "new card";
+const placeholder = "Enter text";
 
 const KEY_CODES = {
   ENTER: 13
@@ -15,6 +15,7 @@ const ANIMATION_DURATION = 400;
 
 const InputCard = () => {
   const [cardText, setCardText] = useState("");
+  const [cardTextSideB, setCardTextSideB] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const { cards, mutate } = useCurrentUserCards();
@@ -23,7 +24,11 @@ const InputCard = () => {
     setCardText(e.target.value);
   };
 
-  const onKeyDown = async (e) => {
+  const onInputChangeSideB = (e) => {
+    setCardTextSideB(e.target.value);
+  };
+
+  const onKeyDownSideB = async (e) => {
     if (e.keyCode === KEY_CODES.ENTER) {
       const createResult = await createCard(cardText);
       const newCardAPI = createResult?.data?.card;
@@ -47,10 +52,18 @@ const InputCard = () => {
     }
   };
 
+  const hasValidInput = cardText?.length > 0;
+
   const cardStyles = clsx({
     [styles.InputCard]: true,
     [styles.submitted]: submitted,
-    [styles.hasValidInput]: cardText?.length > 0
+    [styles.hasValidInput]: hasValidInput
+  });
+
+  const inputSideBStyles = clsx({
+    [styles.textInput]: true,
+    [styles.sideBInput]: true,
+    [styles.show]: hasValidInput
   });
 
   return (
@@ -60,8 +73,16 @@ const InputCard = () => {
         type="text"
         placeholder={placeholder}
         onChange={onInputChange}
-        onKeyDown={onKeyDown}
         value={cardText}
+      />
+      <div className={styles.divider} />
+      <input
+        className={inputSideBStyles}
+        type="text"
+        placeholder={"(side b)"}
+        value={cardTextSideB}
+        onChange={onInputChangeSideB}
+        onKeyDown={onKeyDownSideB}
       />
     </div>
   );

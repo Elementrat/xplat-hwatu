@@ -22,6 +22,7 @@ import Settings from './pages/Settings';
 import Tabs from './pages/Tabs';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { App as CapApp } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 
 setupIonicReact({});
 
@@ -36,8 +37,9 @@ window.matchMedia('(prefers-color-scheme: dark)').addListener(async status => {
 const AUTH = {
   DOMAIN: 'dev-vjvp61sol8llnk53.us.auth0.com',
   CLIENT_ID: 'Sx0HLBh0Utw3mF18FmPUozigqb2bq8d8',
-  CALLLBACK_NATIVE:
-    'com.hwatucards.app://dev-vjvp61sol8llnk53.us.auth0.com/capacitor/com.hwatucards.app/callback'
+  CALLBACK_NATIVE:
+    'com.hwatucards.app://dev-vjvp61sol8llnk53.us.auth0.com/capacitor/com.hwatucards.app/callback',
+  CALLBACK_WEB: 'http://localhost:3001'
 };
 
 const AppShell = () => {
@@ -63,12 +65,13 @@ const AppShell = () => {
         useRefreshTokens={true}
         useRefreshTokensFallback={false}
         authorizationParams={{
-          redirect_uri:
-            'com.hwatucards.app://dev-vjvp61sol8llnk53.us.auth0.com/capacitor/com.hwatucards.app/callback'
+          redirect_uri: Capacitor.isNativePlatform() ? AUTH.CALLBACK_NATIVE : AUTH.CALLBACK_WEB
         }}
+        cacheLocation="localstorage"
       >
         <SessionProvider>
           <IonReactRouter>
+            <div style={{ color: 'white' }}>AppShell</div>
             <IonRouterOutlet id="main">
               <Route path="/tabs" render={() => <Tabs />} />
               <Route path="/" render={() => <Redirect to="/tabs/feed" />} exact={true} />

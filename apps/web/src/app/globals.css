@@ -16,12 +16,17 @@
   --padding-sm: 20px;
   --padding-md: 40px;
   --padding-lg: 50px;
-  --border-radius-sm: 16px;
-  --border-radius-md: 24px;
 }
 
+.flex {
+  display: flex;
+}
 .justify-center {
   justify-content: center;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
 }
 
 .align-items-center {

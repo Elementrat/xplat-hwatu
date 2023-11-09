@@ -10,15 +10,16 @@ const AuthManager = () => {
   return (
     <div className={styles.authManager}>
       {status === "authenticated" ? (
-        <div>
-          <div className={styles.userName}>{session.user?.name}</div>
-          <Button
+        <>
+          <div
+            className={styles.userName}
             onClick={() => {
               signOut();
             }}
-            label={strings.SIGN_OUT}
-          />
-        </div>
+          >
+            {session.user?.name}
+          </div>
+        </>
       ) : (
         <Button
           onClick={() => {

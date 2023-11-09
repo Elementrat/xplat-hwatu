@@ -2,5 +2,5 @@
   padding: 6px 20px;
   background-color: var(--grey-600);
   color: white;
-  border-radius: 25px;
+  border-radius: var(--border-radius-sm);
 }
