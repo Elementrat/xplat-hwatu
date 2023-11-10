@@ -77,6 +77,8 @@ export async function DELETE(
     await connectDB();
 
     const id = params.id;
+
+    console.log("__CHECKING_ID", id);
     const { error } = await deleteCard(id);
 
     if (error) {

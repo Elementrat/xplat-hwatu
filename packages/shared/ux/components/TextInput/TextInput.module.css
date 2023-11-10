@@ -1,0 +1,13 @@
+.TextInput {
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--grey-900);
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: var(--border-radius-1);
+}
+
+.TextInput:focus {
+  background-color: var(--grey-700);
+  outline: none;
+  border: 0px;
+}

@@ -2,7 +2,7 @@ import { Card, CardClass } from "./models/Card";
 import {
   useCards,
   createCard,
-  deleteAllCards,
+  deleteCard,
   useCurrentUserCards
 } from "./client-api/cards";
 import { CONSTANTS } from "./util/constants";
@@ -19,6 +19,6 @@ export {
   useCards,
   useCurrentUserCards,
   createCard,
-  deleteAllCards,
+  deleteCard,
   CONSTANTS
 };

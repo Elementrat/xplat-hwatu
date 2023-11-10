@@ -71,7 +71,9 @@ async function createCard(title: string, sideB: string) {
   return await postRequest(cardsAPIURL, { title, sideB });
 }
 
-async function deleteCardByID(id: string) {
+async function deleteCard({ id }: { id: string }) {
+  console.log("__API_TRY_DELET", id);
+
   return await deleteRequest(`${cardsAPIURL}/${id}`);
 }
 
@@ -82,7 +84,7 @@ async function deleteAllCards() {
 export {
   useCards,
   createCard,
-  deleteCardByID,
+  deleteCard,
   deleteAllCards,
   useCurrentUserCards
 };
