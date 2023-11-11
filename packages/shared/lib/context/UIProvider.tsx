@@ -14,7 +14,7 @@ const defaultUIState: UIState = {
 
 const UIContext = createContext(defaultUIState);
 
-const UIProvider = ({ children }) => {
+const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const updateSearchText = (newSearchText: string) => {
     setUIState({ ...UIState, searchText: newSearchText });
   };
