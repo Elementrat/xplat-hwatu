@@ -1,5 +1,5 @@
 .btn {
-  padding: 3px;
+  padding: var(--spacing-2);
   border-radius: var(--border-radius-xsm);
   display: flex;
   justify-self: center;

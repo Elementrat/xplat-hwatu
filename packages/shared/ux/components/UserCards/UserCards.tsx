@@ -23,7 +23,7 @@ const UserCards = () => {
   if (isError) {
     return <ErrorIndicator />;
   }
-
+  /*
   const onClickDeleteAll = async () => {
     await deleteAllCards();
     mutate(
@@ -32,13 +32,12 @@ const UserCards = () => {
         revalidate: true
       }
     );
-  };
+  };*/
 
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
         <h2 className="text-xl">Your Cards ({cards?.length})</h2>
-        <Button onClick={onClickDeleteAll} icon={trashOutline} />
       </div>
       <div className={styles.userCards}>
         {cards?.map((card) => {

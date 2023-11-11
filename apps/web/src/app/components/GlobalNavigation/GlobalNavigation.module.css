@@ -2,13 +2,13 @@
   width: var(--global-nav-width);
   box-shadow: 0 0 2em rgba(0, 0, 0, 0.12);
   background-color: var(--grey-900);
-  padding: 16px 16px;
+  padding: var(--spacing-3);
   flex-shrink: 0;
   overflow-y: scroll;
   color: var(--grey-500);
   border-right: var(--border-1);
   max-height: 100vh;
-  z-index: var(--z-1);
+  z-index: var(--z-3);
   display: flex;
   flex-direction: column;
   .btnToggleExpand {

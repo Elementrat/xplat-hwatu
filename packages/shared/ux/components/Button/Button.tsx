@@ -12,11 +12,11 @@ const Button = ({
 }: {
   label?: string;
   icon?: any;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 }) => {
   return (
     <button className={styles.btn} onClick={onClick}>
-      <IonIcon icon={icon} size="large" />
+      {icon && <IonIcon icon={icon} size="small" />}
       {label}
     </button>
   );

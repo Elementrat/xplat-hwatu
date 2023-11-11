@@ -1,11 +1,18 @@
 .poppins {
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
 
 .mackinac {
-  font-family: 'p22-mackinac-pro';
+  font-family: "p22-mackinac-pro";
 }
 
 .gothic {
-  font-family: 'Modern Gothic';
+  font-family: "Modern Gothic";
+}
+
+:root {
+  --font-size-sm: 12px;
+  --font-size-md: 20px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
 }

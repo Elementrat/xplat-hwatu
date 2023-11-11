@@ -9,6 +9,8 @@
   overflow-y: scroll;
   padding-left: var(--padding-lg);
   padding-right: var(--padding-lg);
+  max-width: var(--app-content-max-width);
+  margin: auto;
 }
 
 @media screen and (max-width: 900px) {

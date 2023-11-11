@@ -4,3 +4,10 @@
   padding-left: var(--spacing-4);
   padding-right: var(--spacing-4);
 }
+
+@media screen and (max-width: 600px) {
+  .appContent {
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
+  }
+}

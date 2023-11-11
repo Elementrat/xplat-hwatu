@@ -1,6 +1,6 @@
 .TextInput {
   padding: var(--spacing-1) var(--spacing-2);
-  background-color: var(--grey-900);
+  background-color: var(--grey-850);
   border: none;
   color: rgba(255, 255, 255, 0.6);
   border-radius: var(--border-radius-1);

@@ -25,18 +25,18 @@
     opacity: 0.1;
   }
   .textInput {
-    font-size: 40px;
+    font-size: var(--font-size-xl);
     text-align: center;
     width: 100%;
     box-sizing: border-box;
   }
   .sideBInput {
-    height: 0px;
+    max-height: 0px;
     transition: all 0.3s ease;
     padding: 0px;
   }
   .sideBInput.show {
-    height: 72px;
+    max-height: 72px;
     padding: var(--spacing-1) var(--spacing-2);
   }
   .textInput::placeholder {
@@ -99,18 +99,6 @@
   .InputCard {
     .textInput {
       font-size: 24px;
-    }
-    .sideBInput.show {
-      height: 50px;
-      padding: var(--spacing-1) var(--spacing-2);
-    }
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .InputCard {
-    .textInput {
-      font-size: 12px;
     }
     .sideBInput.show {
       height: 50px;

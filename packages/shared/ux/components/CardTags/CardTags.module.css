@@ -1,7 +1,6 @@
 .cardTags {
   bottom: 0;
   left: 0;
-  margin-top: 10px;
   height: 100%;
   color: var(--grey-500);
   display: flex;
