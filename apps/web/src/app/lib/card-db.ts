@@ -127,6 +127,8 @@ export async function deleteCard(id: string) {
 
     const card = await Card.findByIdAndDelete(parsedId).exec();
 
+    console.log("__FOUND_TO_DELETE", id, card);
+
     if (card) {
       return {};
     } else {

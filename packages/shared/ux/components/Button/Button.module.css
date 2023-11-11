@@ -1,6 +1,11 @@
 .btn {
-  padding: 6px 20px;
-  background-color: var(--grey-600);
-  color: white;
-  border-radius: var(--border-radius-sm);
+  padding: 3px;
+  border-radius: var(--border-radius-xsm);
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }

@@ -3,7 +3,6 @@
 }
 
 .userCard {
-  animation: appear 0.5s;
   border-left: 1px solid transparent;
   display: flex;
   padding: 1px;

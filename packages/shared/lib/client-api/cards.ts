@@ -37,7 +37,7 @@ function useCards(userID: string) {
   );
 
   return {
-    cards: data?.cards || [],
+    cards: data?.cards,
     mutate,
     isLoading,
     isValidating,
@@ -59,7 +59,7 @@ function useCurrentUserCards() {
   );
 
   return {
-    cards: data?.cards || [],
+    cards: data?.cards || data,
     mutate,
     isLoading,
     isValidating,
@@ -72,8 +72,6 @@ async function createCard(title: string, sideB: string) {
 }
 
 async function deleteCard({ id }: { id: string }) {
-  console.log("__API_TRY_DELET", id);
-
   return await deleteRequest(`${cardsAPIURL}/${id}`);
 }
 

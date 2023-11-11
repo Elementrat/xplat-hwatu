@@ -1,0 +1,20 @@
+.cardTags {
+  bottom: 0;
+  left: 0;
+  margin-top: 10px;
+  height: 100%;
+  color: var(--grey-500);
+  display: flex;
+  align-items: center;
+}
+
+.cardTag {
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-1) var(--spacing-3);
+  margin-left: var(--spacing-2);
+  cursor: pointer;
+}
+
+.cardTag:hover {
+  background-color: var(--grey-900);
+}

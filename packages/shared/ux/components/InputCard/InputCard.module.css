@@ -3,21 +3,26 @@
   background-color: transparent;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 100px 50px;
+  justify-content: space-between;
+  align-items: space-between;
+  padding: 25px;
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow-1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: border-bottom 0.5s ease;
   box-sizing: border-box;
   overflow: hidden;
   transition: all 0.1s ease;
+  animation: appear 0.5s ease;
+  .textInputs {
+    display: flex;
+    flex-direction: column;
+  }
   .divider {
     width: 100%;
     margin: 10px;
     border-bottom: 1px solid var(--grey-600);
-    opacity: 0.3;
+    opacity: 0.1;
   }
   .textInput {
     font-size: 40px;
@@ -40,8 +45,8 @@
 }
 
 .hasValidInput {
-  transform: scale(1.05);
   box-shadow: var(--box-shadow-2);
+  border: 1px solid var(--accent-valid);
 }
 
 .submitted {
@@ -51,6 +56,14 @@
   animation: myMove 0.5s;
   background-color: #31afd4;
   position: absolute;
+}
+
+.cardModifiers {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--grey-600);
 }
 
 @keyframes myMove {
@@ -65,10 +78,39 @@
   }
 }
 
+@keyframes appear {
+  0% {
+    opacity: 0%;
+    background-color: rgba(255, 255, 255, 0);
+    max-height: 0px;
+  }
+  50% {
+    opacity: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    opacity: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    max-height: 500px;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .InputCard {
     .textInput {
       font-size: 24px;
+    }
+    .sideBInput.show {
+      height: 50px;
+      padding: var(--spacing-1) var(--spacing-2);
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .InputCard {
+    .textInput {
+      font-size: 12px;
     }
     .sideBInput.show {
       height: 50px;

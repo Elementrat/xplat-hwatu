@@ -10,9 +10,11 @@ import {
 } from "xplat-lib/client-api/cards";
 import { IonIcon } from "@ionic/react";
 import { trashOutline } from "ionicons/icons";
+import { Button } from "../Button/Button";
 
 const UserCards = () => {
-  const { cards, isLoading, isError, mutate } = useCurrentUserCards();
+  const { cards, isLoading, isError, mutate, isValidating } =
+    useCurrentUserCards();
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -24,40 +26,25 @@ const UserCards = () => {
 
   const onClickDeleteAll = async () => {
     await deleteAllCards();
-    mutate([], {
-      revalidate: true
-    });
+    mutate(
+      { cards: [] },
+      {
+        revalidate: true
+      }
+    );
   };
 
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
         <h2 className="text-xl">Your Cards ({cards?.length})</h2>
-        <IonIcon onClick={onClickDeleteAll} icon={trashOutline} size="large" />
+        <Button onClick={onClickDeleteAll} icon={trashOutline} />
       </div>
       <div className={styles.userCards}>
         {cards?.map((card) => {
-          const onClickCard = async () => {
-            await deleteCard({ id: card.id });
-            const cardIndex = cards?.findIndex(
-              (existingCard) => existingCard.id === card.id
-            );
-            if (cardIndex !== -1) {
-              let newCards = cards?.toSpliced(cardIndex, 1);
-              mutate(newCards, {
-                revalidate: true
-              });
-            }
-          };
-
           const cardKey = card?.title + "-" + card?._id;
           return (
-            <div
-              key={cardKey}
-              id={cardKey}
-              className={styles.userCard}
-              onClick={onClickCard}
-            >
+            <div key={cardKey} id={cardKey} className={styles.userCard}>
               <div>{card?.title}</div>
               <div>{card?.sideB}</div>
             </div>

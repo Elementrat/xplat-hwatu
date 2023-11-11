@@ -12,7 +12,7 @@ import { authOptions } from "@/app/lib/auth";
 const inter = Poppins({ subsets: ["latin"], weight: ["300", "500"] });
 
 export const metadata: Metadata = {
-  title: "App - cross-platform",
+  title: "Hwatu Study Cards",
   description: "Simuldeploy to web, iOS, Android"
 };
 

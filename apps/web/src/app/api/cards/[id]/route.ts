@@ -78,14 +78,13 @@ export async function DELETE(
 
     const id = params.id;
 
-    console.log("__CHECKING_ID", id);
     const { error } = await deleteCard(id);
 
     if (error) {
       throw error;
     }
 
-    return new NextResponse(null, { status: 204 });
+    return new NextResponse("deleted", { status: 200 });
   } catch (error: any) {
     if (typeof error === "string" && error.includes("Card not found")) {
       return createErrorResponse("Card not found", 404);

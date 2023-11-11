@@ -2,9 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./InputCard.module.css";
-import { useCurrentUserCards, createCard } from "xplat-lib";
+import { useCurrentUserCards, createCard, deleteCard } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
+import { CardTags } from "../CardTags/CardTags";
+import { trashOutline } from "ionicons/icons";
+import { Button } from "../Button/Button";
 
 const placeholder = "Enter text";
 
@@ -14,28 +17,33 @@ const KEY_CODES = {
 
 const ANIMATION_DURATION = 500;
 
-const InputCard = () => {
-  const [sideA, setSideA] = useState("");
-  const [sideB, setCardTextSideB] = useState("");
+const InputCard = ({ cardID }: { cardID?: string }) => {
+  const { cards, mutate } = useCurrentUserCards();
+
+  let existingCard = cards?.find((card) => card?._id === cardID);
+
+  const [sideA, setSideA] = useState(existingCard?.title);
+  const [sideB, setCardTextSideB] = useState(existingCard?.sideB);
   const [submitted, setSubmitted] = useState(false);
+  const [edited, setEdited] = useState(false);
 
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
 
-  const { cards, mutate } = useCurrentUserCards();
-
   useEffect(() => {
-    if (aRef?.current) {
+    if (aRef?.current && !cardID && !existingCard?.title) {
       aRef?.current.focus();
     }
-  }, [aRef.current]);
+  }, [aRef.current, cardID]);
 
   const onInputChangeSideA = (e) => {
     setSideA(e.target.value);
+    setEdited(true);
   };
 
   const onInputChangeSideB = (e) => {
     setCardTextSideB(e.target.value);
+    setEdited(true);
   };
 
   const onKeyDownSideA = async (e) => {
@@ -43,6 +51,7 @@ const InputCard = () => {
       if (sideA) {
         bRef?.current?.focus();
       }
+      setEdited(true);
     }
   };
 
@@ -65,20 +74,29 @@ const InputCard = () => {
         setTimeout(() => {
           setSubmitted(false);
         }, ANIMATION_DURATION);
-        setSideA("");
-        setCardTextSideB("");
-        if (aRef?.current) {
+        if (!cardID) {
+          setSideA("");
+          setCardTextSideB("");
+          setEdited(false);
+        }
+        if (aRef?.current && !cardID) {
           aRef.current.focus();
         }
       }
     }
   };
 
+  const onClickDelete = async () => {
+    const newCards = cards?.filter((c) => c.id !== cardID);
+    await deleteCard({ id: cardID });
+    await mutate({ cards: newCards });
+  };
+
   const hasValidInput = sideA?.length > 0;
 
   const cardStyles = clsx({
     [styles.InputCard]: true,
-    [styles.hasValidInput]: hasValidInput
+    [styles.hasValidInput]: hasValidInput && edited
   });
 
   const inputSideBStyles = clsx({
@@ -88,25 +106,37 @@ const InputCard = () => {
   });
 
   return (
-    <div className={cardStyles}>
-      {submitted && <div className={styles.submitted} />}
-      <TextInput
-        ref={aRef}
-        classNames={styles.textInput}
-        placeholder={placeholder}
-        onChange={onInputChangeSideA}
-        onKeyDown={onKeyDownSideA}
-        value={sideA}
-      />
-      <div className={styles.divider} />
-      <TextInput
-        ref={bRef}
-        classNames={inputSideBStyles}
-        placeholder={"(side b)"}
-        value={sideB}
-        onChange={onInputChangeSideB}
-        onKeyDown={onKeyDownSideB}
-      />
+    <div className={cardStyles} key={cardID} id={cardID}>
+      <div className={styles.textInputs}>
+        <TextInput
+          ref={aRef}
+          classNames={styles.textInput}
+          placeholder={placeholder}
+          onChange={onInputChangeSideA}
+          onKeyDown={onKeyDownSideA}
+          value={sideA}
+        />
+        <div className={styles.divider} />
+        <TextInput
+          ref={bRef}
+          classNames={inputSideBStyles}
+          placeholder={"(side b)"}
+          value={sideB}
+          onChange={onInputChangeSideB}
+          onKeyDown={onKeyDownSideB}
+        />
+      </div>
+      {sideA && <div className={styles.divider} />}
+
+      <div className={styles.cardModifiers}>
+        <CardTags />
+
+        {cardID && (
+          <div>
+            <Button icon={trashOutline} onClick={onClickDelete} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

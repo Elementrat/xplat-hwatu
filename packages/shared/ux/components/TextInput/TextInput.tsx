@@ -6,6 +6,8 @@ import { clsx } from "clsx";
 const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
   const { classNames, value, onChange, onKeyDown, placeholder } = props;
 
+  let controlledValue = value || "";
+
   const styleClasses = clsx(classNames, styles.TextInput);
 
   return (
@@ -14,7 +16,7 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
       className={styleClasses}
       type="text"
       placeholder={placeholder}
-      value={value}
+      value={controlledValue}
       onChange={onChange}
       onKeyDown={onKeyDown}
     />
