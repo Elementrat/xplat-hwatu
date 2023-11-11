@@ -14,6 +14,7 @@
   overflow: hidden;
   transition: all 0.1s ease;
   animation: appear 0.5s ease;
+  color: var(--grey-600);
   .textInputs {
     display: flex;
     flex-direction: column;
@@ -63,7 +64,10 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  color: var(--grey-600);
+}
+
+.newCardIndicator {
+  padding-bottom: var(--spacing-2);
 }
 
 @keyframes myMove {

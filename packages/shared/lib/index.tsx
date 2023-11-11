@@ -8,6 +8,8 @@ import {
 } from "./client-api/cards";
 import { CONSTANTS } from "./util/constants";
 
+import { UIProvider, UIContext } from "./context/UIProvider";
+
 export type SessionUser = {
   id: string;
   name: string;
@@ -22,5 +24,7 @@ export {
   createCard,
   updateCard,
   deleteCard,
-  CONSTANTS
+  CONSTANTS,
+  UIProvider,
+  UIContext
 };

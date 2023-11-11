@@ -11,7 +11,7 @@ import {
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
 import { CardTags } from "../CardTags/CardTags";
-import { trashOutline } from "ionicons/icons";
+import { trash } from "ionicons/icons";
 import { Button } from "../Button/Button";
 
 const placeholder = "Enter text";
@@ -133,8 +133,10 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
   const onClickDelete = async () => {
     const newCards = cards?.filter((c) => c.id !== cardID);
-    await deleteCard({ id: cardID });
-    await mutate({ cards: newCards });
+    if (cardID) {
+      await deleteCard({ id: cardID });
+      await mutate({ cards: newCards });
+    }
   };
 
   const hasValidInput = sideA?.length > 0;
@@ -152,6 +154,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
   return (
     <div className={cardStyles} key={cardID} id={cardID}>
+      {!cardID && <div className={styles.newCardIndicator}>New Card</div>}
       <div className={styles.textInputs}>
         <TextInput
           ref={aRef}
@@ -178,7 +181,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
         {cardID && (
           <div>
-            <Button icon={trashOutline} onClick={onClickDelete} />
+            <Button icon={trash} onClick={onClickDelete} />
           </div>
         )}
       </div>
