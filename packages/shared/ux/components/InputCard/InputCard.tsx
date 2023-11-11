@@ -13,6 +13,7 @@ import { TextInput } from "../TextInput/TextInput";
 import { CardTags } from "../CardTags/CardTags";
 import { trash } from "ionicons/icons";
 import { Button } from "../Button/Button";
+import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
 
 const placeholder = "Enter text";
 
@@ -29,6 +30,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
   const [sideA, setSideA] = useState(existingCard?.title);
   const [sideB, setCardTextSideB] = useState(existingCard?.sideB);
+  const [lastUpdatedText, setLastUpdatedText] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [edited, setEdited] = useState(false);
 
@@ -42,12 +44,16 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   }, [aRef.current, cardID]);
 
   const onInputChangeSideA = (e) => {
-    setSideA(e.target.value);
+    const newValue = e?.target?.value;
+    setSideA(newValue);
+    setLastUpdatedText(newValue);
     setEdited(true);
   };
 
   const onInputChangeSideB = (e) => {
-    setCardTextSideB(e.target.value);
+    const newValue = e?.target?.value;
+    setCardTextSideB(newValue);
+    setLastUpdatedText(newValue);
     setEdited(true);
   };
 
@@ -134,8 +140,8 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const onClickDelete = async () => {
     const newCards = cards?.filter((c) => c.id !== cardID);
     if (cardID) {
+      await mutate({ cards: newCards }, { revalidate: false });
       await deleteCard({ id: cardID });
-      await mutate({ cards: newCards });
     }
   };
 
@@ -176,6 +182,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       </div>
       {sideA && <div className={styles.divider} />}
 
+      <CardSuggestions inputText={lastUpdatedText} />
       <div className={styles.cardModifiers}>
         <CardTags />
 

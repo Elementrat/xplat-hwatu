@@ -19,8 +19,8 @@ const UserFeed = () => {
 
   let displayCards = cardsSortedNewestFirst;
 
-  if (searchTextLowerCase) {
-    displayCards = displayCards.filter((card) => {
+  if (searchTextLowerCase && displayCards?.length) {
+    displayCards = displayCards?.filter((card) => {
       const sideALowerCase = card?.title?.toLowerCase();
       const sideBLowerCase = card?.sideB?.toLowerCase();
       return (

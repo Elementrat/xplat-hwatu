@@ -2,6 +2,7 @@
 
 module.exports = {
   transpilePackages: ["ux"],
+
   async headers() {
     return [
       {
