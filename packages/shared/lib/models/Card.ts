@@ -42,9 +42,6 @@ class CardClass {
   @prop({ required: true })
   sideB: string;
 
-  @prop({ default: false })
-  completed: boolean;
-
   @prop({ required: true })
   userID: mongoose.Types.ObjectId | string;
 

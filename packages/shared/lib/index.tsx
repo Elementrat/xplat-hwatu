@@ -3,6 +3,7 @@ import {
   useCards,
   createCard,
   deleteCard,
+  updateCard,
   useCurrentUserCards
 } from "./client-api/cards";
 import { CONSTANTS } from "./util/constants";
@@ -19,6 +20,7 @@ export {
   useCards,
   useCurrentUserCards,
   createCard,
+  updateCard,
   deleteCard,
   CONSTANTS
 };

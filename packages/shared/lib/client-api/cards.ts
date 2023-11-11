@@ -2,8 +2,8 @@
 import useSWR from "swr";
 import { Capacitor } from "@capacitor/core";
 import { useSession } from "next-auth/react";
-import { postRequest, deleteRequest } from "../util/fetch";
-import { SessionUser } from "..";
+import { postRequest, deleteRequest, patchRequest } from "../util/fetch";
+import { CardClass, SessionUser } from "..";
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
@@ -71,6 +71,13 @@ async function createCard(title: string, sideB: string) {
   return await postRequest(cardsAPIURL, { title, sideB });
 }
 
+async function updateCard(card:any) {
+  const id = card?.id;
+  if (id){ 
+    return await patchRequest(`${cardsAPIURL}/${id}`, { ...card });
+  }
+}
+
 async function deleteCard({ id }: { id: string }) {
   return await deleteRequest(`${cardsAPIURL}/${id}`);
 }
@@ -83,6 +90,7 @@ export {
   useCards,
   createCard,
   deleteCard,
+  updateCard,
   deleteAllCards,
   useCurrentUserCards
 };
