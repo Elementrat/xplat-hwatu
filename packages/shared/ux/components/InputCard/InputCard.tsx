@@ -2,7 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./InputCard.module.css";
-import { useCurrentUserCards, createCard, deleteCard, updateCard } from "xplat-lib";
+import {
+  useCurrentUserCards,
+  createCard,
+  deleteCard,
+  updateCard
+} from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
 import { CardTags } from "../CardTags/CardTags";
@@ -46,51 +51,46 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     setEdited(true);
   };
 
-  const onKeyDownSideA = async (e) => {
-    if (e.keyCode === KEY_CODES.ENTER) {
-      if (sideA) {
-        bRef?.current?.focus();
+  const createOrUpdateCard = async () => {
+    let newOrUpdatedCard;
+
+    if (!cardID) {
+      const createResult = await createCard(sideA, sideB);
+      newOrUpdatedCard = createResult?.data?.card;
+      if (newOrUpdatedCard) {
+        const newCards = [...cards, newOrUpdatedCard];
+        mutate(
+          { cards: newCards },
+          {
+            throwOnError: true,
+            revalidate: false
+          }
+        );
       }
-      setEdited(true);
+    } else {
+      const createResult = await updateCard({
+        ...existingCard,
+        title: sideA,
+        sideB
+      });
+      newOrUpdatedCard = createResult?.data?.card;
+      if (newOrUpdatedCard) {
+        const newCards = cards.map((card) => {
+          return card?.id === cardID
+            ? { ...existingCard, title: sideA, sideB }
+            : card;
+        });
+        mutate(
+          { cards: newCards },
+          {
+            throwOnError: true,
+            revalidate: false
+          }
+        );
+      }
     }
-  };
 
-  const onKeyDownSideB = async (e) => {
-    if (e.keyCode === KEY_CODES.ENTER) {
-      let newOrUpdatedCard;
-    
-      if(!cardID){
-        const createResult = await createCard(sideA, sideB);
-        newOrUpdatedCard = createResult?.data?.card;
-        if (newOrUpdatedCard) {
-          const newCards = [...cards, newOrUpdatedCard];
-          mutate(
-            { cards: newCards },
-            {
-              throwOnError: true,
-              revalidate: false
-            }
-          );
-        }
-      }
-      else{
-        const createResult = await updateCard({ ...existingCard, title: sideA, sideB });
-        newOrUpdatedCard = createResult?.data?.card;
-        if(newOrUpdatedCard){
-          const newCards = cards.map((card) => {
-            return card?.id === cardID ? {...existingCard, title: sideA, sideB} : card
-          })
-          mutate(
-            { cards: newCards },
-            {
-              throwOnError: true,
-              revalidate: false
-            }
-          );
-        }
-      } 
-
-      if(newOrUpdatedCard){
+    if (newOrUpdatedCard) {
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
@@ -101,20 +101,35 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         setEdited(false);
         if (aRef?.current) {
           aRef.current.focus();
-        } 
-      }
-      else{
-        if(aRef?.current){
+        }
+      } else {
+        if (aRef?.current) {
           aRef?.current.blur();
         }
-        if(bRef?.current){
+        if (bRef?.current) {
           bRef?.current.blur();
         }
         setEdited(false);
       }
     }
   };
-}
+
+  const onKeyDownSideA = async (e) => {
+    if (e.keyCode === KEY_CODES.ENTER) {
+      setEdited(true);
+      if (existingCard) {
+        createOrUpdateCard();
+      } else {
+        bRef?.current?.focus();
+      }
+    }
+  };
+
+  const onKeyDownSideB = async (e) => {
+    if (e.keyCode === KEY_CODES.ENTER) {
+      createOrUpdateCard();
+    }
+  };
 
   const onClickDelete = async () => {
     const newCards = cards?.filter((c) => c.id !== cardID);

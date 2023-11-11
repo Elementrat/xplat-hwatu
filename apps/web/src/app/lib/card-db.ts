@@ -84,7 +84,7 @@ export async function getCard(id: string) {
 
 export async function updateCard(
   id: string,
-  { title, completed }: { title?: string; completed?: boolean }
+  { title, sideB }: { title?: string; sideB: string }
 ) {
   try {
     await connectDB();
@@ -95,9 +95,11 @@ export async function updateCard(
       return { error: "Card not found" };
     }
 
+    console.log("__FOUND", id);
+
     const card = await Card.findByIdAndUpdate(
       parsedId,
-      { title, completed },
+      { title, sideB },
       { new: true }
     )
       .lean()
@@ -126,8 +128,6 @@ export async function deleteCard(id: string) {
     }
 
     const card = await Card.findByIdAndDelete(parsedId).exec();
-
-    console.log("__FOUND_TO_DELETE", id, card);
 
     if (card) {
       return {};

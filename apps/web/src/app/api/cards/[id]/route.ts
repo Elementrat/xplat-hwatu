@@ -45,9 +45,10 @@ export async function PATCH(
     await connectDB();
 
     const id = params.id;
-    let body = await request.json();
 
-    const { card, error } = await getCard(id);
+    let body = await request.json();
+    const { title, sideB } = body;
+    const { card, error } = await updateCard(id, { title, sideB });
 
     if (error) {
       throw error;
@@ -61,8 +62,8 @@ export async function PATCH(
     };
     return NextResponse.json(json_response);
   } catch (error: any) {
-    if (typeof error === "string" && error.includes("Todo not found")) {
-      return createErrorResponse("Todo not found", 404);
+    if (typeof error === "string" && error.includes("Card not found")) {
+      return createErrorResponse("Card not found", 404);
     }
 
     return createErrorResponse(error.message, 500);
