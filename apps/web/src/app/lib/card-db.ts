@@ -95,8 +95,6 @@ export async function updateCard(
       return { error: "Card not found" };
     }
 
-    console.log("__FOUND", id);
-
     const card = await Card.findByIdAndUpdate(
       parsedId,
       { title, sideB },

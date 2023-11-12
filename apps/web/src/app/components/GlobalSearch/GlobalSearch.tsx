@@ -1,8 +1,8 @@
 "use client";
 import { UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
-import strings from "./GlobalSearch.strings";
-import { TextInput } from "ux";
+
+import { TextInput, STR } from "ux";
 import clsx from "clsx";
 import { ChangeEvent, useContext } from "react";
 
@@ -23,7 +23,7 @@ const GlobalSearch = () => {
   return (
     <div className={classes}>
       <TextInput
-        placeholder={isLoading ? "Loading..." : strings.SEARCH_PLACEHOLDER}
+        placeholder={isLoading ? STR.LOADING : STR.SEARCH}
         classNames={s.globalSearchInput}
         onChange={onSearchChange}
         value={searchText}

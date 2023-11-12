@@ -3,18 +3,11 @@ import React from "react";
 import styles from "./UserCards.module.css";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { ErrorIndicator } from "../ErrorIndicator/ErrorIndicator";
-import {
-  deleteAllCards,
-  deleteCard,
-  useCurrentUserCards
-} from "xplat-lib/client-api/cards";
-import { IonIcon } from "@ionic/react";
-import { trashOutline } from "ionicons/icons";
-import { Button } from "../Button/Button";
+import { useCurrentUserCards } from "xplat-lib/client-api/cards";
+import STR from "../../strings/strings";
 
 const UserCards = () => {
-  const { cards, isLoading, isError, mutate, isValidating } =
-    useCurrentUserCards();
+  const { cards, isLoading, isError } = useCurrentUserCards();
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -23,21 +16,13 @@ const UserCards = () => {
   if (isError) {
     return <ErrorIndicator />;
   }
-  /*
-  const onClickDeleteAll = async () => {
-    await deleteAllCards();
-    mutate(
-      { cards: [] },
-      {
-        revalidate: true
-      }
-    );
-  };*/
 
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
-        <h2 className="text-xl">Your Cards ({cards?.length})</h2>
+        <h2 className="text-xl">
+          {STR.YOUR_CARDS} ({cards?.length})
+        </h2>
       </div>
       <div className={styles.userCards}>
         {cards?.map((card) => {

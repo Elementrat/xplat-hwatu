@@ -1,5 +1,6 @@
 import createClient, {
-  TextTranslationClient
+  TextTranslationClient,
+  TranslateQueryParamProperties
 } from "@azure-rest/ai-translation-text";
 import {
   TranslatorCredential,
@@ -14,7 +15,10 @@ const translateCedential: TranslatorCredential = {
 
 let translationClient: TextTranslationClient;
 
-const translate = async (text: string) => {
+const translate = async (
+  text: string,
+  queryParameters: TranslateQueryParamProperties & Record<string, unknown>
+) => {
   if (!translationClient) {
     translationClient = await createClient(
       "https://api.cognitive.microsofttranslator.com/",
@@ -24,12 +28,8 @@ const translate = async (text: string) => {
 
   const translateResponse = await translationClient.path("/translate").post({
     body: [{ text }],
-    queryParameters: { to: "ko", from: "en" }
+    queryParameters
   });
-
-  function isSuccess(object: any): object is TranslatedTextItemOutput[] {
-    return "translations" in object;
-  }
 
   if (translateResponse?.body) {
     const translationResponse = translateResponse?.body as

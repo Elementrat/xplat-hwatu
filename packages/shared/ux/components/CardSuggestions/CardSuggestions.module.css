@@ -3,7 +3,6 @@
   overflow: hidden;
   max-height: 0px;
   transition: max-height 0.5s ease;
-  font-size: var(--font-size-md);
   align-items: center;
   display: flex;
   box-sizing: border-box;
@@ -15,9 +14,15 @@
 
 .cardSuggestion {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--grey-800);
+  color: var(--grey-500);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--border-radius-1);
+}
+
+.cardSuggestion:hover {
+  color: var(--grey-900);
+  background-color: var(--grey-600);
 }
 
 .show {

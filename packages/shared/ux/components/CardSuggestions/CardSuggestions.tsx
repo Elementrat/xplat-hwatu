@@ -1,22 +1,53 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styles from "./CardSuggestions.module.css";
+import { UIContext, useCurrentUserCards } from "xplat-lib";
+
 import { translate } from "xplat-lib";
 import { clsx } from "clsx";
 import { IonIcon } from "@ionic/react";
 import { flaskOutline } from "ionicons/icons";
+import { detect } from "tinyld";
+
+import STR from "../../strings/strings";
+
+const KNOWN_LANGS = {
+  SOURCES: ["en", "ko"],
+  TARGETS: ["en", "ko"]
+};
 
 const DELAY = 2000;
 
-const CardSuggestions = ({ inputText }) => {
+const CardSuggestions = ({ inputText, onClickSuggestion }) => {
+  const { languages } = useContext(UIContext);
+
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [timeoutID, setTimeoutID] = useState();
 
   const tryGetSuggestions = async () => {
-    const res = await translate(inputText);
-    if (res) {
-      if (res.text) {
-        setSuggestions([res.text]);
+    let sourceLang = detect(inputText);
+    let targetLang;
+
+    if (!KNOWN_LANGS.SOURCES.includes(sourceLang)) {
+      sourceLang = "en";
+    }
+
+    if (KNOWN_LANGS.SOURCES.includes(sourceLang)) {
+      targetLang = languages.find(
+        (languagePref) =>
+          languagePref !== sourceLang &&
+          KNOWN_LANGS.TARGETS.includes(languagePref)
+      );
+    }
+    if (sourceLang && targetLang) {
+      const res = await translate(inputText, {
+        to: targetLang,
+        from: sourceLang
+      });
+      if (res) {
+        if (res.text) {
+          setSuggestions([res.text]);
+        }
       }
     }
   };
@@ -41,8 +72,19 @@ const CardSuggestions = ({ inputText }) => {
   return (
     <div className={classes}>
       <IonIcon icon={flaskOutline} size="small" />
+      {Boolean(suggestions?.length) && <span>{STR.SUGGESTED}</span>}
       {suggestions.map((suggestion) => {
-        return <div className={styles.cardSuggestion}>{suggestion}</div>;
+        return (
+          <div
+            className={styles.cardSuggestion}
+            key={suggestion}
+            onClick={() => {
+              onClickSuggestion(suggestion);
+            }}
+          >
+            {suggestion}
+          </div>
+        );
       })}
     </div>
   );

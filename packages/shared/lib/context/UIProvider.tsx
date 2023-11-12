@@ -1,41 +1,71 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { createContext } from "react";
 import useLocalStorage from "use-local-storage";
+import { useCurrentUserCards } from "..";
+import { detect } from "tinyld";
 
-interface UIState {
+interface PersistentUIState {
   searchText: string;
+  languages: Array<string>;
 }
 
-interface UIStateAndControls extends UIState {
+interface UIStateAndControls extends PersistentUIState {
   updateSearchText: Function;
 }
 
-const defaultUIState: UIStateAndControls = {
+const defaultUIStateAndControls: UIStateAndControls = {
   searchText: "",
+  languages: ["ko"],
   updateSearchText: Function
 };
 
-const UIContext = createContext(defaultUIState);
+const defaultPersistentUIState: PersistentUIState = {
+  searchText: "",
+  languages: ["ko"]
+};
+
+const UIContext = createContext(defaultUIStateAndControls);
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
-  const updateSearchText = (newSearchText: string) => {
-    setUIState({ ...persistentUIState, searchText: newSearchText });
-  };
+  const { cards } = useCurrentUserCards();
 
-  const defaultUIState: UIState = {
-    searchText: ""
-  };
-
-  const [persistentUIState, setUIState] = useLocalStorage<UIState>(
+  const [persistentUIState, setPersistentUIState] = useLocalStorage<PersistentUIState>(
     "app-ui",
-    defaultUIState
+    defaultPersistentUIState
   );
+
+  
+  const updateSearchText = (newSearchText: string) => {
+    setPersistentUIState({ ...persistentUIState, searchText: newSearchText });
+  };
+
+  const addLanguagePreference = (newLanguageCode: string) => {
+    setPersistentUIState({ ...persistentUIState, languages: [...persistentUIState?.languages, newLanguageCode] });
+  };
+
 
   const sharedUI: UIStateAndControls = {
     ...persistentUIState,
     updateSearchText
   };
+
+
+  useEffect(() => {
+    const tryThing = async () => {
+      if (typeof window !== "undefined") {
+        if (cards) {
+          for (let card of cards) {
+            const detectedLang = detect(card?.title);
+            if (!sharedUI?.languages?.includes(detectedLang)){
+              addLanguagePreference(detectedLang)
+            }
+          }
+        }
+      }
+    };
+    tryThing();
+  }, [cards]);
 
   return <UIContext.Provider value={sharedUI}>{children}</UIContext.Provider>;
 };

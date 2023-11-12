@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import styles from "./InputCard.module.css";
 import {
   useCurrentUserCards,
   createCard,
   deleteCard,
-  updateCard
+  updateCard,
+  UIContext
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -14,8 +15,7 @@ import { CardTags } from "../CardTags/CardTags";
 import { trash } from "ionicons/icons";
 import { Button } from "../Button/Button";
 import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
-
-const placeholder = "Enter text";
+import STR from "../../strings/strings";
 
 const KEY_CODES = {
   ENTER: 13
@@ -25,6 +25,7 @@ const ANIMATION_DURATION = 500;
 
 const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate } = useCurrentUserCards();
+  const { searchText } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -38,31 +39,33 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (aRef?.current && !cardID && !existingCard?.title) {
-      aRef?.current.focus();
-    }
-  }, [aRef.current, cardID]);
+  const updateSideA = (text) => {
+    setSideA(text);
+    setLastUpdatedText(text);
+    setEdited(true);
+  };
+
+  const updateSideB = (text) => {
+    setCardTextSideB(text);
+    setEdited(true);
+  };
 
   const onInputChangeSideA = (e) => {
     const newValue = e?.target?.value;
-    setSideA(newValue);
-    setLastUpdatedText(newValue);
-    setEdited(true);
+    updateSideA(newValue);
   };
 
   const onInputChangeSideB = (e) => {
     const newValue = e?.target?.value;
-    setCardTextSideB(newValue);
-    setLastUpdatedText(newValue);
-    setEdited(true);
+    updateSideB(newValue);
   };
 
-  const createOrUpdateCard = async () => {
+  const createOrUpdateCard = async (dirtySideB?) => {
     let newOrUpdatedCard;
+    const localSideB = dirtySideB || sideB;
 
     if (!cardID) {
-      const createResult = await createCard(sideA, sideB);
+      const createResult = await createCard(sideA, localSideB);
       newOrUpdatedCard = createResult?.data?.card;
       if (newOrUpdatedCard) {
         const newCards = [...cards, newOrUpdatedCard];
@@ -78,13 +81,13 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       const createResult = await updateCard({
         ...existingCard,
         title: sideA,
-        sideB
+        sideB: localSideB
       });
       newOrUpdatedCard = createResult?.data?.card;
       if (newOrUpdatedCard) {
         const newCards = cards.map((card) => {
           return card?.id === cardID
-            ? { ...existingCard, title: sideA, sideB }
+            ? { ...existingCard, title: sideA, sideB: localSideB }
             : card;
         });
         mutate(
@@ -98,6 +101,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     }
 
     if (newOrUpdatedCard) {
+      setLastUpdatedText("");
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
@@ -146,13 +150,18 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     }
   };
 
+  const onClickSuggestion = async (text) => {
+    await updateSideB(text);
+    createOrUpdateCard(text);
+  };
+
   const onMouseOver = async () => {
     setHovered(true);
-  }
+  };
 
   const onMouseOut = async () => {
     setHovered(false);
-  }
+  };
 
   const hasValidInput = sideA?.length > 0;
 
@@ -169,13 +178,19 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   });
 
   return (
-    <div className={cardStyles} key={cardID} id={cardID} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
-      {!cardID && <div className={styles.newCardIndicator}>New Card</div>}
+    <div
+      className={cardStyles}
+      key={cardID}
+      id={cardID}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    >
+      {!cardID && <div className={styles.newCardIndicator}>{STR.NEW_CARD}</div>}
       <div className={styles.textInputs}>
         <TextInput
           ref={aRef}
           classNames={styles.textInput}
-          placeholder={placeholder}
+          placeholder={STR.ENTER_TEXT}
           onChange={onInputChangeSideA}
           onKeyDown={onKeyDownSideA}
           value={sideA}
@@ -184,15 +199,19 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         <TextInput
           ref={bRef}
           classNames={inputSideBStyles}
-          placeholder={"(side b)"}
+          placeholder={STR.SIDE_B}
           value={sideB}
           onChange={onInputChangeSideB}
           onKeyDown={onKeyDownSideB}
         />
       </div>
       {sideA && <div className={styles.divider} />}
-
-      <CardSuggestions inputText={lastUpdatedText} />
+      {sideA && (
+        <CardSuggestions
+          inputText={lastUpdatedText}
+          onClickSuggestion={onClickSuggestion}
+        />
+      )}
       <div className={styles.cardModifiers}>
         <CardTags />
 
