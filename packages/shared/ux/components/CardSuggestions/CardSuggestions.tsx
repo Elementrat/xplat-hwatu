@@ -1,32 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./CardSuggestions.module.css";
-import { TranslatorCredential } from "@azure-rest/ai-translation-text";
-import createClient from "@azure-rest/ai-translation-text";
+import { translate } from "xplat-lib";
+import { clsx } from "clsx";
+import { IonIcon } from "@ionic/react";
+import { flaskOutline } from "ionicons/icons";
 
 const DELAY = 2000;
 
 const CardSuggestions = ({ inputText }) => {
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [timeoutID, setTimeoutID] = useState();
 
   const tryGetSuggestions = async () => {
-    const translateCedential: TranslatorCredential = {
-      key: "85b9501d87ce4de3a2315e6359ad52e7",
-      region: "westus2"
-    };
-
-    const translationClient = await createClient(
-      "https://api.cognitive.microsofttranslator.com/",
-      translateCedential
-    );
-
-    const translateResponse = await translationClient.path("/translate").post({
-      body: [{ text: inputText }],
-      queryParameters: { to: "ko", from: "en" }
-    });
-
-    console.log("__TRANSLATION_RESPONSE", translateResponse);
+    const res = await translate(inputText);
+    if (res) {
+      if (res.text) {
+        console.log("__TRANSLATION_RESPONSE", res.text);
+        setSuggestions([res.text]);
+      }
+    }
   };
 
   useEffect(() => {
@@ -36,9 +29,24 @@ const CardSuggestions = ({ inputText }) => {
       }
       const id = setTimeout(tryGetSuggestions, DELAY);
       setTimeoutID(id);
+    } else {
+      setSuggestions([]);
     }
   }, [inputText]);
-  return <div className={styles.CardSuggestions}>suggestions</div>;
+
+  const classes = clsx({
+    [styles.CardSuggestions]: true,
+    [styles.show]: suggestions.length > 0
+  });
+
+  return (
+    <div className={classes}>
+      <IonIcon icon={flaskOutline} size="small" />
+      {suggestions.map((suggestion) => {
+        return <div className={styles.cardSuggestion}>{suggestion}</div>;
+      })}
+    </div>
+  );
 };
 
 export { CardSuggestions };

@@ -7,6 +7,7 @@ import {
   useCurrentUserCards
 } from "./client-api/cards";
 import { CONSTANTS } from "./util/constants";
+import { translate } from "./translate";
 
 import { UIProvider, UIContext } from "./context/UIProvider";
 
@@ -26,5 +27,6 @@ export {
   deleteCard,
   CONSTANTS,
   UIProvider,
-  UIContext
+  UIContext,
+  translate
 };

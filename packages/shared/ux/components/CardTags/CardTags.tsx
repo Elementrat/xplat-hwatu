@@ -8,7 +8,7 @@ const CardTags = () => {
   return (
     <div className={styles.cardTags}>
       <Button icon={bookmarks} />
-      <div className={styles.cardTag}>@me</div>
+      <div className={styles.cardTag}></div>
     </div>
   );
 };
