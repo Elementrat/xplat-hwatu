@@ -10,6 +10,11 @@ import { CONSTANTS } from "./util/constants";
 import { translate } from "./translate";
 
 import { UIProvider, UIContext } from "./context/UIProvider";
+import {
+  TranslationProvider,
+  TranslationContext
+} from "./context/TranslationProvider";
+
 import { LocalStorageProvider } from "./context/LocalStorageProvider";
 import { sorts, filters } from "./util/filter-sort";
 
@@ -31,7 +36,9 @@ export {
   deleteCard,
   CONSTANTS,
   UIProvider,
-  LocalStorageProvider,
   UIContext,
+  TranslationProvider,
+  TranslationContext,
+  LocalStorageProvider,
   translate
 };

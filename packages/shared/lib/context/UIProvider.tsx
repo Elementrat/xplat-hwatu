@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { createContext } from "react";
 import useLocalStorage from "use-local-storage";
-import { useCurrentUserCards } from "..";
-import { detect } from "tinyld";
+
+import { TranslationProvider } from "./TranslationProvider";
 
 interface PersistentUIState {
   searchText: string;
@@ -12,12 +12,14 @@ interface PersistentUIState {
 
 interface UIStateAndControls extends PersistentUIState {
   updateSearchText: Function;
+  addLanguagePreference: Function;
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
   searchText: "",
   languages: ["en", "ko"],
-  updateSearchText: Function
+  updateSearchText: Function,
+  addLanguagePreference: Function
 };
 
 const defaultPersistentUIState: PersistentUIState = {
@@ -28,8 +30,6 @@ const defaultPersistentUIState: PersistentUIState = {
 const UIContext = createContext(defaultUIStateAndControls);
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
-  const { cards } = useCurrentUserCards();
-
   const [persistentUIState, setPersistentUIState] =
     useLocalStorage<PersistentUIState>("app-ui", defaultPersistentUIState);
 
@@ -46,26 +46,14 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
   const sharedUI: UIStateAndControls = {
     ...persistentUIState,
-    updateSearchText
+    updateSearchText,
+    addLanguagePreference
   };
-
-  useEffect(() => {
-    const tryThing = async () => {
-      if (typeof window !== "undefined") {
-        if (cards) {
-          for (let card of cards) {
-            const detectedLang = detect(card?.title);
-            if (!sharedUI?.languages?.includes(detectedLang)) {
-              addLanguagePreference(detectedLang);
-            }
-          }
-        }
-      }
-    };
-    tryThing();
-  }, [cards]);
-
-  return <UIContext.Provider value={sharedUI}>{children}</UIContext.Provider>;
+  return (
+    <UIContext.Provider value={sharedUI}>
+      <TranslationProvider>{children}</TranslationProvider>
+    </UIContext.Provider>
+  );
 };
 
 export { UIProvider, UIContext };
