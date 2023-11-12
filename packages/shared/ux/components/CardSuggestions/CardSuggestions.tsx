@@ -12,7 +12,7 @@ import { detect } from "tinyld";
 import STR from "../../strings/strings";
 
 const KNOWN_LANGS = {
-  SOURCES: ["en", "ko"],
+  SOURCES: ["en", "ko", "ja"],
   TARGETS: ["en", "ko"]
 };
 
@@ -40,6 +40,7 @@ const CardSuggestions = ({ inputText, onClickSuggestion }) => {
       );
     }
     if (sourceLang && targetLang) {
+      console.log("__SOURCE_TARG", sourceLang, targetLang);
       const res = await translate(inputText, {
         to: targetLang,
         from: sourceLang

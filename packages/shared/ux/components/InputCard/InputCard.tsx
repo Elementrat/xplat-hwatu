@@ -25,7 +25,6 @@ const ANIMATION_DURATION = 500;
 
 const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate } = useCurrentUserCards();
-  const { searchText } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 

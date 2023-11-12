@@ -16,13 +16,13 @@ interface UIStateAndControls extends PersistentUIState {
 
 const defaultUIStateAndControls: UIStateAndControls = {
   searchText: "",
-  languages: ["ko"],
+  languages: ["en", "ko"],
   updateSearchText: Function
 };
 
 const defaultPersistentUIState: PersistentUIState = {
   searchText: "",
-  languages: ["ko"]
+  languages: ["en", "ko"]
 };
 
 const UIContext = createContext(defaultUIStateAndControls);
@@ -30,26 +30,24 @@ const UIContext = createContext(defaultUIStateAndControls);
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const { cards } = useCurrentUserCards();
 
-  const [persistentUIState, setPersistentUIState] = useLocalStorage<PersistentUIState>(
-    "app-ui",
-    defaultPersistentUIState
-  );
+  const [persistentUIState, setPersistentUIState] =
+    useLocalStorage<PersistentUIState>("app-ui", defaultPersistentUIState);
 
-  
   const updateSearchText = (newSearchText: string) => {
     setPersistentUIState({ ...persistentUIState, searchText: newSearchText });
   };
 
   const addLanguagePreference = (newLanguageCode: string) => {
-    setPersistentUIState({ ...persistentUIState, languages: [...persistentUIState?.languages, newLanguageCode] });
+    setPersistentUIState({
+      ...persistentUIState,
+      languages: [...persistentUIState?.languages, newLanguageCode]
+    });
   };
-
 
   const sharedUI: UIStateAndControls = {
     ...persistentUIState,
     updateSearchText
   };
-
 
   useEffect(() => {
     const tryThing = async () => {
@@ -57,8 +55,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         if (cards) {
           for (let card of cards) {
             const detectedLang = detect(card?.title);
-            if (!sharedUI?.languages?.includes(detectedLang)){
-              addLanguagePreference(detectedLang)
+            if (!sharedUI?.languages?.includes(detectedLang)) {
+              addLanguagePreference(detectedLang);
             }
           }
         }
