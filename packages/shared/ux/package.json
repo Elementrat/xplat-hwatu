@@ -2,6 +2,7 @@
   "name": "ux",
   "version": "1.0.0",
   "main": "index.js",
+  "types": ".d.ts",
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
