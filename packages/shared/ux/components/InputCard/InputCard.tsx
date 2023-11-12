@@ -33,6 +33,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const [lastUpdatedText, setLastUpdatedText] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [edited, setEdited] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
@@ -145,11 +146,20 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     }
   };
 
+  const onMouseOver = async () => {
+    setHovered(true);
+  }
+
+  const onMouseOut = async () => {
+    setHovered(false);
+  }
+
   const hasValidInput = sideA?.length > 0;
 
   const cardStyles = clsx({
     [styles.InputCard]: true,
-    [styles.hasValidInput]: hasValidInput && edited
+    [styles.hasValidInput]: hasValidInput && edited,
+    [styles.hovered]: hovered
   });
 
   const inputSideBStyles = clsx({
@@ -159,7 +169,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   });
 
   return (
-    <div className={cardStyles} key={cardID} id={cardID}>
+    <div className={cardStyles} key={cardID} id={cardID} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
       {!cardID && <div className={styles.newCardIndicator}>New Card</div>}
       <div className={styles.textInputs}>
         <TextInput

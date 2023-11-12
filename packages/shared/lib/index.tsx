@@ -10,6 +10,7 @@ import { CONSTANTS } from "./util/constants";
 import { translate } from "./translate";
 
 import { UIProvider, UIContext } from "./context/UIProvider";
+import { LocalStorageProvider } from "./context/LocalStorageProvider";
 
 export type SessionUser = {
   id: string;
@@ -27,6 +28,7 @@ export {
   deleteCard,
   CONSTANTS,
   UIProvider,
+  LocalStorageProvider,
   UIContext,
   translate
 };

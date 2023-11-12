@@ -45,6 +45,10 @@
   }
 }
 
+.InputCard.hovered {
+  border: 1px solid var(--grey-600);
+}
+
 .hasValidInput {
   box-shadow: var(--box-shadow-2);
   border: 1px solid var(--accent-valid);

@@ -1,32 +1,43 @@
 "use client";
 import React, { useState } from "react";
 import { createContext } from "react";
+import useLocalStorage from "use-local-storage";
 
 interface UIState {
   searchText: string;
+}
+
+interface UIStateAndControls extends UIState {
   updateSearchText: Function;
 }
 
-const defaultUIState: UIState = {
+const defaultUIState: UIStateAndControls = {
   searchText: "",
-  updateSearchText: () => {}
+  updateSearchText: Function
 };
 
 const UIContext = createContext(defaultUIState);
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const updateSearchText = (newSearchText: string) => {
-    setUIState({ ...UIState, searchText: newSearchText });
+    setUIState({ ...persistentUIState, searchText: newSearchText });
   };
 
   const defaultUIState: UIState = {
-    searchText: "",
+    searchText: ""
+  };
+
+  const [persistentUIState, setUIState] = useLocalStorage<UIState>(
+    "app-ui",
+    defaultUIState
+  );
+
+  const sharedUI: UIStateAndControls = {
+    ...persistentUIState,
     updateSearchText
   };
 
-  const [UIState, setUIState] = useState(defaultUIState);
-
-  return <UIContext.Provider value={UIState}>{children}</UIContext.Provider>;
+  return <UIContext.Provider value={sharedUI}>{children}</UIContext.Provider>;
 };
 
 export { UIProvider, UIContext };

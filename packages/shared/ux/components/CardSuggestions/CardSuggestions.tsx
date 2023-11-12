@@ -16,7 +16,6 @@ const CardSuggestions = ({ inputText }) => {
     const res = await translate(inputText);
     if (res) {
       if (res.text) {
-        console.log("__TRANSLATION_RESPONSE", res.text);
         setSuggestions([res.text]);
       }
     }

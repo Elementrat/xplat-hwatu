@@ -9,7 +9,9 @@ import { ChangeEvent, useContext } from "react";
 const GlobalSearch = () => {
   const { searchText, updateSearchText } = useContext(UIContext);
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateSearchText(e?.currentTarget?.value);
+    if (updateSearchText) {
+      updateSearchText(e?.currentTarget?.value);
+    }
   };
   const { cards, isLoading } = useCurrentUserCards();
 
