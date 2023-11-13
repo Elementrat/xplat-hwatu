@@ -4,14 +4,19 @@ import styles from "./CardTags.module.css";
 import { Button } from "../Button/Button";
 import { bookmarks } from "ionicons/icons";
 import { TextInput } from "ux";
-import { IonIcon } from "@ionic/react";
 import { add } from "ionicons/icons";
-import { KEY_CODES } from "xplat-lib";
+import { KEY_CODES, createTag } from "xplat-lib";
+import { useCurrentUserTags, updateTag } from "xplat-lib/client-api/tags";
+import STR from "../../strings/strings";
 
-const CardTags = () => {
+const CardTags = ({ cardID }) => {
   const [showInput, setShowInput] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { tags, mutate } = useCurrentUserTags();
+
+  const cardTags = tags.filter((tag) => tag.cards?.includes(cardID));
 
   const toggleShowInput = () => {
     setShowInput(!showInput);
@@ -28,9 +33,54 @@ const CardTags = () => {
     }
   };
 
+  const tryCreateTag = async () => {
+    const createResult = await createTag({
+      title: tagInput,
+      cards: cardID ? [cardID] : []
+    });
+    let newOrUpdatedTag = createResult?.data?.tag;
+    if (newOrUpdatedTag) {
+      const newTags = [...tags, newOrUpdatedTag];
+      mutate(
+        { tags: newTags },
+        {
+          throwOnError: true,
+          revalidate: false
+        }
+      );
+      setTagInput("");
+    }
+  };
+
+  const onClickedTag = async (clickedTag) => {
+    const tagCards = clickedTag?.cards;
+    let newTagCards = tagCards?.filter((id) => id !== cardID);
+
+    const newTags = tags.map((tag) => {
+      return tag?.id === clickedTag.id
+        ? { ...clickedTag, cards: newTagCards }
+        : tag;
+    });
+
+    updateTag({
+      id: clickedTag?.id,
+      cards: newTagCards
+    });
+
+    mutate(
+      { tags: newTags },
+      {
+        throwOnError: true,
+        revalidate: false
+      }
+    );
+
+    setTagInput("");
+  };
+
   const onInputKeyDown = (e) => {
     if (e.keyCode === KEY_CODES.ENTER) {
-      console.log("__ENTER");
+      tryCreateTag();
     }
   };
 
@@ -43,17 +93,31 @@ const CardTags = () => {
   return (
     <div className={styles.cardTags}>
       <Button icon={bookmarks} />
-      {showInput ? (
-        <TextInput
-          placeholder={"New Tag"}
-          ref={inputRef}
-          value={tagInput}
-          onChange={onInputChange}
-          onKeyDown={onInputKeyDown}
-        />
-      ) : (
-        <Button icon={add} onClick={toggleShowInput} />
-      )}
+      <div className={styles.tagList}>
+        {cardTags?.map((tag) => {
+          return (
+            <div
+              className={styles.cardTag}
+              onClick={() => onClickedTag(tag)}
+              key={tag.title}
+            >
+              <span className={styles.hashTag}>#</span>
+              {tag.title}
+            </div>
+          );
+        })}
+        {showInput ? (
+          <TextInput
+            placeholder={STR.NEW_TAG}
+            ref={inputRef}
+            value={tagInput}
+            onChange={onInputChange}
+            onKeyDown={onInputKeyDown}
+          />
+        ) : (
+          <Button icon={add} onClick={toggleShowInput} />
+        )}
+      </div>
     </div>
   );
 };

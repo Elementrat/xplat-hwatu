@@ -8,12 +8,12 @@ import { apiBaseURL } from "./config";
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
-const cardsAPIPath = "/api/cards";
-const cardsAPIURL = `${apiBaseURL}${cardsAPIPath}`;
+const tagsAPIPath = "/api/tags";
+const tagsAPIURL = `${apiBaseURL}${tagsAPIPath}`;
 
-function useCards(userID: string) {
+function useTags(userID: string) {
   const { data, error, isLoading, mutate, isValidating } = useSWR(
-    `${cardsAPIURL}?userID=${userID}`,
+    `${tagsAPIURL}?userID=${userID}`,
     fetcher,
     {
       keepPreviousData: true
@@ -21,7 +21,7 @@ function useCards(userID: string) {
   );
 
   return {
-    cards: data?.cards,
+    tags: data?.tags,
     mutate,
     isLoading,
     isValidating,
@@ -29,13 +29,13 @@ function useCards(userID: string) {
   };
 }
 
-function useCurrentUserCards() {
+function useCurrentUserTags() {
   const { data: session } = useSession();
 
   let user = session?.user as SessionUser;
 
   const { data, error, isLoading, mutate, isValidating } = useSWR(
-    `${cardsAPIURL}?userID=${user?.id}`,
+    `${tagsAPIURL}?userID=${user?.id}`,
     fetcher,
     {
       keepPreviousData: true
@@ -43,7 +43,7 @@ function useCurrentUserCards() {
   );
 
   return {
-    cards: data?.cards || data,
+    tags: data?.tags || data,
     mutate,
     isLoading,
     isValidating,
@@ -51,30 +51,35 @@ function useCurrentUserCards() {
   };
 }
 
-async function createCard(title: string, sideB: string) {
-  return await postRequest(cardsAPIURL, { title, sideB });
+async function createTag({
+  title,
+  cards
+}: {
+  title: string;
+  cards: Array<string>;
+}) {
+  return await postRequest(tagsAPIURL, { title, cards });
 }
 
-async function updateCard(card: any) {
-  const id = card?.id;
+async function updateTag({ id, cards }: { id: string; cards: Array<string> }) {
   if (id) {
-    return await patchRequest(`${cardsAPIURL}/${id}`, { ...card });
+    return await patchRequest(`${tagsAPIURL}/${id}`, { cards });
   }
 }
 
-async function deleteCard({ id }: { id: string }) {
-  return await deleteRequest(`${cardsAPIURL}/${id}`);
+async function deleteTag({ id }: { id: string }) {
+  return await deleteRequest(`${tagsAPIURL}/${id}`);
 }
 
-async function deleteAllCards() {
-  return await deleteRequest(cardsAPIURL);
+async function deleteAllTags() {
+  return await deleteRequest(tagsAPIURL);
 }
 
 export {
-  useCards,
-  createCard,
-  deleteCard,
-  updateCard,
-  deleteAllCards,
-  useCurrentUserCards
+  useTags,
+  createTag,
+  deleteTag,
+  updateTag,
+  deleteAllTags,
+  useCurrentUserTags
 };

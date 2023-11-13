@@ -6,8 +6,7 @@ import {
   useCurrentUserCards,
   createCard,
   deleteCard,
-  updateCard,
-  UIContext
+  updateCard
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -209,7 +208,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         />
       )}
       <div className={styles.cardModifiers}>
-        <CardTags />
+        <CardTags cardID={cardID} />
 
         {cardID && (
           <div>

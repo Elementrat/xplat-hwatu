@@ -4,16 +4,29 @@
   height: 100%;
   color: var(--grey-500);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  .tagList {
+    margin-left: var(--spacing-3);
+    margin-right: var(--spacing-3);
+    display: flex;
+    column-gap: var(--spacing-1);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.hashTag {
+  opacity: 0.3;
+  margin-right: 2px;
 }
 
 .cardTag {
   border-radius: var(--border-radius-md);
   padding: var(--spacing-1) var(--spacing-3);
-  margin-left: var(--spacing-2);
   cursor: pointer;
 }
 
 .cardTag:hover {
   background-color: var(--grey-900);
+  text-decoration: line-through;
 }

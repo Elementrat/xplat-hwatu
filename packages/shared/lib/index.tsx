@@ -1,4 +1,5 @@
 import { Card, CardClass } from "./models/Card";
+import { Tag, TagClass } from "./models/Tag";
 import {
   useCards,
   createCard,
@@ -6,6 +7,15 @@ import {
   updateCard,
   useCurrentUserCards
 } from "./client-api/cards";
+
+import {
+  useTags,
+  createTag,
+  deleteTag,
+  updateTag,
+  useCurrentUserTags
+} from "./client-api/tags";
+
 import { CONSTANTS } from "./util/constants";
 import { translate } from "./translate";
 
@@ -32,11 +42,16 @@ export {
   filters,
   Card,
   CardClass,
+  Tag,
+  TagClass,
   useCards,
   useCurrentUserCards,
   createCard,
   updateCard,
   deleteCard,
+  createTag,
+  updateTag,
+  deleteTag,
   CONSTANTS,
   UIProvider,
   UIContext,

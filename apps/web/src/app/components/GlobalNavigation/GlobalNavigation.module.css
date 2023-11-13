@@ -19,8 +19,10 @@
     flex-direction: column;
   }
   .visibleWhenExpandedNavContent {
-    display: block;
+    display: flex;
+    flex-direction: column;
     margin-top: var(--spacing-4);
+    gap: var(--spacing-4);
   }
 }
 

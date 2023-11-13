@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import styles from "./GlobalNavigation.module.css";
 import GlobalNavigationLinks from "../GlobalNavigationLinks/GlobalNavigationLinks";
 import AuthManager from "../AuthManager/AuthManager";
-import { UserCards } from "ux";
+import { UserCards, UserTags } from "ux";
 import clsx from "clsx";
 import { IonIcon } from "@ionic/react";
 import { menuOutline } from "ionicons/icons";
@@ -45,6 +45,7 @@ const GlobalNavigation = () => {
       </div>
       <div className={styles.visibleWhenExpandedNavContent}>
         <UserCards />
+        <UserTags />
         <LanguageList languages={languages} />
       </div>
     </div>
