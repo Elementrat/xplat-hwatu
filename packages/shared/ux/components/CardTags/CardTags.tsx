@@ -16,7 +16,7 @@ const CardTags = ({ cardID }) => {
 
   const { tags, mutate } = useCurrentUserTags();
 
-  const cardTags = tags.filter((tag) => tag.cards?.includes(cardID));
+  const cardTags = tags?.filter((tag) => tag.cards?.includes(cardID));
 
   const toggleShowInput = () => {
     setShowInput(!showInput);
