@@ -17,24 +17,21 @@ const UserTags = () => {
     return <ErrorIndicator />;
   }
 
+  const displayTags = tags?.filter((tag) => tag?.cards?.length > 0);
+
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
         <h2 className="text-md font-bold">
-          {STR.TAGS} ({tags?.length})
+          {STR.TAGS} ({displayTags?.length})
         </h2>
       </div>
       <div className={styles.userCards}>
-        {tags?.map((tag) => {
+        {displayTags?.map((tag) => {
           const cardKey = tag?.title + "-" + tag?._id;
           return (
             <div key={cardKey} id={cardKey} className={styles.userCard}>
               <div>{tag?.title}</div>
-              <div>
-                {tag?.cards?.map((card) => {
-                  return <div>{card}</div>;
-                })}
-              </div>
             </div>
           );
         })}

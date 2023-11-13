@@ -208,7 +208,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         />
       )}
       <div className={styles.cardModifiers}>
-        <CardTags cardID={cardID} />
+        {cardID && <CardTags cardID={cardID} />}
 
         {cardID && (
           <div>

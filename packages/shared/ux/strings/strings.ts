@@ -11,7 +11,8 @@ const STR = {
   SUGGESTED: "Suggested",
   ERROR: "Error...",
   LANGUAGES: "Languages",
-  NEW_TAG: "New Tag"
+  NEW_TAG: "New Tag",
+  ENTER_TAG: "Enter Tag"
 };
 
 export default STR;

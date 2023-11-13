@@ -108,7 +108,7 @@ const CardTags = ({ cardID }) => {
         })}
         {showInput ? (
           <TextInput
-            placeholder={STR.NEW_TAG}
+            placeholder={STR.ENTER_TAG}
             ref={inputRef}
             value={tagInput}
             onChange={onInputChange}
