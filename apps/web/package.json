@@ -19,6 +19,7 @@
     "next": "14.0.0",
     "next-auth": "^4.24.4",
     "nextjs-cors": "^2.1.2",
+    "postcss-import": "^15.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-ionicons": "^4.2.1",

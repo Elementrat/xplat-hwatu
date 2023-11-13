@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useContext, ReactNode } from "react";
-import { detect, detectAll } from "tinyld";
+import { detect } from "tinyld";
 import { useCurrentUserCards } from "..";
 import { UIContext } from "..";
 import { createContext } from "react";

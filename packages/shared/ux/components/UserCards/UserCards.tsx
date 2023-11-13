@@ -20,8 +20,8 @@ const UserCards = () => {
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
-        <h2 className="text-xl">
-          {STR.YOUR_CARDS} ({cards?.length})
+        <h2 className="text-md font-bold">
+          {STR.CARDS} ({cards?.length})
         </h2>
       </div>
       <div className={styles.userCards}>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styles from "./GlobalNavigation.module.css";
 import GlobalNavigationLinks from "../GlobalNavigationLinks/GlobalNavigationLinks";
 import AuthManager from "../AuthManager/AuthManager";
@@ -7,9 +7,12 @@ import { UserCards } from "ux";
 import clsx from "clsx";
 import { IonIcon } from "@ionic/react";
 import { menuOutline } from "ionicons/icons";
+import { LanguageList } from "ux";
+import { UIContext } from "xplat-lib";
 
 const GlobalNavigation = () => {
   const [expanded, setExpanded] = useState(false);
+  const { addLanguagePreference, languages } = useContext(UIContext);
 
   const navClasses = clsx({
     [styles.nav]: true,
@@ -29,7 +32,7 @@ const GlobalNavigation = () => {
   return (
     <div className={navClasses}>
       <div className={styles.alwaysVisibleNavContent}>
-        <h2 className="text-2xl text-center">Hwatu</h2>
+        <div className="text-3xl font-bold text-center">Hwatu</div>
         <AuthManager />
         <div onClick={toggleExpanded} className={toggleClasses}>
           <IonIcon
@@ -42,6 +45,7 @@ const GlobalNavigation = () => {
       </div>
       <div className={styles.visibleWhenExpandedNavContent}>
         <UserCards />
+        <LanguageList languages={languages} />
       </div>
     </div>
   );
