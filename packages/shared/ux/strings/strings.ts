@@ -8,7 +8,8 @@ const STR = {
   ENTER_TEXT: "Enter Text",
   SIDE_B: "Side B",
   SUGGESTED: "Suggested",
-  ERROR: "Error..."
+  ERROR: "Error...",
+  LANGUAGES: "Languages"
 };
 
 export default STR;

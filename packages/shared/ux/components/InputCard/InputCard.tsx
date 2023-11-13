@@ -15,11 +15,8 @@ import { CardTags } from "../CardTags/CardTags";
 import { trash } from "ionicons/icons";
 import { Button } from "../Button/Button";
 import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
+import { KEY_CODES } from "xplat-lib";
 import STR from "../../strings/strings";
-
-const KEY_CODES = {
-  ENTER: 13
-};
 
 const ANIMATION_DURATION = 500;
 
