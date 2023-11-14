@@ -1,12 +1,10 @@
 "use client";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
 import { useSession } from "next-auth/react";
 import { postRequest, deleteRequest, patchRequest } from "../util/fetch";
-import { SessionUser } from "..";
+import { CardClass, SessionUser } from "..";
 import { apiBaseURL } from "./config";
-
-const fetcher = (...args: Parameters<typeof fetch>) =>
-  fetch(...args).then((res) => res.json());
+import { SWRState, fetcher, fetchConfigs } from "./swr";
 
 const cardsAPIPath = "/api/cards";
 const cardsAPIURL = `${apiBaseURL}${cardsAPIPath}`;
@@ -15,9 +13,7 @@ function useCards(userID: string) {
   const { data, error, isLoading, mutate, isValidating } = useSWR(
     `${cardsAPIURL}?userID=${userID}`,
     fetcher,
-    {
-      keepPreviousData: true
-    }
+    fetchConfigs.preservePrevious
   );
 
   return {
@@ -29,7 +25,12 @@ function useCards(userID: string) {
   };
 }
 
-function useCurrentUserCards() {
+interface UserCardData extends SWRState{
+  cards: Array<CardClass>,
+  mutate: KeyedMutator<Array<CardClass>>,
+}
+
+function useCurrentUserCards():UserCardData {
   const { data: session } = useSession();
 
   let user = session?.user as SessionUser;
@@ -37,9 +38,7 @@ function useCurrentUserCards() {
   const { data, error, isLoading, mutate, isValidating } = useSWR(
     `${cardsAPIURL}?userID=${user?.id}`,
     fetcher,
-    {
-      keepPreviousData: true
-    }
+    fetchConfigs.preservePrevious
   );
 
   return {
@@ -48,7 +47,7 @@ function useCurrentUserCards() {
     isLoading,
     isValidating,
     isError: error
-  };
+  }
 }
 
 async function createCard(title: string, sideB: string) {

@@ -8,17 +8,17 @@ import { sorts } from "xplat-lib";
 
 const UserFeed = () => {
   const { cards } = useCurrentUserCards();
-  const { searchText } = useContext(UIContext);
+  const { search } = useContext(UIContext);
 
   const cardsSortedNewestFirst = sorts.sortByCreatedDate(cards);
   const displayCards = filters.filterBySearchText(
     cardsSortedNewestFirst,
-    searchText
+    search?.text
   );
 
   return (
     <div className={styles.UserFeed}>
-      {Boolean(!searchText?.length) && <InputCard />}
+      {Boolean(!search?.text?.length) && <InputCard />}
       {displayCards?.map((card) => {
         return <InputCard cardID={card._id} key={card._id} />;
       })}

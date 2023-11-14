@@ -7,7 +7,7 @@ import clsx from "clsx";
 import { ChangeEvent, useContext } from "react";
 
 const GlobalSearch = () => {
-  const { searchText, updateSearchText } = useContext(UIContext);
+  const { search, updateSearchText } = useContext(UIContext);
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (updateSearchText) {
       updateSearchText(e?.currentTarget?.value);
@@ -26,7 +26,7 @@ const GlobalSearch = () => {
         placeholder={isLoading ? STR.LOADING : STR.SEARCH}
         classNames={s.globalSearchInput}
         onChange={onSearchChange}
-        value={searchText}
+        value={search?.text}
       />
     </div>
   );

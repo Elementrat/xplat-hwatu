@@ -16,9 +16,7 @@ const createOption = (label: string) => ({
 
 const MultiSelect = ({
   knownOptions,
-  onClear,
   onCreate,
-  onDeselectOption,
   onRemoveValue,
   onSelectOption,
   values
@@ -83,15 +81,21 @@ const MultiSelect = ({
       onChange={onChange}
       value={value}
       styles={{
+        menu: (baseStyles, state) => ({
+          ...baseStyles,
+          backgroundColor: "black",
+          minWidth: "fit-content"
+        }),
         control: (baseStyles, state) => ({
+          cursor:"pointer",
           ...baseStyles,
           border: "none",
           backgroundColor: "transparent",
           color: "white",
-          minWidth: "150px"
         }),
         container: (baseStyles, state) => ({
-          ...baseStyles
+          ...baseStyles,
+          minWidth: "175px"
         }),
         input: (baseStyles, state) => ({
           ...baseStyles,
@@ -108,6 +112,10 @@ const MultiSelect = ({
         multiValueLabel: (baseStyles, state) => ({
           ...baseStyles,
           color: "white"
+        }),
+        option: (baseStyles, state) => ({
+          ...baseStyles,
+          backgroundColor: state.isFocused ? "rgba(255,255,255,.1)": "rgba(0,0,0,.5)"
         })
       }}
     />

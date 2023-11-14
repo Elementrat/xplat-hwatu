@@ -1,35 +1,21 @@
 "use client";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
 import { useSession } from "next-auth/react";
 import { postRequest, deleteRequest, patchRequest } from "../util/fetch";
-import { SessionUser } from "..";
+import {  SessionUser, TagClass } from "..";
 import { apiBaseURL } from "./config";
-
-const fetcher = (...args: Parameters<typeof fetch>) =>
-  fetch(...args).then((res) => res.json());
+import { SWRState, fetcher } from "./swr";
+import { ObjectId } from "mongoose";
 
 const tagsAPIPath = "/api/tags";
 const tagsAPIURL = `${apiBaseURL}${tagsAPIPath}`;
 
-function useTags(userID: string) {
-  const { data, error, isLoading, mutate, isValidating } = useSWR(
-    `${tagsAPIURL}?userID=${userID}`,
-    fetcher,
-    {
-      keepPreviousData: true
-    }
-  );
-
-  return {
-    tags: data?.tags,
-    mutate,
-    isLoading,
-    isValidating,
-    isError: error
-  };
+interface UserTagData extends SWRState{
+  tags: Array<TagClass>,
+  mutate: KeyedMutator<Array<TagClass>>,
 }
 
-function useCurrentUserTags() {
+function useCurrentUserTags():UserTagData {
   const { data: session } = useSession();
 
   let user = session?.user as SessionUser;
@@ -61,7 +47,7 @@ async function createTag({
   return await postRequest(tagsAPIURL, { title, cards });
 }
 
-async function updateTag({ _id, cards }: { _id: string; cards: Array<string> }) {
+async function updateTag({ _id, cards }: { _id: string | ObjectId; cards: Array<string> }) {
   if (_id) {
     return await patchRequest(`${tagsAPIURL}/${_id}`, { cards });
   }
@@ -76,7 +62,6 @@ async function deleteAllTags() {
 }
 
 export {
-  useTags,
   createTag,
   deleteTag,
   updateTag,

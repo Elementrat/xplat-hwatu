@@ -16,6 +16,7 @@ import { Button } from "../Button/Button";
 import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
 import { KEY_CODES } from "xplat-lib";
 import STR from "../../strings/strings";
+import { fetchConfigs } from "xplat-lib/client-api/swr";
 
 const ANIMATION_DURATION = 500;
 
@@ -66,10 +67,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         const newCards = [...cards, newOrUpdatedCard];
         mutate(
           { cards: newCards },
-          {
-            throwOnError: true,
-            revalidate: false
-          }
+          fetchConfigs.preservePrevious
         );
       }
     } else {
@@ -87,10 +85,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         });
         mutate(
           { cards: newCards },
-          {
-            throwOnError: true,
-            revalidate: false
-          }
+          fetchConfigs.preservePrevious
         );
       }
     }
@@ -140,7 +135,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const onClickDelete = async () => {
     const newCards = cards?.filter((c) => c.id !== cardID);
     if (cardID) {
-      await mutate({ cards: newCards }, { revalidate: false });
+      await mutate({ cards: newCards }, fetchConfigs.preservePrevious);
       await deleteCard({ id: cardID });
     }
   };

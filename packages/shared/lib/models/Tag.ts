@@ -40,7 +40,7 @@ class TagClass {
   title: string;
 
   @prop({ required: true, default: [] })
-  cards: Array<mongoose.Types.ObjectId | string>;
+  cards: Array<mongoose.Types.ObjectId> | Array<string>;
 
   @prop({ required: true })
   userID: mongoose.Types.ObjectId | string;

@@ -1,13 +1,17 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext } from "react";
 import useLocalStorage from "use-local-storage";
 
 import { TranslationProvider } from "./TranslationProvider";
 
 interface PersistentUIState {
-  searchText: string;
-  languages: Array<string>;
+  search?: {
+    text?: string,
+    tags?: Array<string>,
+  }
+  languages?: Array<string>;
+  wow2?: string;
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -16,15 +20,22 @@ interface UIStateAndControls extends PersistentUIState {
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
-  searchText: "",
+  search: {
+    text: "",
+    tags: []
+  },
   languages: ["en", "ko"],
   updateSearchText: Function,
   addLanguagePreference: Function
 };
 
 const defaultPersistentUIState: PersistentUIState = {
-  searchText: "",
-  languages: ["en", "ko"]
+  search: {
+    text: "",
+    tags: []
+  },
+  languages: ["en", "ko"],
+  wow2: 'newkey'
 };
 
 const UIContext = createContext(defaultUIStateAndControls);
@@ -33,8 +44,21 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] =
     useLocalStorage<PersistentUIState>("app-ui", defaultPersistentUIState);
 
+    useEffect(() => {
+      // Determine missing keys, in case user has a cached version of the state 
+      let missingCacheValues= {}
+      for (let [key, val] of Object.entries(defaultPersistentUIState)){
+        if (!Object.keys(persistentUIState).includes(key)){
+          missingCacheValues[key] = val;
+        }
+      }
+      if(Object.keys(missingCacheValues)?.length){
+        setPersistentUIState({...persistentUIState, ...missingCacheValues})
+      }
+    },[persistentUIState])
+  
   const updateSearchText = (newSearchText: string) => {
-    setPersistentUIState({ ...persistentUIState, searchText: newSearchText });
+    setPersistentUIState({ ...persistentUIState, search: {...persistentUIState.search, text: newSearchText} });
   };
 
   const addLanguagePreference = (newLanguageCode: string) => {

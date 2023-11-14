@@ -9,7 +9,7 @@ const sortByCreatedDate = (cards: Array<any>) => {
   return cardsSortedNewestFirst;
 };
 
-const filterBySearchText = (cards:Array<any>, searchText:string) => {
+const filterBySearchText = (cards:Array<any>, searchText?:string) => {
 
   let displayCards = cards;
   let searchTextLowerCase = searchText?.toLowerCase();

@@ -1,38 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 
 import styles from "./CardTags.module.css";
-import { Button } from "../Button/Button";
-import { bookmarks } from "ionicons/icons";
-import { TextInput } from "ux";
-import { add } from "ionicons/icons";
-import { KEY_CODES, createTag } from "xplat-lib";
+import { TagClass, createTag } from "xplat-lib";
 import { useCurrentUserTags, updateTag } from "xplat-lib/client-api/tags";
 import { MultiSelect } from "../MultiSelect/MultiSelect";
-import STR from "../../strings/strings";
+import { fetchConfigs } from "xplat-lib/client-api/swr";
 
 const CardTags = ({ cardID }) => {
-  const [showInput, setShowInput] = useState(false);
-  const [tagInput, setTagInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { tags, mutate } = useCurrentUserTags();
 
   const cardTags = tags?.filter((tag) => tag.cards?.includes(cardID));
-
-  const toggleShowInput = () => {
-    setShowInput(!showInput);
-    setTimeout(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    }, 200);
-  };
-
-  const onInputChange = (e) => {
-    if (e.target) {
-      setTagInput(e.target.value);
-    }
-  };
 
   const tryCreateTag = async (title) => {
     let existingTagWithTitle = tags?.find((tag) => tag.title === title);
@@ -42,7 +21,7 @@ const CardTags = ({ cardID }) => {
         title,
         cards: cardID ? [cardID] : []
       });
-      let newTag = createResult?.data?.tag;
+      let newTag = createResult?.data?.tag as TagClass;
       if (newTag) {
         const newTags = [...tags, newTag];
         mutate(
@@ -52,7 +31,6 @@ const CardTags = ({ cardID }) => {
             revalidate: false
           }
         );
-        setTagInput("");
       }
     }
   };
@@ -62,34 +40,31 @@ const CardTags = ({ cardID }) => {
       (tag) => tag.title === selectedOption.value
     );
 
-    const newTagListForCard = [...existingTagWithTitle.cards, cardID];
+    if(existingTagWithTitle){
+      const newTagListForCard = [...existingTagWithTitle.cards, cardID];
 
-    const updateResult = await updateTag({
-      _id: existingTagWithTitle._id,
-      cards: newTagListForCard
-    });
-
-    const updatedTag = updateResult?.data?.tag;
-
-    if (updatedTag) {
-      const newTags = tags?.map((tag) => {
-        return tag?._id === existingTagWithTitle._id
-          ? { ...tag, cards: newTagListForCard }
-          : tag;
+      const updateResult = await updateTag({
+        _id: existingTagWithTitle._id,
+        cards: newTagListForCard
       });
-      mutate(
-        { tags: newTags },
-        {
-          throwOnError: true,
-          revalidate: false
-        }
-      );
-    }
-  };
+
+      const updatedTag = updateResult?.data?.tag as TagClass | null;
+
+      if (updatedTag && existingTagWithTitle) {
+        const newTags = tags?.map((tag) => {
+          return tag._id !== null && tag?._id === existingTagWithTitle._id
+            ? { ...tag, cards: newTagListForCard }
+            : tag;
+        });
+        mutate(
+          { tags: newTags },
+          fetchConfigs.preservePrevious
+        );
+      }
+    };
+  }
 
   const onRemoveValue = async (target) => {
-    console.log("__ON_REMOVE", target);
-
     const clickedTag = tags.find((e) => e.title === target);
 
     if (clickedTag?._id) {
@@ -109,13 +84,8 @@ const CardTags = ({ cardID }) => {
 
       mutate(
         { tags: newTags },
-        {
-          throwOnError: true,
-          revalidate: false
-        }
+        fetchConfigs.preservePrevious
       );
-
-      setTagInput("");
     }
   };
 
@@ -129,28 +99,18 @@ const CardTags = ({ cardID }) => {
     }
   }, [inputRef]);
 
-  const dataListOptions = tags?.map((tag) => {
-    return { label: tag.title, value: tag.title };
-  });
+  const dataListOptions = useMemo(() => {
+    const results =  tags?.map((tag) => {
+      return { label: tag.title, value: tag.title };
+    })
+    return results;
+  }, [tags])
+
 
   const cardTagValues = cardTags?.map((tag) => {
     return { label: tag.title, value: tag.title };
   });
 
-  /*
-          {cardTags?.map((tag) => {
-          return (
-            <div
-              className={styles.cardTag}
-              onClick={() => onClickedTag(tag)}
-              key={tag.title}
-            >
-              <span className={styles.hashTag}>#</span>
-              {tag.title}
-            </div>
-          );
-        })}
-        */
   return (
     <div className={styles.cardTags}>
       <div className={styles.tagList}>
