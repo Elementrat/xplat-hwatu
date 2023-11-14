@@ -33,14 +33,71 @@ const CardTags = ({ cardID }) => {
     }
   };
 
-  const tryCreateTag = async () => {
-    const createResult = await createTag({
-      title: tagInput,
-      cards: cardID ? [cardID] : []
-    });
-    let newOrUpdatedTag = createResult?.data?.tag;
-    if (newOrUpdatedTag) {
-      const newTags = [...tags, newOrUpdatedTag];
+  const tryCreateTag = async (dirtyTagTitle) => {
+    let existingTagWithTitle = tags?.find(
+      (tag) => tag.title === dirtyTagTitle || tagInput
+    );
+    console.log("EXIST", dirtyTagTitle, existingTagWithTitle);
+
+    if (!existingTagWithTitle) {
+      const createResult = await createTag({
+        title: tagInput,
+        cards: cardID ? [cardID] : []
+      });
+      let newTag = createResult?.data?.tag;
+      if (newTag) {
+        const newTags = [...tags, newTag];
+        mutate(
+          { tags: newTags },
+          {
+            throwOnError: true,
+            revalidate: false
+          }
+        );
+        setTagInput("");
+      }
+    } else {
+      const newTagListForCard = [...existingTagWithTitle.cards, cardID];
+      const updateResult = await updateTag({
+        _id: existingTagWithTitle._id,
+        cards: newTagListForCard
+      });
+
+      const updatedTag = updateResult?.data?.tag;
+
+      if (updatedTag) {
+        const newTags = tags.map((tag) => {
+          return tag?._id === existingTagWithTitle._id
+            ? { ...tag, cards: newTagListForCard }
+            : tag;
+        });
+        mutate(
+          { tags: newTags },
+          {
+            throwOnError: true,
+            revalidate: false
+          }
+        );
+      }
+    }
+  };
+
+  const onClickedTag = async (clickedTag) => {
+    if (clickedTag?._id) {
+      const tagCards = clickedTag?.cards;
+      let newTagCards = tagCards?.filter((id) => id !== cardID);
+
+      const newTags = tags.map((tag) => {
+        return tag?._id === clickedTag._id
+          ? { ...tag, cards: newTagCards }
+          : tag;
+      });
+
+      updateTag({
+        _id: clickedTag?._id,
+        cards: newTagCards
+      });
+
       mutate(
         { tags: newTags },
         {
@@ -49,42 +106,15 @@ const CardTags = ({ cardID }) => {
         }
       );
 
-      console.log("__NEW_OR_UPDATED", newOrUpdatedTag, newTags)
       setTagInput("");
     }
   };
 
-  const onClickedTag = async (clickedTag) => {
-    if(clickedTag?._id){
-    const tagCards = clickedTag?.cards;
-    let newTagCards = tagCards?.filter((id) => id !== cardID);
-
-    const newTags = tags.map((tag) => {
-      return tag?._id === clickedTag._id
-        ? { ...tag, cards: newTagCards }
-        : tag;
-    });
-
-    updateTag({
-      _id: clickedTag?._id,
-      cards: newTagCards
-    });
-
-    mutate(
-      { tags: newTags },
-      {
-        throwOnError: true,
-        revalidate: false
-      }
-    );
-
-    setTagInput("");
-    }
-  };
-
   const onInputKeyDown = (e) => {
-    if (e.keyCode === KEY_CODES.ENTER) {
-      tryCreateTag();
+    // keycode is undefined if the event was from the datalist
+    if (e.keyCode === KEY_CODES.ENTER || !e.keyCode) {
+      console.log("__E", e.target.value);
+      tryCreateTag(e.target.value);
     }
   };
 
@@ -93,6 +123,8 @@ const CardTags = ({ cardID }) => {
       inputRef.current.focus();
     }
   }, [inputRef]);
+
+  const dataListOptions = tags?.map((tag) => tag.title)?.slice(0, 3);
 
   return (
     <div className={styles.cardTags}>
@@ -111,13 +143,17 @@ const CardTags = ({ cardID }) => {
           );
         })}
         {showInput ? (
-          <TextInput
-            placeholder={STR.ENTER_TAG}
-            ref={inputRef}
-            value={tagInput}
-            onChange={onInputChange}
-            onKeyDown={onInputKeyDown}
-          />
+          <>
+            <TextInput
+              placeholder={STR.ENTER_TAG}
+              ref={inputRef}
+              value={tagInput}
+              onChange={onInputChange}
+              onKeyDown={onInputKeyDown}
+              inputID={cardID}
+              dataListOptions={dataListOptions}
+            />
+          </>
         ) : (
           <Button icon={add} onClick={toggleShowInput} />
         )}

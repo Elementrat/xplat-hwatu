@@ -39,7 +39,7 @@ class CardClass {
   @prop({ required: true })
   title: string;
 
-  @prop({ required: true })
+  @prop()
   sideB: string;
 
   @prop({ required: true })

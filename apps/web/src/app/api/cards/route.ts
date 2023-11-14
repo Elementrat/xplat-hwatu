@@ -82,6 +82,7 @@ export async function POST(request: Request) {
       sideB: body.sideB,
       userID
     });
+
     if (error) {
       throw error;
     }
