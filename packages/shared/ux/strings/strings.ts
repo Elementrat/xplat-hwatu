@@ -12,7 +12,8 @@ const STR = {
   ERROR: "Error...",
   LANGUAGES: "Languages",
   NEW_TAG: "New Tag",
-  ENTER_TAG: "Enter Tag"
+  ENTER_TAG: "Enter Tag",
+  CREATE_TAG: " Create Tag"
 };
 
 export default STR;

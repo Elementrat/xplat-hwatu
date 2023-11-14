@@ -7,6 +7,7 @@ import { TextInput } from "ux";
 import { add } from "ionicons/icons";
 import { KEY_CODES, createTag } from "xplat-lib";
 import { useCurrentUserTags, updateTag } from "xplat-lib/client-api/tags";
+import { MultiSelect } from "../MultiSelect/MultiSelect";
 import STR from "../../strings/strings";
 
 const CardTags = ({ cardID }) => {
@@ -33,15 +34,12 @@ const CardTags = ({ cardID }) => {
     }
   };
 
-  const tryCreateTag = async (dirtyTagTitle) => {
-    let existingTagWithTitle = tags?.find(
-      (tag) => tag.title === dirtyTagTitle || tagInput
-    );
-    console.log("EXIST", dirtyTagTitle, existingTagWithTitle);
+  const tryCreateTag = async (title) => {
+    let existingTagWithTitle = tags?.find((tag) => tag.title === title);
 
     if (!existingTagWithTitle) {
       const createResult = await createTag({
-        title: tagInput,
+        title,
         cards: cardID ? [cardID] : []
       });
       let newTag = createResult?.data?.tag;
@@ -56,33 +54,44 @@ const CardTags = ({ cardID }) => {
         );
         setTagInput("");
       }
-    } else {
-      const newTagListForCard = [...existingTagWithTitle.cards, cardID];
-      const updateResult = await updateTag({
-        _id: existingTagWithTitle._id,
-        cards: newTagListForCard
-      });
-
-      const updatedTag = updateResult?.data?.tag;
-
-      if (updatedTag) {
-        const newTags = tags.map((tag) => {
-          return tag?._id === existingTagWithTitle._id
-            ? { ...tag, cards: newTagListForCard }
-            : tag;
-        });
-        mutate(
-          { tags: newTags },
-          {
-            throwOnError: true,
-            revalidate: false
-          }
-        );
-      }
     }
   };
 
-  const onClickedTag = async (clickedTag) => {
+  const onSelectOption = async (selectedOption) => {
+    let existingTagWithTitle = tags?.find(
+      (tag) => tag.title === selectedOption.value
+    );
+
+    const newTagListForCard = [...existingTagWithTitle.cards, cardID];
+
+    const updateResult = await updateTag({
+      _id: existingTagWithTitle._id,
+      cards: newTagListForCard
+    });
+
+    const updatedTag = updateResult?.data?.tag;
+
+    if (updatedTag) {
+      const newTags = tags.map((tag) => {
+        return tag?._id === existingTagWithTitle._id
+          ? { ...tag, cards: newTagListForCard }
+          : tag;
+      });
+      mutate(
+        { tags: newTags },
+        {
+          throwOnError: true,
+          revalidate: false
+        }
+      );
+    }
+  };
+
+  const onRemoveValue = async (target) => {
+    console.log("__ON_REMOVE", target);
+
+    const clickedTag = tags.find((e) => e.title === target);
+
     if (clickedTag?._id) {
       const tagCards = clickedTag?.cards;
       let newTagCards = tagCards?.filter((id) => id !== cardID);
@@ -110,12 +119,8 @@ const CardTags = ({ cardID }) => {
     }
   };
 
-  const onInputKeyDown = (e) => {
-    // keycode is undefined if the event was from the datalist
-    if (e.keyCode === KEY_CODES.ENTER || !e.keyCode) {
-      console.log("__E", e.target.value);
-      tryCreateTag(e.target.value);
-    }
+  const onCreateOption = (title) => {
+    tryCreateTag(title);
   };
 
   useEffect(() => {
@@ -124,13 +129,16 @@ const CardTags = ({ cardID }) => {
     }
   }, [inputRef]);
 
-  const dataListOptions = tags?.map((tag) => tag.title)?.slice(0, 3);
+  const dataListOptions = tags?.map((tag) => {
+    return { label: tag.title, value: tag.title };
+  });
 
-  return (
-    <div className={styles.cardTags}>
-      <Button icon={bookmarks} />
-      <div className={styles.tagList}>
-        {cardTags?.map((tag) => {
+  const cardTagValues = cardTags.map((tag) => {
+    return { label: tag.title, value: tag.title };
+  });
+
+  /*
+          {cardTags?.map((tag) => {
           return (
             <div
               className={styles.cardTag}
@@ -142,21 +150,17 @@ const CardTags = ({ cardID }) => {
             </div>
           );
         })}
-        {showInput ? (
-          <>
-            <TextInput
-              placeholder={STR.ENTER_TAG}
-              ref={inputRef}
-              value={tagInput}
-              onChange={onInputChange}
-              onKeyDown={onInputKeyDown}
-              inputID={cardID}
-              dataListOptions={dataListOptions}
-            />
-          </>
-        ) : (
-          <Button icon={add} onClick={toggleShowInput} />
-        )}
+        */
+  return (
+    <div className={styles.cardTags}>
+      <div className={styles.tagList}>
+        <MultiSelect
+          values={cardTagValues}
+          knownOptions={dataListOptions}
+          onSelectOption={onSelectOption}
+          onCreate={onCreateOption}
+          onRemoveValue={onRemoveValue}
+        />
       </div>
     </div>
   );

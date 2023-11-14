@@ -9,6 +9,7 @@
     "format": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
+    "react-select": "^5.8.0",
     "xplat-lib": "*"
   },
   "devDependencies": {
