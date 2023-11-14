@@ -61,9 +61,9 @@ async function createTag({
   return await postRequest(tagsAPIURL, { title, cards });
 }
 
-async function updateTag({ id, cards }: { id: string; cards: Array<string> }) {
-  if (id) {
-    return await patchRequest(`${tagsAPIURL}/${id}`, { cards });
+async function updateTag({ _id, cards }: { _id: string; cards: Array<string> }) {
+  if (_id) {
+    return await patchRequest(`${tagsAPIURL}/${_id}`, { cards });
   }
 }
 

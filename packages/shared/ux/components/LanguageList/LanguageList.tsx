@@ -8,7 +8,7 @@ const LanguageList = ({ languages }) => {
       <div className="text-md font-black">{STR.LANGUAGES}</div>
       <div className="flex gap-3">
         {languages.map((lang) => {
-          return <div>{lang}</div>;
+          return <div key={lang}>{lang}</div>;
         })}
       </div>
     </div>

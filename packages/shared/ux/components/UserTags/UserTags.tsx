@@ -5,9 +5,11 @@ import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { ErrorIndicator } from "../ErrorIndicator/ErrorIndicator";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import STR from "../../strings/strings";
+import { useCurrentUserCards, filters } from "xplat-lib";
 
 const UserTags = () => {
   const { tags, isLoading, isError } = useCurrentUserTags();
+  const { cards } = useCurrentUserCards();
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -17,7 +19,7 @@ const UserTags = () => {
     return <ErrorIndicator />;
   }
 
-  const displayTags = tags?.filter((tag) => tag?.cards?.length > 0);
+  const displayTags = filters.filterTagsWithCards(tags, cards);
 
   return (
     <div>

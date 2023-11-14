@@ -1,3 +1,4 @@
+import { CardClass, TagClass } from "..";
 
 const sortByCreatedDate = (cards: Array<any>) => {
   const cardsSortedNewestFirst =
@@ -26,12 +27,25 @@ const filterBySearchText = (cards:Array<any>, searchText:string) => {
   return displayCards;
 }
 
+const filterTagsWithCards = (tags:Array<TagClass>, cards:Array<CardClass>) => {
+  let prelimResults =  tags?.filter((t) => t?.cards?.length > 0);
+  let tagsWithCorrespondingCard = prelimResults?.filter((t) => {
+    let matchingCardFound = cards.find((card) => t.cards.includes(card.id))
+    if(matchingCardFound){
+      return true;
+    }
+  });
+
+  return tagsWithCorrespondingCard;
+}
+
 const sorts = {
   sortByCreatedDate
 }
 
 const filters = {
-  filterBySearchText
+  filterBySearchText,
+  filterTagsWithCards
 }
 
-export {sorts, filters}
+export { sorts, filters}

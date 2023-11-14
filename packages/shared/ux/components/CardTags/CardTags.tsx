@@ -48,22 +48,25 @@ const CardTags = ({ cardID }) => {
           revalidate: false
         }
       );
+
+      console.log("__NEW_OR_UPDATED", newOrUpdatedTag, newTags)
       setTagInput("");
     }
   };
 
   const onClickedTag = async (clickedTag) => {
+    if(clickedTag?._id){
     const tagCards = clickedTag?.cards;
     let newTagCards = tagCards?.filter((id) => id !== cardID);
 
     const newTags = tags.map((tag) => {
-      return tag?.id === clickedTag.id
-        ? { ...clickedTag, cards: newTagCards }
+      return tag?._id === clickedTag._id
+        ? { ...tag, cards: newTagCards }
         : tag;
     });
 
     updateTag({
-      id: clickedTag?.id,
+      _id: clickedTag?._id,
       cards: newTagCards
     });
 
@@ -76,6 +79,7 @@ const CardTags = ({ cardID }) => {
     );
 
     setTagInput("");
+    }
   };
 
   const onInputKeyDown = (e) => {
