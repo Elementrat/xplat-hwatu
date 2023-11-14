@@ -72,7 +72,7 @@ const CardTags = ({ cardID }) => {
     const updatedTag = updateResult?.data?.tag;
 
     if (updatedTag) {
-      const newTags = tags.map((tag) => {
+      const newTags = tags?.map((tag) => {
         return tag?._id === existingTagWithTitle._id
           ? { ...tag, cards: newTagListForCard }
           : tag;
@@ -96,7 +96,7 @@ const CardTags = ({ cardID }) => {
       const tagCards = clickedTag?.cards;
       let newTagCards = tagCards?.filter((id) => id !== cardID);
 
-      const newTags = tags.map((tag) => {
+      const newTags = tags?.map((tag) => {
         return tag?._id === clickedTag._id
           ? { ...tag, cards: newTagCards }
           : tag;
@@ -133,7 +133,7 @@ const CardTags = ({ cardID }) => {
     return { label: tag.title, value: tag.title };
   });
 
-  const cardTagValues = cardTags.map((tag) => {
+  const cardTagValues = cardTags?.map((tag) => {
     return { label: tag.title, value: tag.title };
   });
 
