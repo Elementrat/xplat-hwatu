@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
+import Select from "react-select";
 import STR from "../../strings/strings";
 
 interface Option {
@@ -14,12 +15,61 @@ const createOption = (label: string) => ({
   value: label?.toLowerCase()?.replace(/\W/g, "")
 });
 
+const getSelectStyles = (isCreate) => {
+  const styles = {
+    menu: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: "black",
+      minWidth: "fit-content",
+      position: isCreate ? "absolute" : "relative"
+    }),
+    control: (baseStyles, state) => ({
+      cursor: "pointer",
+      ...baseStyles,
+      border: "none",
+      backgroundColor: "transparent",
+      color: "white"
+    }),
+    container: (baseStyles, state) => ({
+      ...baseStyles,
+      minWidth: "175px"
+    }),
+    input: (baseStyles, state) => ({
+      ...baseStyles,
+      color: "white"
+    }),
+    valueContainer: (baseStyles, state) => ({
+      ...baseStyles,
+      color: "white"
+    }),
+    multiValue: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: "rgba(0,0,0,.5)"
+    }),
+    multiValueLabel: (baseStyles, state) => ({
+      ...baseStyles,
+      color: "white"
+    }),
+    option: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: state.isFocused
+        ? "rgba(255,255,255,.1)"
+        : "rgba(0,0,0,.5)"
+    })
+  };
+  return styles;
+};
+
 const MultiSelect = ({
   knownOptions,
   onCreate,
   onRemoveValue,
   onSelectOption,
-  values
+  onInputChange,
+  onKeyDown,
+  values,
+  placeholder,
+  createable
 }) => {
   const [value, setValue] = useState<Array<Option> | null>(values);
   const [options, setOptions] = useState(knownOptions);
@@ -40,6 +90,7 @@ const MultiSelect = ({
   };
 
   const onChange = (e, b) => {
+    if (!value) return;
     switch (b?.action) {
       case "select-option":
         {
@@ -68,56 +119,47 @@ const MultiSelect = ({
         break;
     }
   };
-  return (
+
+  const handleKeydown = (e) => {
+    if (onKeyDown) {
+      onKeyDown(e.target.value);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    if (onInputChange) {
+      onInputChange(e);
+    }
+  };
+
+  return createable ? (
     <CreatableSelect
       isMulti
+      isSearchable
       name="colors"
       noOptionsMessage={() => STR.CREATE_TAG}
       options={options}
-      placeholder="Tags"
+      placeholder={placeholder}
       className="basic-multi-select"
       classNamePrefix="select"
       onCreateOption={onCreateOption}
       onChange={onChange}
       value={value}
-      styles={{
-        menu: (baseStyles, state) => ({
-          ...baseStyles,
-          backgroundColor: "black",
-          minWidth: "fit-content"
-        }),
-        control: (baseStyles, state) => ({
-          cursor:"pointer",
-          ...baseStyles,
-          border: "none",
-          backgroundColor: "transparent",
-          color: "white",
-        }),
-        container: (baseStyles, state) => ({
-          ...baseStyles,
-          minWidth: "175px"
-        }),
-        input: (baseStyles, state) => ({
-          ...baseStyles,
-          color: "white"
-        }),
-        valueContainer: (baseStyles, state) => ({
-          ...baseStyles,
-          color: "white"
-        }),
-        multiValue: (baseStyles, state) => ({
-          ...baseStyles,
-          backgroundColor: "rgba(0,0,0,.5)"
-        }),
-        multiValueLabel: (baseStyles, state) => ({
-          ...baseStyles,
-          color: "white"
-        }),
-        option: (baseStyles, state) => ({
-          ...baseStyles,
-          backgroundColor: state.isFocused ? "rgba(255,255,255,.1)": "rgba(0,0,0,.5)"
-        })
-      }}
+      styles={getSelectStyles(true)}
+    />
+  ) : (
+    <Select
+      isMulti
+      name="colors"
+      noOptionsMessage={() => null}
+      options={options}
+      placeholder={placeholder}
+      className="basic-multi-select"
+      classNamePrefix="select"
+      onChange={onChange}
+      styles={getSelectStyles(false)}
+      onInputChange={handleInputChange}
+      onKeyDown={handleKeydown}
     />
   );
 };

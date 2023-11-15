@@ -9,9 +9,12 @@ const sortByCreatedDate = (cards: Array<any>) => {
   return cardsSortedNewestFirst;
 };
 
-const filterBySearchText = (cards:Array<any>, searchText?:string) => {
-
+const filterBySearchText = (cards: Array<any>, searchText?: string) => {
+  if (!searchText) {
+    return cards;
+  }
   let displayCards = cards;
+  console.log("__SEARCH_TEXT", searchText);
   let searchTextLowerCase = searchText?.toLowerCase();
 
   if (searchTextLowerCase && displayCards?.length) {
@@ -25,27 +28,30 @@ const filterBySearchText = (cards:Array<any>, searchText?:string) => {
     });
   }
   return displayCards;
-}
+};
 
-const filterTagsWithCards = (tags:Array<TagClass>, cards:Array<CardClass>) => {
-  let prelimResults =  tags?.filter((t) => t?.cards?.length > 0);
+const filterTagsWithCards = (
+  tags: Array<TagClass>,
+  cards: Array<CardClass>
+) => {
+  let prelimResults = tags?.filter((t) => t?.cards?.length > 0);
   let tagsWithCorrespondingCard = prelimResults?.filter((t) => {
-    let matchingCardFound = cards.find((card) => t.cards.includes(card.id))
-    if(matchingCardFound){
+    let matchingCardFound = cards.find((card) => t.cards.includes(card.id));
+    if (matchingCardFound) {
       return true;
     }
   });
 
   return tagsWithCorrespondingCard;
-}
+};
 
 const sorts = {
   sortByCreatedDate
-}
+};
 
 const filters = {
   filterBySearchText,
   filterTagsWithCards
-}
+};
 
-export { sorts, filters}
+export { sorts, filters };

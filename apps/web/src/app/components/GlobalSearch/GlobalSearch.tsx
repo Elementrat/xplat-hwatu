@@ -5,14 +5,13 @@ import s from "./GlobalSearch.module.css";
 import { TextInput, STR } from "ux";
 import clsx from "clsx";
 import { ChangeEvent, useContext } from "react";
+import { useCurrentUserTags } from "xplat-lib/client-api/tags";
+import { MultiSelect } from "ux";
 
 const GlobalSearch = () => {
   const { search, updateSearchText } = useContext(UIContext);
-  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (updateSearchText) {
-      updateSearchText(e?.currentTarget?.value);
-    }
-  };
+  const { tags } = useCurrentUserTags();
+
   const { cards, isLoading } = useCurrentUserCards();
 
   const classes = clsx({
@@ -20,13 +19,28 @@ const GlobalSearch = () => {
     [s.show]: cards?.length > 0
   });
 
+  const searchTagValues = tags?.map((tag) => {
+    return { label: tag.title, value: tag.title };
+  });
+
+  const onSelectOption = () => {};
+
+  const onRemoveValue = () => {};
+
+  const onSearchChange = (newSearchText: string) => {
+    if (newSearchText) {
+      updateSearchText(newSearchText);
+    }
+  };
+
   return (
     <div className={classes}>
-      <TextInput
-        placeholder={isLoading ? STR.LOADING : STR.SEARCH}
-        classNames={s.globalSearchInput}
-        onChange={onSearchChange}
-        value={search?.text}
+      <MultiSelect
+        knownOptions={searchTagValues}
+        onSelectOption={onSelectOption}
+        onRemoveValue={onRemoveValue}
+        placeholder={"Search"}
+        onInputChange={onSearchChange}
       />
     </div>
   );

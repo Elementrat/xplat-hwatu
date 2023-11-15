@@ -5,6 +5,7 @@ import { TagClass, createTag } from "xplat-lib";
 import { useCurrentUserTags, updateTag } from "xplat-lib/client-api/tags";
 import { MultiSelect } from "../MultiSelect/MultiSelect";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
+import STR from "../../strings/strings";
 
 const CardTags = ({ cardID }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,7 +41,7 @@ const CardTags = ({ cardID }) => {
       (tag) => tag.title === selectedOption.value
     );
 
-    if(existingTagWithTitle){
+    if (existingTagWithTitle) {
       const newTagListForCard = [...existingTagWithTitle.cards, cardID];
 
       const updateResult = await updateTag({
@@ -56,13 +57,10 @@ const CardTags = ({ cardID }) => {
             ? { ...tag, cards: newTagListForCard }
             : tag;
         });
-        mutate(
-          { tags: newTags },
-          fetchConfigs.preservePrevious
-        );
+        mutate({ tags: newTags }, fetchConfigs.preservePrevious);
       }
-    };
-  }
+    }
+  };
 
   const onRemoveValue = async (target) => {
     const clickedTag = tags.find((e) => e.title === target);
@@ -82,10 +80,7 @@ const CardTags = ({ cardID }) => {
         cards: newTagCards
       });
 
-      mutate(
-        { tags: newTags },
-        fetchConfigs.preservePrevious
-      );
+      mutate({ tags: newTags }, fetchConfigs.preservePrevious);
     }
   };
 
@@ -100,12 +95,11 @@ const CardTags = ({ cardID }) => {
   }, [inputRef]);
 
   const dataListOptions = useMemo(() => {
-    const results =  tags?.map((tag) => {
+    const results = tags?.map((tag) => {
       return { label: tag.title, value: tag.title };
-    })
+    });
     return results;
-  }, [tags])
-
+  }, [tags]);
 
   const cardTagValues = cardTags?.map((tag) => {
     return { label: tag.title, value: tag.title };
@@ -115,6 +109,8 @@ const CardTags = ({ cardID }) => {
     <div className={styles.cardTags}>
       <div className={styles.tagList}>
         <MultiSelect
+          placeholder={STR.TAGS}
+          createable={true}
           values={cardTagValues}
           knownOptions={dataListOptions}
           onSelectOption={onSelectOption}
