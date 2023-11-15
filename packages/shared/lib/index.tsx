@@ -9,7 +9,6 @@ import {
 } from "./client-api/cards";
 
 import {
-  useTags,
   createTag,
   deleteTag,
   updateTag,
@@ -46,6 +45,7 @@ export {
   TagClass,
   useCards,
   useCurrentUserCards,
+  useCurrentUserTags,
   createCard,
   updateCard,
   deleteCard,

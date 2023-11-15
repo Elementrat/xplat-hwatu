@@ -9,7 +9,7 @@ import { MultiSelect, STR } from "ux";
 import { filters } from "xplat-lib";
 
 const GlobalSearch = () => {
-  const { search, updateSearchText } = useContext(UIContext);
+  const { search, updateSearchText, updateSearchTags } = useContext(UIContext);
   const { tags } = useCurrentUserTags();
 
   const { cards } = useCurrentUserCards();
@@ -19,8 +19,16 @@ const GlobalSearch = () => {
     [s.show]: cards?.length > 0
   });
 
-  const onSelectOption = () => {
-    console.log("__SELECTO");
+  const onSelectOption = (e) => {
+    if (search?.tags?.includes(e.value)) {
+      const newSearchTags = search.tags.filter((tag) => tag !== e.value);
+      updateSearchTags(newSearchTags);
+    } else {
+      const newSearchTags = [...search?.tags, e.value];
+      console.log("__AD", e);
+      updateSearchTags(newSearchTags);
+      updateSearchText("BRO WHAT");
+    }
   };
 
   const onRemoveValue = () => {};
@@ -34,8 +42,6 @@ const GlobalSearch = () => {
       return { label: tag.title, value: tag.title };
     });
   }, [tags, cards]);
-
-  console.log("__INIT", search?.text);
 
   return (
     <div className={classes}>

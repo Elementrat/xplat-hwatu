@@ -17,6 +17,7 @@ interface PersistentUIState {
 interface UIStateAndControls extends PersistentUIState {
   updateSearchText: Function;
   addLanguagePreference: Function;
+  updateSearchTags: Function;
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
@@ -26,6 +27,7 @@ const defaultUIStateAndControls: UIStateAndControls = {
   },
   languages: ["en", "ko"],
   updateSearchText: Function,
+  updateSearchTags: Function,
   addLanguagePreference: Function
 };
 
@@ -64,6 +66,15 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const updateSearchTags = (newSearchTags: Array<string>) => {
+    console.log("__SETTNG", newSearchTags);
+    setPersistentUIState({
+      ...persistentUIState,
+      search: { ...persistentUIState.search, tags: ["WWOW"], text: "wtf" }
+    });
+    updateSearchText("BRO_ HUH");
+  };
+
   const addLanguagePreference = (newLanguageCode: string) => {
     setPersistentUIState({
       ...persistentUIState,
@@ -74,6 +85,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const sharedUI: UIStateAndControls = {
     ...persistentUIState,
     updateSearchText,
+    updateSearchTags,
     addLanguagePreference
   };
   return (

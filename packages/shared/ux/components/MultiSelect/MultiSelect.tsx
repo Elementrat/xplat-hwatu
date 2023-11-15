@@ -98,7 +98,9 @@ const MultiSelect = ({
             onSelectOption(b.option);
             const newValue = [...(value || []), b.option];
             setValue(newValue);
-            onInputChange("");
+            if (onInputChange) {
+              onInputChange("");
+            }
           }
         }
         break;
