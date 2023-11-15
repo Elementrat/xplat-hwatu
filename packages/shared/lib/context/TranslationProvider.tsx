@@ -41,7 +41,7 @@ const TranslationProvider = ({ children }: { children: ReactNode }) => {
     let targetLang;
 
     if (!KNOWN_LANGS.SOURCES.includes(sourceLang)) {
-      let nonEnglishPrefLang = languages.find((e) => e !== "en");
+      let nonEnglishPrefLang = languages?.find((e) => e !== "en");
       if (nonEnglishPrefLang) {
         sourceLang = nonEnglishPrefLang;
       } else {
@@ -50,7 +50,7 @@ const TranslationProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (KNOWN_LANGS.SOURCES.includes(sourceLang)) {
-      targetLang = languages.find(
+      targetLang = languages?.find(
         (languagePref) =>
           languagePref !== sourceLang &&
           KNOWN_LANGS.TARGETS.includes(languagePref)

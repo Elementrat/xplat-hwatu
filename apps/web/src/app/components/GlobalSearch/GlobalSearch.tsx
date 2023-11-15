@@ -1,45 +1,50 @@
 "use client";
+import React, { useMemo } from "react";
 import { UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
-
-import { TextInput, STR } from "ux";
 import clsx from "clsx";
-import { ChangeEvent, useContext } from "react";
+import { useContext } from "react";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
-import { MultiSelect } from "ux";
+import { MultiSelect, STR } from "ux";
+import { filters } from "xplat-lib";
 
 const GlobalSearch = () => {
   const { search, updateSearchText } = useContext(UIContext);
   const { tags } = useCurrentUserTags();
 
-  const { cards, isLoading } = useCurrentUserCards();
+  const { cards } = useCurrentUserCards();
 
   const classes = clsx({
     [s.globalSearch]: true,
     [s.show]: cards?.length > 0
   });
 
-  const searchTagValues = tags?.map((tag) => {
-    return { label: tag.title, value: tag.title };
-  });
-
-  const onSelectOption = () => {};
+  const onSelectOption = () => {
+    console.log("__SELECTO");
+  };
 
   const onRemoveValue = () => {};
 
-  const onSearchChange = (newSearchText: string) => {
-    if (newSearchText) {
-      updateSearchText(newSearchText);
-    }
+  const onSearchChange = (newSearchText?: string) => {
+    updateSearchText(newSearchText);
   };
+
+  const displayTags = useMemo(() => {
+    return filters.filterTagsWithCards(tags, cards).map((tag) => {
+      return { label: tag.title, value: tag.title };
+    });
+  }, [tags, cards]);
+
+  console.log("__INIT", search?.text);
 
   return (
     <div className={classes}>
       <MultiSelect
-        knownOptions={searchTagValues}
+        initialValue={search?.text}
+        knownOptions={displayTags}
         onSelectOption={onSelectOption}
         onRemoveValue={onRemoveValue}
-        placeholder={"Search"}
+        placeholder={STR.SEARCH}
         onInputChange={onSearchChange}
       />
     </div>

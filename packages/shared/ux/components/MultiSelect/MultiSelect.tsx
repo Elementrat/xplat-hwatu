@@ -62,6 +62,7 @@ const getSelectStyles = (isCreate) => {
 
 const MultiSelect = ({
   knownOptions,
+  initialValue,
   onCreate,
   onRemoveValue,
   onSelectOption,
@@ -90,14 +91,14 @@ const MultiSelect = ({
   };
 
   const onChange = (e, b) => {
-    if (!value) return;
     switch (b?.action) {
       case "select-option":
         {
           if (onSelectOption) {
             onSelectOption(b.option);
-            const newValue = [...value, b.option];
+            const newValue = [...(value || []), b.option];
             setValue(newValue);
+            onInputChange("");
           }
         }
         break;
@@ -160,6 +161,7 @@ const MultiSelect = ({
       styles={getSelectStyles(false)}
       onInputChange={handleInputChange}
       onKeyDown={handleKeydown}
+      defaultInputValue={initialValue}
     />
   );
 };
