@@ -23,11 +23,12 @@ const UserFeed = () => {
     searchText
   );
 
-  displayCards = filters.filterCardsBySearchTags(
-    cardsSortedNewestFirst,
-    searchTags,
-    tags
-  );
+  const validSearchTags = tags.filter((tag) => {
+    let matchingTag = searchTags.find((e) => e._id === tag.id);
+    return Boolean(matchingTag);
+  });
+
+  displayCards = filters.filterCardsBySearchTags(displayCards, validSearchTags);
 
   return (
     <div className={styles.UserFeed}>

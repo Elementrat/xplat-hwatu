@@ -10,9 +10,10 @@ export interface MultiSelectOption {
   readonly value: string;
 }
 
-export const createOption = (label: string) => ({
+export const createOption = (label: string, details: any) => ({
   label,
-  value: label?.toLowerCase()?.replace(/\W/g, "")
+  value: label?.toLowerCase()?.replace(/\W/g, ""),
+  details: { ...details }
 });
 
 const getSelectStyles = (isCreate) => {

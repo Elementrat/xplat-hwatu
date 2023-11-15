@@ -19,14 +19,13 @@ const GlobalSearch = () => {
   });
 
   const onSelectOption = (e) => {
-    console.log("__SELECTED", e);
     if (searchTags?.includes(e.value)) {
       const newSearchTags = searchTags.filter((tag) => tag.title !== e.value);
       setTimeout(() => {
         updateSearchTags(newSearchTags);
       }, 100);
     } else {
-      const newSearchTags = [...searchTags, e.value];
+      const newSearchTags = [...searchTags, e.details];
       setTimeout(() => {
         updateSearchTags(newSearchTags);
       }, 100);
@@ -47,13 +46,13 @@ const GlobalSearch = () => {
 
   const displayTags = useMemo(() => {
     return filters.filterTagsWithCards(tags, cards).map((tag) => {
-      return { label: tag.title, value: tag.title };
+      return createOption(tag.title, tag);
     });
   }, [tags, cards]);
 
   const displayValues = useMemo(() => {
     return searchTags.map((tag) => {
-      return createOption(tag);
+      return createOption(tag.title, tag);
     });
   }, [searchTags]);
 

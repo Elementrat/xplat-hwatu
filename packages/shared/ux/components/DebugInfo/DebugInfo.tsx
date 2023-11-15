@@ -9,7 +9,12 @@ const DebugInfo = () => {
     <div>
       <span>Search</span>
       <span>Text: {searchText}</span>
-      <span>Tags: {searchTags.map((tag) => tag)}</span>
+      <span>
+        Tags:{" "}
+        {searchTags.map((tag) => {
+          return <span key={tag.title}>{tag.title}</span>;
+        })}
+      </span>
     </div>
   );
 };

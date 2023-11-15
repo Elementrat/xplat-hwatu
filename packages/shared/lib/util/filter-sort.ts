@@ -30,26 +30,21 @@ const filterBySearchText = (cards: Array<any>, searchText?: string) => {
 };
 
 const filterCardsBySearchTags = (
-  cards: Array<any>,
-  searchTags: Array<string>
+  cards: Array<CardClass>,
+  searchTags: Array<TagClass>
 ) => {
-  return cards;
-  if (!searchTags) {
+  if (!searchTags.length) {
     return cards;
   }
-  let displayCards = cards;
-  let searchTextLowerCase = searchTags;
+  let displayCards = cards.filter((card) => {
+    console.log("__CHECKING_CARD", card, searchTags);
 
-  if (searchTextLowerCase && displayCards?.length) {
-    displayCards = displayCards?.filter((card) => {
-      const sideALowerCase = card?.title?.toLowerCase();
-      const sideBLowerCase = card?.sideB?.toLowerCase();
-      return (
-        sideALowerCase?.includes(searchTextLowerCase) ||
-        sideBLowerCase?.includes(searchTextLowerCase)
-      );
-    });
-  }
+    let matchingTag = searchTags.find((searchTag) =>
+      searchTag.cards.includes(card._id)
+    );
+    return Boolean(matchingTag);
+  });
+
   return displayCards;
 };
 
