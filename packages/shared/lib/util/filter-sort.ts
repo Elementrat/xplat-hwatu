@@ -14,8 +14,31 @@ const filterBySearchText = (cards: Array<any>, searchText?: string) => {
     return cards;
   }
   let displayCards = cards;
-  console.log("__SEARCH_TEXT", searchText);
   let searchTextLowerCase = searchText?.toLowerCase();
+
+  if (searchTextLowerCase && displayCards?.length) {
+    displayCards = displayCards?.filter((card) => {
+      const sideALowerCase = card?.title?.toLowerCase();
+      const sideBLowerCase = card?.sideB?.toLowerCase();
+      return (
+        sideALowerCase?.includes(searchTextLowerCase) ||
+        sideBLowerCase?.includes(searchTextLowerCase)
+      );
+    });
+  }
+  return displayCards;
+};
+
+const filterCardsBySearchTags = (
+  cards: Array<any>,
+  searchTags: Array<string>
+) => {
+  return cards;
+  if (!searchTags) {
+    return cards;
+  }
+  let displayCards = cards;
+  let searchTextLowerCase = searchTags;
 
   if (searchTextLowerCase && displayCards?.length) {
     displayCards = displayCards?.filter((card) => {
@@ -51,7 +74,8 @@ const sorts = {
 
 const filters = {
   filterBySearchText,
-  filterTagsWithCards
+  filterTagsWithCards,
+  filterCardsBySearchTags
 };
 
 export { sorts, filters };

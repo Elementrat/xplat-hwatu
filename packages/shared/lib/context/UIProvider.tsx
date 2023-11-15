@@ -1,15 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { createContext } from "react";
-import useLocalStorage from "use-local-storage";
-
 import { TranslationProvider } from "./TranslationProvider";
+import { TagClass } from "..";
 
 interface PersistentUIState {
-  search?: {
-    text?: string;
-    tags?: Array<string>;
-  };
+  searchTags: Array<TagClass>;
+  searchText: string;
   languages?: Array<string>;
   wow2?: string;
 }
@@ -21,10 +18,8 @@ interface UIStateAndControls extends PersistentUIState {
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
-  search: {
-    text: "",
-    tags: []
-  },
+  searchTags: [],
+  searchText: "",
   languages: ["en", "ko"],
   updateSearchText: Function,
   updateSearchTags: Function,
@@ -32,19 +27,24 @@ const defaultUIStateAndControls: UIStateAndControls = {
 };
 
 const defaultPersistentUIState: PersistentUIState = {
-  search: {
-    text: "",
-    tags: []
-  },
+  searchTags: [],
+  searchText: "",
   languages: ["en", "ko"],
   wow2: "newkey"
 };
 
+const cacheKey = "app-ui-cache";
+
 const UIContext = createContext(defaultUIStateAndControls);
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
-  const [persistentUIState, setPersistentUIState] =
-    useLocalStorage<PersistentUIState>("app-ui", defaultPersistentUIState);
+  const [persistentUIState, setPersistentUIState] = useState(
+    JSON.parse(localStorage.getItem(cacheKey)) || defaultPersistentUIState
+  );
+
+  useEffect(() => {
+    localStorage.setItem(cacheKey, JSON.stringify(persistentUIState));
+  }, [persistentUIState]);
 
   useEffect(() => {
     // Determine missing keys, in case user has a cached version of the state
@@ -59,21 +59,29 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [persistentUIState]);
 
-  const updateSearchText = (newSearchText: string) => {
-    setPersistentUIState({
-      ...persistentUIState,
-      search: { ...persistentUIState.search, text: newSearchText }
-    });
-  };
+  const updateSearchText = useCallback(
+    (newSearchText: string) => {
+      setPersistentUIState((cur: PersistentUIState) => {
+        return {
+          ...cur,
+          searchText: newSearchText
+        };
+      });
+    },
+    [persistentUIState]
+  );
 
-  const updateSearchTags = (newSearchTags: Array<string>) => {
-    console.log("__SETTNG", newSearchTags);
-    setPersistentUIState({
-      ...persistentUIState,
-      search: { ...persistentUIState.search, tags: ["WWOW"], text: "wtf" }
-    });
-    updateSearchText("BRO_ HUH");
-  };
+  const updateSearchTags = useCallback(
+    (newSearchTags: Array<TagClass>) => {
+      setPersistentUIState((cur: PersistentUIState) => {
+        return {
+          ...cur,
+          searchTags: newSearchTags
+        };
+      });
+    },
+    [persistentUIState]
+  );
 
   const addLanguagePreference = (newLanguageCode: string) => {
     setPersistentUIState({
@@ -82,14 +90,15 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const sharedUI: UIStateAndControls = {
-    ...persistentUIState,
-    updateSearchText,
-    updateSearchTags,
-    addLanguagePreference
-  };
   return (
-    <UIContext.Provider value={sharedUI}>
+    <UIContext.Provider
+      value={{
+        ...persistentUIState,
+        updateSearchText,
+        updateSearchTags,
+        addLanguagePreference
+      }}
+    >
       <TranslationProvider>{children}</TranslationProvider>
     </UIContext.Provider>
   );

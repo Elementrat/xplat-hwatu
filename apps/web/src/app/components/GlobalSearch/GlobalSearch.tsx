@@ -1,17 +1,16 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useContext, useCallback } from "react";
 import { UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
-import { useContext } from "react";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
-import { MultiSelect, STR } from "ux";
+import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
 import { filters } from "xplat-lib";
 
 const GlobalSearch = () => {
-  const { search, updateSearchText, updateSearchTags } = useContext(UIContext);
+  const { searchText, searchTags, updateSearchText, updateSearchTags } =
+    useContext(UIContext);
   const { tags } = useCurrentUserTags();
-
   const { cards } = useCurrentUserCards();
 
   const classes = clsx({
@@ -20,22 +19,31 @@ const GlobalSearch = () => {
   });
 
   const onSelectOption = (e) => {
-    if (search?.tags?.includes(e.value)) {
-      const newSearchTags = search.tags.filter((tag) => tag !== e.value);
-      updateSearchTags(newSearchTags);
+    console.log("__SELECTED", e);
+    if (searchTags?.includes(e.value)) {
+      const newSearchTags = searchTags.filter((tag) => tag.title !== e.value);
+      setTimeout(() => {
+        updateSearchTags(newSearchTags);
+      }, 100);
     } else {
-      const newSearchTags = [...search?.tags, e.value];
-      console.log("__AD", e);
-      updateSearchTags(newSearchTags);
-      updateSearchText("BRO WHAT");
+      const newSearchTags = [...searchTags, e.value];
+      setTimeout(() => {
+        updateSearchTags(newSearchTags);
+      }, 100);
     }
   };
 
-  const onRemoveValue = () => {};
-
-  const onSearchChange = (newSearchText?: string) => {
-    updateSearchText(newSearchText);
+  const onRemoveValue = (tagTitle: string) => {
+    const newSearchTags = searchTags.filter((tag) => tag.title !== tagTitle);
+    updateSearchTags(newSearchTags);
   };
+
+  const onSearchChange = useCallback(
+    (newSearchText?: string) => {
+      updateSearchText(newSearchText);
+    },
+    [searchText]
+  );
 
   const displayTags = useMemo(() => {
     return filters.filterTagsWithCards(tags, cards).map((tag) => {
@@ -43,15 +51,22 @@ const GlobalSearch = () => {
     });
   }, [tags, cards]);
 
+  const displayValues = useMemo(() => {
+    return searchTags.map((tag) => {
+      return createOption(tag);
+    });
+  }, [searchTags]);
+
   return (
     <div className={classes}>
       <MultiSelect
-        initialValue={search?.text}
+        initialValue={searchText}
         knownOptions={displayTags}
         onSelectOption={onSelectOption}
         onRemoveValue={onRemoveValue}
         placeholder={STR.SEARCH}
         onInputChange={onSearchChange}
+        values={displayValues}
       />
     </div>
   );

@@ -5,12 +5,20 @@ import { UserTags } from "./components/UserTags/UserTags";
 import { TextInput } from "./components/TextInput/TextInput";
 import { UserFeed } from "./components/UserFeed/UserFeed";
 import { LanguageList } from "./components/LanguageList/LanguageList";
-import { MultiSelect } from "./components/MultiSelect/MultiSelect";
+import { DebugInfo } from "./components/DebugInfo/DebugInfo";
+import {
+  MultiSelect,
+  MultiSelectOption,
+  createOption
+} from "./components/MultiSelect/MultiSelect";
 import STR from "./strings/strings";
 
 export {
+  DebugInfo,
+  createOption,
   Button,
   MultiSelect,
+  MultiSelectOption,
   InputCard,
   UserCards,
   UserTags,

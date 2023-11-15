@@ -5,12 +5,12 @@ import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
 import STR from "../../strings/strings";
 
-interface Option {
+export interface MultiSelectOption {
   readonly label: string;
   readonly value: string;
 }
 
-const createOption = (label: string) => ({
+export const createOption = (label: string) => ({
   label,
   value: label?.toLowerCase()?.replace(/\W/g, "")
 });
@@ -72,7 +72,7 @@ const MultiSelect = ({
   placeholder,
   createable
 }) => {
-  const [value, setValue] = useState<Array<Option> | null>(values);
+  const [value, setValue] = useState<Array<MultiSelectOption> | null>(values);
   const [options, setOptions] = useState(knownOptions);
 
   useEffect(() => {
@@ -99,7 +99,9 @@ const MultiSelect = ({
             const newValue = [...(value || []), b.option];
             setValue(newValue);
             if (onInputChange) {
-              onInputChange("");
+              setTimeout(() => {
+                onInputChange("");
+              });
             }
           }
         }
@@ -164,8 +166,9 @@ const MultiSelect = ({
       onInputChange={handleInputChange}
       onKeyDown={handleKeydown}
       defaultInputValue={initialValue}
+      value={value}
     />
   );
 };
 
-export { MultiSelect };
+export { MultiSelect, MultiSelectOption };

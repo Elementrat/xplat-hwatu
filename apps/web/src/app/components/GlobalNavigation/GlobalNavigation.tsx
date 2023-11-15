@@ -7,7 +7,7 @@ import { UserCards, UserTags } from "ux";
 import clsx from "clsx";
 import { IonIcon } from "@ionic/react";
 import { menuOutline } from "ionicons/icons";
-import { LanguageList } from "ux";
+import { LanguageList, DebugInfo } from "ux";
 import { UIContext } from "xplat-lib";
 
 const GlobalNavigation = () => {
@@ -47,6 +47,7 @@ const GlobalNavigation = () => {
         <UserCards />
         <UserTags />
         <LanguageList languages={languages} />
+        <DebugInfo />
       </div>
     </div>
   );
