@@ -7,9 +7,9 @@ import { TranslationProvider } from "./TranslationProvider";
 
 interface PersistentUIState {
   search?: {
-    text?: string,
-    tags?: Array<string>,
-  }
+    text?: string;
+    tags?: Array<string>;
+  };
   languages?: Array<string>;
   wow2?: string;
 }
@@ -35,7 +35,7 @@ const defaultPersistentUIState: PersistentUIState = {
     tags: []
   },
   languages: ["en", "ko"],
-  wow2: 'newkey'
+  wow2: "newkey"
 };
 
 const UIContext = createContext(defaultUIStateAndControls);
@@ -44,27 +44,30 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] =
     useLocalStorage<PersistentUIState>("app-ui", defaultPersistentUIState);
 
-    useEffect(() => {
-      // Determine missing keys, in case user has a cached version of the state 
-      let missingCacheValues= {}
-      for (let [key, val] of Object.entries(defaultPersistentUIState)){
-        if (!Object.keys(persistentUIState).includes(key)){
-          missingCacheValues[key] = val;
-        }
+  useEffect(() => {
+    // Determine missing keys, in case user has a cached version of the state
+    let missingCacheValues: Record<string, object> = {};
+    for (let [key, val] of Object.entries(defaultPersistentUIState)) {
+      if (!Object.keys(persistentUIState).includes(key)) {
+        missingCacheValues[key] = val;
       }
-      if(Object.keys(missingCacheValues)?.length){
-        setPersistentUIState({...persistentUIState, ...missingCacheValues})
-      }
-    },[persistentUIState])
-  
+    }
+    if (Object.keys(missingCacheValues)?.length) {
+      setPersistentUIState({ ...persistentUIState, ...missingCacheValues });
+    }
+  }, [persistentUIState]);
+
   const updateSearchText = (newSearchText: string) => {
-    setPersistentUIState({ ...persistentUIState, search: {...persistentUIState.search, text: newSearchText} });
+    setPersistentUIState({
+      ...persistentUIState,
+      search: { ...persistentUIState.search, text: newSearchText }
+    });
   };
 
   const addLanguagePreference = (newLanguageCode: string) => {
     setPersistentUIState({
       ...persistentUIState,
-      languages: [...persistentUIState?.languages, newLanguageCode]
+      languages: [...(persistentUIState?.languages || []), newLanguageCode]
     });
   };
 
