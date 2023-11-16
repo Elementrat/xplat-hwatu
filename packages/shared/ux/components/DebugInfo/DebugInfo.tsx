@@ -11,7 +11,7 @@ const DebugInfo = () => {
       <span>Text: {searchText}</span>
       <span>
         Tags:{" "}
-        {searchTags.map((tag) => {
+        {searchTags?.map((tag) => {
           return <span key={tag.title}>{tag.title}</span>;
         })}
       </span>

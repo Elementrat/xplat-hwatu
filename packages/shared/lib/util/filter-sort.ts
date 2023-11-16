@@ -33,11 +33,11 @@ const filterCardsBySearchTags = (
   cards: Array<CardClass>,
   searchTags: Array<TagClass>
 ) => {
-  if (!searchTags.length) {
+  if (!searchTags?.length) {
     return cards;
   }
   let displayCards = cards.filter((card) => {
-    let matchingTag = searchTags.find((searchTag) =>
+    let matchingTag = searchTags?.find((searchTag) =>
       searchTag.cards.includes(card._id as any)
     );
     return Boolean(matchingTag);

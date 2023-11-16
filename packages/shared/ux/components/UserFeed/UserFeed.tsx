@@ -23,8 +23,8 @@ const UserFeed = () => {
     searchText
   );
 
-  const validSearchTags = tags.filter((tag) => {
-    let matchingTag = searchTags.find((e) => e._id === tag.id);
+  const validSearchTags = tags?.filter((tag) => {
+    let matchingTag = searchTags?.find((e) => e._id === tag.id);
     return Boolean(matchingTag);
   });
 

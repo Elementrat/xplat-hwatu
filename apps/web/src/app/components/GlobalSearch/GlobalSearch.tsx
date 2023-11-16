@@ -20,7 +20,7 @@ const GlobalSearch = () => {
 
   const onSelectOption = (e: any) => {
     if (searchTags?.includes(e.value)) {
-      const newSearchTags = searchTags.filter((tag) => tag.title !== e.value);
+      const newSearchTags = searchTags?.filter((tag) => tag.title !== e.value);
       setTimeout(() => {
         updateSearchTags(newSearchTags);
       }, 100);
@@ -33,7 +33,7 @@ const GlobalSearch = () => {
   };
 
   const onRemoveValue = (tagTitle: string) => {
-    const newSearchTags = searchTags.filter((tag) => tag.title !== tagTitle);
+    const newSearchTags = searchTags?.filter((tag) => tag.title !== tagTitle);
     updateSearchTags(newSearchTags);
   };
 
@@ -51,7 +51,7 @@ const GlobalSearch = () => {
   }, [tags, cards]);
 
   const displayValues = useMemo(() => {
-    return searchTags.map((tag) => {
+    return searchTags?.map((tag) => {
       return createOption(tag.title, tag);
     });
   }, [searchTags]);
