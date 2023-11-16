@@ -1,7 +1,6 @@
 "use client";
 import { useState, useContext } from "react";
 import styles from "./GlobalNavigation.module.css";
-import GlobalNavigationLinks from "../GlobalNavigationLinks/GlobalNavigationLinks";
 import AuthManager from "../AuthManager/AuthManager";
 import { UserCards, UserTags } from "ux";
 import clsx from "clsx";
@@ -12,7 +11,7 @@ import { UIContext } from "xplat-lib";
 
 const GlobalNavigation = () => {
   const [expanded, setExpanded] = useState(false);
-  const { addLanguagePreference, languages } = useContext(UIContext);
+  const { languages } = useContext(UIContext);
 
   const navClasses = clsx({
     [styles.nav]: true,
@@ -47,7 +46,6 @@ const GlobalNavigation = () => {
         <UserCards />
         <UserTags />
         <LanguageList languages={languages} />
-        <DebugInfo />
       </div>
     </div>
   );

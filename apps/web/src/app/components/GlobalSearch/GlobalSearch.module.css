@@ -9,9 +9,9 @@
   background-color: var(--grey-850);
   font-size: 24px;
   transition: opacity 1s ease;
-}
-
-.globalSearch.show {
+  font-size: var(--font-size-md);
+  box-shadow: var(--box-shadow-1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .globalSearchInput {

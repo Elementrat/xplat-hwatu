@@ -39,7 +39,7 @@ const UIContext = createContext(defaultUIStateAndControls);
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] = useState(
-    JSON.parse(localStorage.getItem(cacheKey)) || defaultPersistentUIState
+    JSON.parse(localStorage.getItem(cacheKey) || "") || defaultPersistentUIState
   );
 
   useEffect(() => {

@@ -5,12 +5,12 @@ import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
 import STR from "../../strings/strings";
 
-export interface MultiSelectOption {
+type MultiSelectOption = {
   readonly label: string;
   readonly value: string;
-}
+};
 
-export const createOption = (label: string, details: any) => ({
+export const createOption = (label: string, details?: any) => ({
   label,
   value: label?.toLowerCase()?.replace(/\W/g, ""),
   details: { ...details }
@@ -35,9 +35,22 @@ const getSelectStyles = (isCreate) => {
       ...baseStyles,
       minWidth: "175px"
     }),
+    placeholder: (baseStyles, state) => ({
+      ...baseStyles,
+      padding: "10px"
+    }),
+    clearIndicator: (baseStyles, state) => ({
+      ...baseStyles,
+      display: "none"
+    }),
+    multiValueRemove: (baseStyles, state) => ({
+      ...baseStyles,
+      marginLeft: "10px"
+    }),
     input: (baseStyles, state) => ({
       ...baseStyles,
-      color: "white"
+      color: "white",
+      padding: "10px"
     }),
     valueContainer: (baseStyles, state) => ({
       ...baseStyles,
@@ -45,14 +58,19 @@ const getSelectStyles = (isCreate) => {
     }),
     multiValue: (baseStyles, state) => ({
       ...baseStyles,
-      backgroundColor: "rgba(0,0,0,.5)"
+      backgroundColor: "rgba(0,0,0,.5)",
+      padding: "5px 10px"
     }),
     multiValueLabel: (baseStyles, state) => ({
       ...baseStyles,
       color: "white"
     }),
+    value: (baseStyles, state) => ({
+      ...baseStyles
+    }),
     option: (baseStyles, state) => ({
       ...baseStyles,
+      padding: "10px",
       backgroundColor: state.isFocused
         ? "rgba(255,255,255,.1)"
         : "rgba(0,0,0,.5)"
@@ -172,4 +190,4 @@ const MultiSelect = ({
   );
 };
 
-export { MultiSelect, MultiSelectOption };
+export { MultiSelect };

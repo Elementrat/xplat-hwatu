@@ -37,10 +37,8 @@ const filterCardsBySearchTags = (
     return cards;
   }
   let displayCards = cards.filter((card) => {
-    console.log("__CHECKING_CARD", card, searchTags);
-
     let matchingTag = searchTags.find((searchTag) =>
-      searchTag.cards.includes(card._id)
+      searchTag.cards.includes(card._id as any)
     );
     return Boolean(matchingTag);
   });
@@ -53,8 +51,11 @@ const filterTagsWithCards = (
   cards: Array<CardClass>
 ) => {
   let prelimResults = tags?.filter((t) => t?.cards?.length > 0);
+
   let tagsWithCorrespondingCard = prelimResults?.filter((t) => {
-    let matchingCardFound = cards.find((card) => t.cards.includes(card.id));
+    let matchingCardFound = cards.find((card) =>
+      t.cards.includes(card._id as any)
+    );
     if (matchingCardFound) {
       return true;
     }

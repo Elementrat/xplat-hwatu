@@ -18,7 +18,7 @@ const GlobalSearch = () => {
     [s.show]: cards?.length > 0
   });
 
-  const onSelectOption = (e) => {
+  const onSelectOption = (e: any) => {
     if (searchTags?.includes(e.value)) {
       const newSearchTags = searchTags.filter((tag) => tag.title !== e.value);
       setTimeout(() => {

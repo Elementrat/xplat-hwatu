@@ -8,7 +8,6 @@ import { LanguageList } from "./components/LanguageList/LanguageList";
 import { DebugInfo } from "./components/DebugInfo/DebugInfo";
 import {
   MultiSelect,
-  MultiSelectOption,
   createOption
 } from "./components/MultiSelect/MultiSelect";
 import STR from "./strings/strings";
@@ -18,7 +17,6 @@ export {
   createOption,
   Button,
   MultiSelect,
-  MultiSelectOption,
   InputCard,
   UserCards,
   UserTags,
