@@ -10,9 +10,12 @@ import {
   MultiSelect,
   createOption
 } from "./components/MultiSelect/MultiSelect";
+import { Modals } from "./components/Modals/Modals";
+
 import STR from "./strings/strings";
 
 export {
+  Modals,
   DebugInfo,
   createOption,
   Button,
