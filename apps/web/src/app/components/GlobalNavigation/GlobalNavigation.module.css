@@ -17,6 +17,8 @@
   .alwaysVisibleNavContent {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .visibleWhenExpandedNavContent {
     display: flex;
@@ -31,7 +33,7 @@
     width: 100%;
     overflow: hidden;
     .btnToggleExpand {
-      display: block;
+      display: flex;
     }
     .alwaysVisibleNavContent {
       flex-direction: row;

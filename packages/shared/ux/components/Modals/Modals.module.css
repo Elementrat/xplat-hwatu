@@ -3,12 +3,16 @@
   height: 100%;
   position: absolute;
   z-index: var(--z-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
   .ModalInner {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     .ModalContent {
+      padding: var(--spacing-4);
       border-radius: var(--border-radius-sm);
       background-color: var(--grey-900);
       backdrop-filter: blur(15px);
@@ -25,6 +29,25 @@
       transition: all 0.2s;
     }
   }
+}
+
+.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.SignInModalContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.cta {
+  color: var(--grey-500);
 }
 
 @media screen and (max-width: 1024px) {

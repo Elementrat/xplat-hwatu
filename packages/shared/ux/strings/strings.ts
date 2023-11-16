@@ -13,7 +13,9 @@ const STR = {
   LANGUAGES: "Languages",
   NEW_TAG: "New Tag",
   ENTER_TAG: "Enter Tag",
-  CREATE_TAG: " Create Tag"
+  CREATE_TAG: " Create Tag",
+  SIGN_IN_CTA: "You'll need an account to create cards",
+  SIGN_IN: "Sign In",
 };
 
 export default STR;

@@ -1,15 +1,20 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import styles from "./Modals.module.css";
 import { useContext } from "react";
 import { UIContext } from "xplat-lib";
+import clsx from "clsx";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "../Button/Button";
+import STR from "../../strings/strings";
 
 const modalInnerID = "modal-inner";
 const modalRootID = "modal-root";
 
 const Modals = () => {
   const { modals, toggleLoginModal } = useContext(UIContext);
+  const { data: session, status } = useSession();
 
   const onClickModalInner = (e) => {
     if (e.target.id === modalInnerID) {
@@ -19,19 +24,43 @@ const Modals = () => {
 
   let showModal = modals?.login;
 
-  if (!showModal) {
-    return null;
-  }
+  const modalRootStyles = clsx({
+    [styles.ModalRoot]: true,
+    [styles.show]: showModal
+  });
+
+  useEffect(() => {
+    if (status === "authenticated" && modals?.login) {
+      toggleLoginModal(false);
+    }
+  }, [status]);
 
   return (
-    <div className={styles.ModalRoot} id={modalRootID}>
+    <div className={modalRootStyles} id={modalRootID}>
       <div
         className={styles.ModalInner}
         onClick={onClickModalInner}
         id={modalInnerID}
       >
-        <div className={styles.ModalContent}></div>
+        <div className={styles.ModalContent}>
+          {modals?.login && <SignInModalContent />}
+        </div>
       </div>
+    </div>
+  );
+};
+
+const SignInModalContent = () => {
+  return (
+    <div className={styles.SignInModalContent}>
+      <div className={styles.cta}>{STR.SIGN_IN_CTA}</div>
+      <Button
+        primary={true}
+        onClick={() => {
+          signIn();
+        }}
+        label={STR.SIGN_IN}
+      />
     </div>
   );
 };

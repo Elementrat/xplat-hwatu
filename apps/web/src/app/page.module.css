@@ -14,7 +14,7 @@
   margin: auto;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .homePage {
     padding-left: 0;
     padding-right: 0;

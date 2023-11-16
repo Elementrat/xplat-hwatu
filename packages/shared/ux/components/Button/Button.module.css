@@ -4,8 +4,14 @@
   display: flex;
   justify-self: center;
   align-items: center;
+  box-shadow: var(--box-shadow-1);
 }
 
-.btn:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+.btn.primary {
+  background-color: var(--accent-1);
+  color: #ffb4eb;
+}
+
+.btn.primary:hover {
+  background-color: #3a2133;
 }

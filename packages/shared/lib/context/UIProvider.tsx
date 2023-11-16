@@ -113,14 +113,14 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const toggleLoginModal = () => {
+  const toggleLoginModal = (newValue:boolean) => {
     setPersistentUIState((prev) => {
-      console.log("__TOGGLE_LOGIN", prev);
+      const newLoginState = typeof newValue !== 'undefined' ? newValue : !prev.modals?.login
       return {
         ...prev,
         modals: {
           ...prev.modals,
-          login: !prev.modals?.login
+          login: newLoginState
         }
       };
     });

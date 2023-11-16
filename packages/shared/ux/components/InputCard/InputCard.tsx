@@ -66,27 +66,31 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   };
 
   const applySearchTags = async (createdCard:CardClass) => {
+    if (!searchTags.length){
+      return;
+    }
+
     for (let searchTag of searchTags){
       let existingTag = tags.find((tag) => tag.id === searchTag.id)
 
       if (existingTag){
         let alreadyTagged = existingTag.cards.find((e) => e === createdCard._id)
         if(!alreadyTagged){
-          const newTagListForCard = [...existingTag.cards, createdCard._id];
+          const newCardListForTag = [...existingTag.cards, createdCard._id];
 
           const updateResult = await updateTag({
             _id: existingTag._id,
-            cards: newTagListForCard
+            cards: newCardListForTag
           });
-    
+
           const updatedTag = updateResult?.data?.tag as TagClass | null;
           if (updatedTag) {
             const newTags = tags?.map((tag) => {
               return tag._id !== null && tag?._id === existingTag._id
-                ? { ...tag, cards: newTagListForCard }
+                ? { ...tag, cards: newCardListForTag }
                 : tag;
             });
-            mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
+            await mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
           }
         }
       }
