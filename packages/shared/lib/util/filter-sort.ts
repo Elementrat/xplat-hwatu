@@ -65,6 +65,9 @@ const filterTagsWithCards = (
 };
 
 const untaggedCards = (tags: Array<TagClass>, cards: Array<CardClass>) => {
+  if (!cards || !tags) {
+    return [];
+  }
   let prelimResults = [...cards];
 
   let filtered = prelimResults.filter((card) => {
