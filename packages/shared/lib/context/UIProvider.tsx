@@ -40,9 +40,14 @@ const UIContext = createContext(defaultUIStateAndControls);
 let initialValue: PersistentUIState = defaultPersistentUIState;
 
 try {
-  let cachedValue = JSON.parse(localStorage.getItem(cacheKey));
-  if (cachedValue) {
-    initialValue = cachedValue;
+  if (typeof window !== "undefined") {
+    let storedValue = localStorage.getItem(cacheKey);
+    if (storedValue) {
+      let cachedUIState = JSON.parse(storedValue);
+      if (cachedUIState) {
+        initialValue = cachedUIState;
+      }
+    }
   }
 } catch (e) {}
 
