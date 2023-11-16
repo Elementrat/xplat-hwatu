@@ -26,7 +26,7 @@ const UserTags = () => {
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
-        <h2 className="text-md font-bold">{STR.TAGS}</h2>
+        <h2 className="text-lg font-bold">{STR.TAGS}</h2>
       </div>
       <div className={styles.UserTags}>
         {displayTags?.map((tag) => {

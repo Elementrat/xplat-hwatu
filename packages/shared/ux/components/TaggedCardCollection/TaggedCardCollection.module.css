@@ -1,2 +1,18 @@
 .TaggedCardCollection {
+  .collectionTitle {
+    margin: var(--spacing-2) 0px;
+  }
+  .TaggedCard {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--grey-800);
+    padding: var(--spacing-1) 0;
+    .cardSideA {
+      flex: 1;
+    }
+    .cardSideB {
+      flex: 1;
+      text-align: end;
+    }
+  }
 }

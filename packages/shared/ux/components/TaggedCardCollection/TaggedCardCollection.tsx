@@ -2,6 +2,15 @@ import React from "react";
 
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
+import clsx from "clsx";
+
+const visibleCutoff = 10;
+
+const collectionTitleStyles = clsx({
+  "text-md": true,
+  "font-bold": true,
+  [styles.collectionTitle]: true
+});
 
 const TaggedCardCollection = ({
   tag,
@@ -12,13 +21,23 @@ const TaggedCardCollection = ({
 }) => {
   return (
     <div className={styles.TaggedCardCollection}>
-      <div className="text-sm font-bold">
+      <div className={collectionTitleStyles}>
         {tag?.title}
         {`(${cards?.length})`}
       </div>
       <div>
         {cards.map((card) => {
-          return <div key={card.title}>{card.title}</div>;
+          let longString = card.title?.length > visibleCutoff;
+
+          return (
+            <div key={card.title} className={styles.TaggedCard}>
+              <div className={styles.cardSideA}>
+                {card.title?.slice(0, visibleCutoff)}
+                {longString && "..."}
+              </div>
+              <div className={styles.cardSideA}> {card.sideB}</div>
+            </div>
+          );
         })}
       </div>
     </div>
