@@ -23,7 +23,7 @@ const TaggedCardCollection = ({
     <div className={styles.TaggedCardCollection}>
       <div className={collectionTitleStyles}>
         {tag?.title}
-        {`(${cards?.length})`}
+        <span className={styles.cardCount}>{` (${cards?.length})`}</span>
       </div>
       <div>
         {cards.map((card) => {

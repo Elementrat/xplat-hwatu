@@ -2,11 +2,15 @@
   .collectionTitle {
     margin: var(--spacing-2) 0px;
   }
+  .cardCount {
+    color: var(--grey-700);
+  }
   .TaggedCard {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--grey-800);
     padding: var(--spacing-1) 0;
+    animation: fadeIn 1s;
     .cardSideA {
       flex: 1;
     }
@@ -14,5 +18,14 @@
       flex: 1;
       text-align: end;
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
