@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 
 import styles from "./CardTags.module.css";
 import { TagClass, createTag } from "xplat-lib";

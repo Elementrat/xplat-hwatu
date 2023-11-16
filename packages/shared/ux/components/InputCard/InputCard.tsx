@@ -7,7 +7,11 @@ import {
   createCard,
   deleteCard,
   updateCard,
-  UIContext
+  UIContext,
+  updateTag,
+  useCurrentUserTags,
+  CardClass,
+  TagClass
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -23,9 +27,10 @@ import { useSession } from "next-auth/react";
 const ANIMATION_DURATION = 500;
 
 const InputCard = ({ cardID }: { cardID?: string }) => {
-  const { cards, mutate } = useCurrentUserCards();
-  const { data: session, status } = useSession();
-  const { toggleLoginModal } = useContext(UIContext);
+  const { cards, mutate: mutateCards, } = useCurrentUserCards();
+  const { tags, mutate: mutateTags} = useCurrentUserTags();
+  const { status } = useSession();
+  const { toggleLoginModal, searchTags } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -60,6 +65,34 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     updateSideB(newValue);
   };
 
+  const applySearchTags = async (createdCard:CardClass) => {
+    for (let searchTag of searchTags){
+      let existingTag = tags.find((tag) => tag.id === searchTag.id)
+
+      if (existingTag){
+        let alreadyTagged = existingTag.cards.find((e) => e === createdCard._id)
+        if(!alreadyTagged){
+          const newTagListForCard = [...existingTag.cards, createdCard._id];
+
+          const updateResult = await updateTag({
+            _id: existingTag._id,
+            cards: newTagListForCard
+          });
+    
+          const updatedTag = updateResult?.data?.tag as TagClass | null;
+          if (updatedTag) {
+            const newTags = tags?.map((tag) => {
+              return tag._id !== null && tag?._id === existingTag._id
+                ? { ...tag, cards: newTagListForCard }
+                : tag;
+            });
+            mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
+          }
+        }
+      }
+    }
+  }
+
   const createOrUpdateCard = async (dirtySideB?) => {
     let newOrUpdatedCard;
     const localSideB = dirtySideB || sideB;
@@ -69,8 +102,11 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       newOrUpdatedCard = createResult?.data?.card;
       if (newOrUpdatedCard) {
         const newCards = [...cards, newOrUpdatedCard];
-        mutate({ cards: newCards }, fetchConfigs.preservePrevious);
+        mutateCards({ cards: newCards }, fetchConfigs.preservePrevious);
       }
+      applySearchTags(newOrUpdatedCard);
+
+
     } else {
       const createResult = await updateCard({
         ...existingCard,
@@ -84,7 +120,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
             ? { ...existingCard, title: sideA, sideB: localSideB }
             : card;
         });
-        mutate({ cards: newCards }, fetchConfigs.preservePrevious);
+        mutateCards({ cards: newCards }, fetchConfigs.preservePrevious);
       }
     }
 
@@ -133,7 +169,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const onClickDelete = async () => {
     const newCards = cards?.filter((c) => c.id !== cardID);
     if (cardID) {
-      await mutate({ cards: newCards }, fetchConfigs.preservePrevious);
+      await mutateCards({ cards: newCards }, fetchConfigs.preservePrevious);
       await deleteCard({ id: cardID });
     }
   };
