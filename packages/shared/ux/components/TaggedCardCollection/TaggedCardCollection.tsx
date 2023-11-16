@@ -30,7 +30,7 @@ const TaggedCardCollection = ({
           let longString = card.title?.length > visibleCutoff;
 
           return (
-            <div key={card.title} className={styles.TaggedCard}>
+            <div key={String(card._id)} className={styles.TaggedCard}>
               <div className={styles.cardSideA}>
                 {card.title?.slice(0, visibleCutoff)}
                 {longString && "..."}

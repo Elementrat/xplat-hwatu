@@ -6,7 +6,8 @@ import {
   useCurrentUserCards,
   createCard,
   deleteCard,
-  updateCard
+  updateCard,
+  UIContext
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -17,11 +18,14 @@ import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
 import { KEY_CODES } from "xplat-lib";
 import STR from "../../strings/strings";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
+import { useSession } from "next-auth/react";
 
 const ANIMATION_DURATION = 500;
 
 const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate } = useCurrentUserCards();
+  const { data: session, status } = useSession();
+  const { toggleLoginModal } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -147,6 +151,12 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     setHovered(false);
   };
 
+  const onClick = async () => {
+    if (status !== "authenticated") {
+      toggleLoginModal();
+    }
+  };
+
   const hasValidInput = sideA?.length > 0;
 
   const cardStyles = clsx({
@@ -168,6 +178,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       id={cardID}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
+      onClick={onClick}
     >
       {!cardID && <div className={styles.newCardIndicator}>{STR.NEW_CARD}</div>}
       <div className={styles.textInputs}>

@@ -4,17 +4,22 @@ import { createContext } from "react";
 import { TranslationProvider } from "./TranslationProvider";
 import { TagClass } from "..";
 
+type ModalState = {
+  login: boolean;
+};
+
 interface PersistentUIState {
   searchTags: Array<TagClass>;
   searchText: string;
   languages?: Array<string>;
-  wow2?: string;
+  modals?: ModalState;
 }
 
 interface UIStateAndControls extends PersistentUIState {
   updateSearchText: Function;
   addLanguagePreference: Function;
   updateSearchTags: Function;
+  toggleLoginModal: Function;
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
@@ -23,14 +28,20 @@ const defaultUIStateAndControls: UIStateAndControls = {
   languages: ["en", "ko"],
   updateSearchText: Function,
   updateSearchTags: Function,
-  addLanguagePreference: Function
+  toggleLoginModal: Function,
+  addLanguagePreference: Function,
+  modals: {
+    login: false
+  }
 };
 
 const defaultPersistentUIState: PersistentUIState = {
   searchTags: [],
   searchText: "",
   languages: ["en", "ko"],
-  wow2: "newkey"
+  modals: {
+    login: false
+  }
 };
 
 const cacheKey = "app-ui-cache";
@@ -102,13 +113,27 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const toggleLoginModal = () => {
+    setPersistentUIState((prev) => {
+      console.log("__TOGGLE_LOGIN", prev);
+      return {
+        ...prev,
+        modals: {
+          ...prev.modals,
+          login: !prev.modals?.login
+        }
+      };
+    });
+  };
+
   return (
     <UIContext.Provider
       value={{
         ...persistentUIState,
         updateSearchText,
         updateSearchTags,
-        addLanguagePreference
+        addLanguagePreference,
+        toggleLoginModal
       }}
     >
       <TranslationProvider>{children}</TranslationProvider>
