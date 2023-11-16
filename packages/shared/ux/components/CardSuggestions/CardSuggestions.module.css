@@ -1,5 +1,4 @@
 .CardSuggestions {
-  margin-top: var(--spacing-1);
   overflow: hidden;
   max-height: 0px;
   transition: max-height 0.5s ease;
@@ -26,5 +25,6 @@
 }
 
 .show {
+  margin-top: var(--spacing-2);
   max-height: 100px;
 }

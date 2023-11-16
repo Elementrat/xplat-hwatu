@@ -33,7 +33,8 @@ const getSelectStyles = (isCreate) => {
     }),
     container: (baseStyles, state) => ({
       ...baseStyles,
-      minWidth: "175px"
+      minWidth: "100%",
+      width: "100%"
     }),
     placeholder: (baseStyles, state) => ({
       ...baseStyles,

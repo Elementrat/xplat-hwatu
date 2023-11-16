@@ -65,10 +65,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       newOrUpdatedCard = createResult?.data?.card;
       if (newOrUpdatedCard) {
         const newCards = [...cards, newOrUpdatedCard];
-        mutate(
-          { cards: newCards },
-          fetchConfigs.preservePrevious
-        );
+        mutate({ cards: newCards }, fetchConfigs.preservePrevious);
       }
     } else {
       const createResult = await updateCard({
@@ -83,10 +80,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
             ? { ...existingCard, title: sideA, sideB: localSideB }
             : card;
         });
-        mutate(
-          { cards: newCards },
-          fetchConfigs.preservePrevious
-        );
+        mutate({ cards: newCards }, fetchConfigs.preservePrevious);
       }
     }
 

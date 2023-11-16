@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: space-between;
   padding: var(--spacing-3);
+  row-gap: var(--spacing-2);
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow-1);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -50,7 +51,6 @@
 }
 
 .hasValidInput {
-  box-shadow: var(--box-shadow-2);
   border: 1px solid var(--accent-valid);
 }
 
@@ -67,12 +67,34 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 15px;
 }
 
 .newCardIndicator {
   padding-bottom: var(--spacing-2);
+}
+
+@media screen and (min-width: 1024px) {
+  .InputCard {
+    .textInputs {
+      flex-direction: row;
+      gap: 20px;
+    }
+    .divider {
+      display: none;
+    }
+    .sideBInput {
+      width: 0px;
+      height: auto;
+      max-height: unset;
+    }
+    .sideBInput.show {
+      max-height: 64px;
+      width: 100%;
+      padding: var(--spacing-1) var(--spacing-2);
+    }
+  }
 }
 
 @keyframes myMove {
