@@ -1,2 +1,6 @@
 .UserTags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
 }

@@ -64,6 +64,22 @@ const filterTagsWithCards = (
   return tagsWithCorrespondingCard;
 };
 
+const untaggedCards = (tags: Array<TagClass>, cards: Array<CardClass>) => {
+  let prelimResults = [...cards];
+
+  let filtered = prelimResults.filter((card) => {
+    let hasTag = tags.find((tag) => {
+      return Boolean(tag.cards.find((taggedCard) => taggedCard === card._id));
+    });
+    if (hasTag) {
+      return false;
+    }
+    return true;
+  });
+
+  return filtered;
+};
+
 const sorts = {
   sortByCreatedDate
 };
@@ -71,7 +87,8 @@ const sorts = {
 const filters = {
   filterBySearchText,
   filterTagsWithCards,
-  filterCardsBySearchTags
+  filterCardsBySearchTags,
+  untaggedCards
 };
 
 export { sorts, filters };

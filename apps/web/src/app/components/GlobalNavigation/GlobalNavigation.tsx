@@ -43,9 +43,7 @@ const GlobalNavigation = () => {
         </div>
       </div>
       <div className={styles.visibleWhenExpandedNavContent}>
-        <UserCards />
         <UserTags />
-        <LanguageList languages={languages} />
       </div>
     </div>
   );
