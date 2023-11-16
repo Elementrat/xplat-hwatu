@@ -45,7 +45,7 @@ const GlobalSearch = () => {
   );
 
   const displayTags = useMemo(() => {
-    return filters.filterTagsWithCards(tags, cards).map((tag) => {
+    return filters.filterTagsWithCards(tags, cards)?.map((tag) => {
       return createOption(tag.title, tag);
     });
   }, [tags, cards]);

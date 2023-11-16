@@ -53,7 +53,7 @@ const filterTagsWithCards = (
   let prelimResults = tags?.filter((t) => t?.cards?.length > 0);
 
   let tagsWithCorrespondingCard = prelimResults?.filter((t) => {
-    let matchingCardFound = cards.find((card) =>
+    let matchingCardFound = cards?.find((card) =>
       t.cards.includes(card._id as any)
     );
     if (matchingCardFound) {
