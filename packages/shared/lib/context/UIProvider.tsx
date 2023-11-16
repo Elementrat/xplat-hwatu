@@ -37,10 +37,17 @@ const cacheKey = "app-ui-cache";
 
 const UIContext = createContext(defaultUIStateAndControls);
 
+let initialValue: PersistentUIState = defaultPersistentUIState;
+
+try {
+  let cachedValue = JSON.parse(localStorage.getItem(cacheKey));
+  if (cachedValue) {
+    initialValue = cachedValue;
+  }
+} catch (e) {}
+
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
-  const [persistentUIState, setPersistentUIState] = useState(
-    JSON.parse(localStorage.getItem(cacheKey) || "") || defaultPersistentUIState
-  );
+  const [persistentUIState, setPersistentUIState] = useState(initialValue);
 
   useEffect(() => {
     localStorage.setItem(cacheKey, JSON.stringify(persistentUIState));
