@@ -6,6 +6,8 @@
     },
     "build": {
       "env": [
+        "AUTH_GOOGLE_CLIENT_ID",
+        "AUTH_GOOGLE_CLIENT_SECRET",
         "NEXTAUTH_SECRET",
         "AUTH_GITHUB_CLIENT_ID",
         "AUTH_GITHUB_CLIENT_SECRET",

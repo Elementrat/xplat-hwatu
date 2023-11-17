@@ -6,10 +6,18 @@ import clsx from "clsx";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
 import { filters } from "xplat-lib";
+import { IonIcon } from "@ionic/react";
+import { bookOutline } from "ionicons/icons";
+import { Button } from "ux";
 
 const GlobalSearch = () => {
-  const { searchText, searchTags, updateSearchText, updateSearchTags } =
-    useContext(UIContext);
+  const {
+    searchText,
+    searchTags,
+    updateSearchText,
+    updateSearchTags,
+    toggleStudyMode
+  } = useContext(UIContext);
   const { tags } = useCurrentUserTags();
   const { cards } = useCurrentUserCards();
 
@@ -44,6 +52,10 @@ const GlobalSearch = () => {
     [searchText]
   );
 
+  const onStudyModeClick = () => {
+    toggleStudyMode();
+  };
+
   const displayTags = useMemo(() => {
     return filters.filterTagsWithCards(tags, cards)?.map((tag) => {
       return createOption(tag.title, tag);
@@ -57,17 +69,26 @@ const GlobalSearch = () => {
   }, [searchTags]);
 
   return (
-    <div className={classes}>
-      <MultiSelect
-        initialValue={searchText}
-        knownOptions={displayTags}
-        onSelectOption={onSelectOption}
-        onRemoveValue={onRemoveValue}
-        placeholder={STR.SEARCH}
-        onInputChange={onSearchChange}
-        values={displayValues}
-        inputValue={searchText}
-      />
+    <div className={s.appControls}>
+      <div className={classes}>
+        <MultiSelect
+          initialValue={searchText}
+          knownOptions={displayTags}
+          onSelectOption={onSelectOption}
+          onRemoveValue={onRemoveValue}
+          placeholder={STR.SEARCH}
+          onInputChange={onSearchChange}
+          values={displayValues}
+          inputValue={searchText}
+        />
+      </div>
+      <div className={s.btns}>
+        <Button
+          icon={bookOutline}
+          fillSpace={true}
+          onClick={onStudyModeClick}
+        />
+      </div>
     </div>
   );
 };

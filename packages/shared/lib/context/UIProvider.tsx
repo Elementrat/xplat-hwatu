@@ -13,6 +13,11 @@ interface PersistentUIState {
   searchText: string;
   languages?: Array<string>;
   modals?: ModalState;
+  studyMode: StudyModeState;
+}
+
+interface StudyModeState {
+  active: boolean;
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -20,6 +25,7 @@ interface UIStateAndControls extends PersistentUIState {
   addLanguagePreference: Function;
   updateSearchTags: Function;
   toggleLoginModal: Function;
+  toggleStudyMode: Function;
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
@@ -29,9 +35,13 @@ const defaultUIStateAndControls: UIStateAndControls = {
   updateSearchText: Function,
   updateSearchTags: Function,
   toggleLoginModal: Function,
+  toggleStudyMode: Function,
   addLanguagePreference: Function,
   modals: {
     login: false
+  },
+  studyMode: {
+    active: false
   }
 };
 
@@ -41,6 +51,9 @@ const defaultPersistentUIState: PersistentUIState = {
   languages: ["en", "ko"],
   modals: {
     login: false
+  },
+  studyMode: {
+    active: false
   }
 };
 
@@ -113,14 +126,29 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const toggleLoginModal = (newValue:boolean) => {
+  const toggleLoginModal = (newValue: boolean) => {
     setPersistentUIState((prev) => {
-      const newLoginState = typeof newValue !== 'undefined' ? newValue : !prev.modals?.login
+      const newLoginState =
+        typeof newValue !== "undefined" ? newValue : !prev.modals?.login;
       return {
         ...prev,
         modals: {
           ...prev.modals,
           login: newLoginState
+        }
+      };
+    });
+  };
+
+  const toggleStudyMode = (newValue: boolean) => {
+    setPersistentUIState((prev) => {
+      const newStudyModeState =
+        typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          active: newStudyModeState
         }
       };
     });
@@ -133,7 +161,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateSearchText,
         updateSearchTags,
         addLanguagePreference,
-        toggleLoginModal
+        toggleLoginModal,
+        toggleStudyMode
       }}
     >
       <TranslationProvider>{children}</TranslationProvider>

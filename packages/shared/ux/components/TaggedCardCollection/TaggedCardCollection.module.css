@@ -32,7 +32,7 @@
     max-height: max-content;
   }
   .collectionTitle {
-    color: #ffb4eb;
+    color: var(--primary-accent);
   }
 }
 

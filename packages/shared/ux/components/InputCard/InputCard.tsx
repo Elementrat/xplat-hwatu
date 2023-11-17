@@ -27,8 +27,8 @@ import { useSession } from "next-auth/react";
 const ANIMATION_DURATION = 500;
 
 const InputCard = ({ cardID }: { cardID?: string }) => {
-  const { cards, mutate: mutateCards, } = useCurrentUserCards();
-  const { tags, mutate: mutateTags} = useCurrentUserTags();
+  const { cards, mutate: mutateCards } = useCurrentUserCards();
+  const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
   const { toggleLoginModal, searchTags } = useContext(UIContext);
 
@@ -65,17 +65,19 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     updateSideB(newValue);
   };
 
-  const applySearchTags = async (createdCard:CardClass) => {
-    if (!searchTags.length){
+  const applySearchTags = async (createdCard: CardClass) => {
+    if (!searchTags.length) {
       return;
     }
 
-    for (let searchTag of searchTags){
-      let existingTag = tags.find((tag) => tag.id === searchTag.id)
+    for (let searchTag of searchTags) {
+      let existingTag = tags.find((tag) => tag.id === searchTag.id);
 
-      if (existingTag){
-        let alreadyTagged = existingTag.cards.find((e) => e === createdCard._id)
-        if(!alreadyTagged){
+      if (existingTag) {
+        let alreadyTagged = existingTag.cards.find(
+          (e) => e === createdCard._id
+        );
+        if (!alreadyTagged) {
           const newCardListForTag = [...existingTag.cards, createdCard._id];
 
           const updateResult = await updateTag({
@@ -95,7 +97,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         }
       }
     }
-  }
+  };
 
   const createOrUpdateCard = async (dirtySideB?) => {
     let newOrUpdatedCard;
@@ -109,8 +111,6 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         mutateCards({ cards: newCards }, fetchConfigs.preservePrevious);
       }
       applySearchTags(newOrUpdatedCard);
-
-
     } else {
       const createResult = await updateCard({
         ...existingCard,

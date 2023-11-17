@@ -22,7 +22,9 @@ const getSelectStyles = (isCreate) => {
       ...baseStyles,
       backgroundColor: "black",
       minWidth: "fit-content",
-      position: isCreate ? "absolute" : "relative"
+      position: isCreate ? "absolute" : "relative",
+      marginTop: "0px",
+      marginBottom: "0px"
     }),
     control: (baseStyles, state) => ({
       cursor: "pointer",
@@ -33,8 +35,7 @@ const getSelectStyles = (isCreate) => {
     }),
     container: (baseStyles, state) => ({
       ...baseStyles,
-      minWidth: "100%",
-      width: "100%"
+      flex: 1
     }),
     placeholder: (baseStyles, state) => ({
       ...baseStyles,

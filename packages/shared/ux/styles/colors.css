@@ -20,6 +20,8 @@
   --accent-3: #74f495;
   --accent-4: #9674f4;
   --accent-valid: var(--accent-3);
+  --darken-bg-1: rgba(0, 0, 0, 0.2);
+  --primary-accent: #ffb4eb;
 }
 
 .chili {
