@@ -43,6 +43,15 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const [hovered, setHovered] = useState(false);
   const [obscure, setObscure] = useState(studyMode.active);
 
+  useEffect(() => {
+    if(studyMode.active){
+      setObscure(true);
+    }
+    else{
+      setObscure(false);
+    }
+  },[studyMode])
+
   const handleKeyDown = (e) => {
     if (e.key === KEY_NAMES.ARROW_UP){
       setObscure(false)

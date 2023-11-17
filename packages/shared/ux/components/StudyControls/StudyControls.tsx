@@ -5,7 +5,7 @@ import React, { useContext, useEffect } from "react";
 import styles from "./StudyControls.module.css";
 import { Button } from "../Button/Button";
 import { chevronBack, chevronForward } from "ionicons/icons";
-import { KEY_CODES, KEY_NAMES, UIContext } from "xplat-lib";
+import { KEY_NAMES, UIContext } from "xplat-lib";
 
 const StudyControls = () => {
   const { studyMode, studyModeMoveForwards, studyModeMoveBackwards, displayCards } =
