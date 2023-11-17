@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState, useContext } from "react";
+import { UIContext } from "xplat-lib";
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
@@ -19,26 +19,48 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
+  const [expand, setExpand] = useState(false);
+  const { updateSearchText } = useContext(UIContext);
+
+  const collectionStyles = clsx({
+    [styles.expand]: expand,
+    [styles.TaggedCardCollection]: true
+  });
+
+  const toggleExpand = () => {
+    setExpand(!expand);
+  };
+
   return (
-    <div className={styles.TaggedCardCollection}>
-      <div className={collectionTitleStyles}>
+    <div className={collectionStyles}>
+      <div className={collectionTitleStyles} onClick={toggleExpand}>
         {tag?.title}
         <span className={styles.cardCount}>{` (${cards?.length})`}</span>
       </div>
       <div>
-        {cards.map((card) => {
-          let longString = card.title?.length > visibleCutoff;
+        <div className={styles.cards}>
+          {cards.map((card) => {
+            const onCardClick = () => {
+              updateSearchText(card.title);
+            };
 
-          return (
-            <div key={String(card._id)} className={styles.TaggedCard}>
-              <div className={styles.cardSideA}>
-                {card.title?.slice(0, visibleCutoff)}
-                {longString && "..."}
+            let longString = card.title?.length > visibleCutoff;
+
+            return (
+              <div
+                key={String(card._id)}
+                className={styles.TaggedCard}
+                onClick={onCardClick}
+              >
+                <div className={styles.cardSideA}>
+                  {card.title?.slice(0, visibleCutoff)}
+                  {longString && "..."}
+                </div>
+                <div className={styles.cardSideA}> {card.sideB}</div>
               </div>
-              <div className={styles.cardSideA}> {card.sideB}</div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

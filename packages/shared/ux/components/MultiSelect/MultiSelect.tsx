@@ -83,6 +83,7 @@ const getSelectStyles = (isCreate) => {
 const MultiSelect = ({
   knownOptions,
   initialValue,
+  inputValue,
   onCreate,
   onRemoveValue,
   onSelectOption,
@@ -161,6 +162,7 @@ const MultiSelect = ({
     <CreatableSelect
       isMulti
       isSearchable
+      inputValue={inputValue}
       name="colors"
       noOptionsMessage={() => STR.CREATE_TAG}
       options={options}
@@ -178,6 +180,7 @@ const MultiSelect = ({
       name="colors"
       noOptionsMessage={() => null}
       options={options}
+      inputValue={inputValue}
       placeholder={placeholder}
       className="basic-multi-select"
       classNamePrefix="select"

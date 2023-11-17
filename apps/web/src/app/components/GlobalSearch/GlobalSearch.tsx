@@ -66,6 +66,7 @@ const GlobalSearch = () => {
         placeholder={STR.SEARCH}
         onInputChange={onSearchChange}
         values={displayValues}
+        inputValue={searchText}
       />
     </div>
   );
