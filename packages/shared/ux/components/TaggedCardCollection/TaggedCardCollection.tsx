@@ -4,7 +4,7 @@ import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
 
-const visibleCutoff = 10;
+const visibleCutoff = 14;
 
 const collectionTitleStyles = clsx({
   "text-md": true,

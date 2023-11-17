@@ -40,13 +40,19 @@ const TranslationProvider = ({ children }: { children: ReactNode }) => {
     let sourceLang = detect(inputText);
     let targetLang;
 
-    if (!KNOWN_LANGS.SOURCES.includes(sourceLang)) {
-      let nonEnglishPrefLang = languages?.find((e) => e !== "en");
-      if (nonEnglishPrefLang) {
-        sourceLang = nonEnglishPrefLang;
-      } else {
-        sourceLang = "en";
-      }
+    if (!KNOWN_LANGS.SOURCES.find((knownLang) => knownLang === sourceLang)){
+      sourceLang = "en";
+    }
+
+    let detectJA = inputText.match(/[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/)
+    let detectKO = inputText.match(/[\u3131-\uD79D]/ugi);
+
+    if(detectKO){
+      sourceLang = "ko"
+    }
+
+    if(detectJA){
+      sourceLang = "ja";
     }
 
     if (KNOWN_LANGS.SOURCES.includes(sourceLang)) {
@@ -56,6 +62,7 @@ const TranslationProvider = ({ children }: { children: ReactNode }) => {
           KNOWN_LANGS.TARGETS.includes(languagePref)
       );
     }
+
     if (sourceLang && targetLang) {
       const res = await translateText(inputText, {
         to: targetLang,
