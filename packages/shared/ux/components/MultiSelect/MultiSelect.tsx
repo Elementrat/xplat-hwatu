@@ -186,6 +186,7 @@ const MultiSelect = ({
   ) : (
     <Select
       isMulti
+      isClearable={true}
       backspaceRemovesValue={true}
       name="colors"
       noOptionsMessage={() => null}

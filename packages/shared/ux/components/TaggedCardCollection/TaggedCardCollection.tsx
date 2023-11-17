@@ -20,7 +20,7 @@ const TaggedCardCollection = ({
   cards: Array<CardClass>;
 }) => {
   const { updateSearchText, updateSearchTags, searchTags } = useContext(UIContext);
-  const expand = searchTags?.find((searchTag) => searchTag._id === tag._id) || !tag._id;
+  const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
 
   const collectionStyles = clsx({
     [styles.expand]: expand,
@@ -30,11 +30,17 @@ const TaggedCardCollection = ({
   const toggleExpand = () => {
     let newExpandValue = !expand;
     if(!tag._id){
+      if(!searchTags.find((tag) => tag._id === 'untagged')){
       updateSearchTags([{
         _id: 'untagged',
         title: 'untagged'
       }])
       updateSearchText("");
+    }
+    else{
+      updateSearchTags([])
+      updateSearchText("");
+    }
       return;
     }
     if(newExpandValue){

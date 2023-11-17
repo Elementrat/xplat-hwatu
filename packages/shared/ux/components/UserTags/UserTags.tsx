@@ -38,7 +38,7 @@ const UserTags = () => {
         })}
         <TaggedCardCollection
           cards={untaggedCards}
-          tag={{ title: "Untagged" }}
+          tag={{ title: "untagged", _id: "untagged" }}
         />
       </div>
     </div>

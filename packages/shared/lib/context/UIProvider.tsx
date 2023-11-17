@@ -111,10 +111,15 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       return Boolean(matchingTag);
     });
 
-    displayCards = filters.filterCardsBySearchTags(
-      displayCards,
-      validSearchTags
-    );
+    let untaggedSearch = persistentUIState.searchTags.find((tag) => tag._id === 'untagged');
+    if(untaggedSearch){
+      displayCards = filters.untaggedCards(tags, displayCards);
+    }else{
+      displayCards = filters.filterCardsBySearchTags(
+        displayCards,
+        validSearchTags
+      );
+    }
 
     setPersistentUIState({
       ...persistentUIState,
