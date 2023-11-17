@@ -26,7 +26,7 @@ import {
 
 import { LocalStorageProvider } from "./context/LocalStorageProvider";
 import { sorts, filters } from "./util/filter-sort";
-
+import { mergeDeep } from "./util/merge"
 export type SessionUser = {
   id: string;
   name: string;
@@ -40,6 +40,7 @@ export {
   KEY_NAMES,
   sorts,
   filters,
+  mergeDeep,
   Card,
   CardClass,
   Tag,

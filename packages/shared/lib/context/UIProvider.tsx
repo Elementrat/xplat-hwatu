@@ -6,6 +6,7 @@ import {
   CardClass,
   TagClass,
   filters,
+  mergeDeep,
   sorts,
   useCurrentUserCards,
   useCurrentUserTags
@@ -43,11 +44,18 @@ interface UIStateAndControls extends PersistentUIState {
   studyModeMoveForwards: Function;
 }
 
-const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
+const defaultPersistentUIState: PersistentUIState = {
   displayCards: [],
   searchTags: [],
   searchText: "",
   languages: ["en", "ko"],
+  studyMode: {
+    active: false,
+    index: 0,
+  }
+};
+
+const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   updateSearchText: Function,
   updateSearchTags: Function,
   toggleLoginModal: Function,
@@ -56,24 +64,7 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   addLanguagePreference: Function,
   studyModeMoveBackwards: Function,
   studyModeMoveForwards: Function,
-  studyMode: {
-    active: false,
-    index: 0
-  },
-  modals: {
-    login: false,
-  }
-};
-
-const defaultPersistentUIState: PersistentUIState = {
-  displayCards: [],
-  searchTags: [],
-  searchText: "",
-  languages: ["en", "ko"],
-  studyMode: {
-    active: false,
-    index: 0
-  }
+  ...defaultPersistentUIState
 };
 
 const defaultTemporalUIState : TemporalUIState = {
@@ -84,7 +75,7 @@ const defaultTemporalUIState : TemporalUIState = {
 
 const cacheKey = "app-ui-cache";
 const UIContext = createContext(defaultUIStateAndControls);
-let initialValue: PersistentUIState = defaultPersistentUIState;
+let initialValue: any = defaultPersistentUIState;
 
 try {
   if (typeof window !== "undefined") {
@@ -140,17 +131,9 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   }, [persistentUIState]);
 
   useEffect(() => {
-    // Determine missing keys, in case user has a cached version of the state
-    let missingCacheValues: Record<string, object> = {};
-    for (let [key, val] of Object.entries(defaultPersistentUIState)) {
-      if (!Object.keys(persistentUIState).includes(key)) {
-        missingCacheValues[key] = val;
-      }
-    }
-    if (Object.keys(missingCacheValues)?.length) {
-      setPersistentUIState({ ...persistentUIState, ...missingCacheValues });
-    }
-  }, [persistentUIState]);
+    const merged = mergeDeep(defaultPersistentUIState, persistentUIState )
+    setPersistentUIState(merged);
+  }, []);
 
   const updateSearchText = useCallback(
     (newSearchText: string) => {
