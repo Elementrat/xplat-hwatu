@@ -33,7 +33,7 @@ const Modals = () => {
     if (status === "authenticated" && modals?.login) {
       toggleLoginModal(false);
     }
-  }, [status]);
+  }, [status, modals]);
 
   return (
     <div className={modalRootStyles} id={modalRootID}>
