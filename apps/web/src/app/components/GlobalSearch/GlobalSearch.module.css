@@ -15,7 +15,7 @@
 }
 
 .globalSearch:hover {
-  background-color: var(--darken-bg-1);
+  background-color: var(--grey-700);
 }
 
 .appControls {

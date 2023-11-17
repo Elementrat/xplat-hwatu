@@ -32,6 +32,9 @@
     width: 100%;
     box-sizing: border-box;
   }
+  .textInput:hover {
+    background-color: var(--grey-700);
+  }
   .sideBInput {
     max-height: 0px;
     transition: all 0.3s ease;
