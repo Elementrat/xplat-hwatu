@@ -44,6 +44,7 @@ const Modals = () => {
       >
         <div className={styles.ModalContent}>
           {modals?.login && <SignInModalContent />}
+          <div className={styles.authStatus}>{status}</div>
         </div>
       </div>
     </div>

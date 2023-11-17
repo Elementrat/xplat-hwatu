@@ -45,6 +45,11 @@
   align-items: center;
   gap: var(--spacing-3);
 }
+.authStatus {
+  color: var(--grey-700);
+  font-size: 10px;
+  text-align: center;
+}
 
 .cta {
   color: var(--grey-500);
