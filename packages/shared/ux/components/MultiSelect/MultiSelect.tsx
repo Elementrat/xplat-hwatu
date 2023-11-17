@@ -99,6 +99,10 @@ const MultiSelect = ({
   const [options, setOptions] = useState(knownOptions);
 
   useEffect(() => {
+    setValue(values);
+  },[values])
+
+  useEffect(() => {
     setOptions(knownOptions);
   }, [knownOptions]);
 
@@ -182,6 +186,7 @@ const MultiSelect = ({
   ) : (
     <Select
       isMulti
+      backspaceRemovesValue={true}
       name="colors"
       noOptionsMessage={() => null}
       options={options}

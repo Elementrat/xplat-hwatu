@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UIContext } from "xplat-lib";
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
@@ -19,8 +19,8 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
-  const [expand, setExpand] = useState(false);
-  const { updateSearchText } = useContext(UIContext);
+  const { updateSearchText, updateSearchTags, searchTags } = useContext(UIContext);
+  const expand = searchTags?.find((searchTag) => searchTag._id === tag._id) || !tag._id;
 
   const collectionStyles = clsx({
     [styles.expand]: expand,
@@ -28,7 +28,21 @@ const TaggedCardCollection = ({
   });
 
   const toggleExpand = () => {
-    setExpand(!expand);
+    let newExpandValue = !expand;
+    if(!tag._id){
+      updateSearchTags([{
+        _id: 'untagged',
+        title: 'untagged'
+      }])
+      updateSearchText("");
+      return;
+    }
+    if(newExpandValue){
+      updateSearchTags([tag]);
+    }
+    else{
+      updateSearchTags([])
+    }
   };
 
   return (
