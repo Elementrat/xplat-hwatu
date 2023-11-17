@@ -15,11 +15,14 @@ type ModalState = {
   login: boolean;
 };
 
+interface TemporalUIState {
+  modals?: ModalState;
+}
+
 interface PersistentUIState {
   searchTags: Array<TagClass>;
   searchText: string;
   languages?: Array<string>;
-  modals?: ModalState;
   studyMode: StudyModeState;
   displayCards: Array<CardClass>;
 }
@@ -36,9 +39,11 @@ interface UIStateAndControls extends PersistentUIState {
   toggleLoginModal: Function;
   toggleStudyMode: Function;
   updateStudyModeIndex: Function;
+  studyModeMoveBackwards: Function;
+  studyModeMoveForwards: Function;
 }
 
-const defaultUIStateAndControls: UIStateAndControls = {
+const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   displayCards: [],
   searchTags: [],
   searchText: "",
@@ -49,12 +54,14 @@ const defaultUIStateAndControls: UIStateAndControls = {
   toggleStudyMode: Function,
   updateStudyModeIndex: Function,
   addLanguagePreference: Function,
-  modals: {
-    login: false
-  },
+  studyModeMoveBackwards: Function,
+  studyModeMoveForwards: Function,
   studyMode: {
     active: false,
     index: 0
+  },
+  modals: {
+    login: false,
   }
 };
 
@@ -63,14 +70,17 @@ const defaultPersistentUIState: PersistentUIState = {
   searchTags: [],
   searchText: "",
   languages: ["en", "ko"],
-  modals: {
-    login: false
-  },
   studyMode: {
     active: false,
     index: 0
   }
 };
+
+const defaultTemporalUIState : TemporalUIState = {
+  modals: {
+    login: false
+  },
+}
 
 const cacheKey = "app-ui-cache";
 const UIContext = createContext(defaultUIStateAndControls);
@@ -90,6 +100,7 @@ try {
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] = useState(initialValue);
+  const [temporalUIState, setTemporalUIState] = useState(defaultTemporalUIState)
 
   const { cards } = useCurrentUserCards();
   const { tags } = useCurrentUserTags();
@@ -173,7 +184,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleLoginModal = (newValue: boolean) => {
-    setPersistentUIState((prev) => {
+    setTemporalUIState((prev) => {
       const newLoginState =
         typeof newValue !== "undefined" ? newValue : !prev.modals?.login;
       return {
@@ -212,16 +223,57 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const studyModeMoveForwards = () => {
+    setPersistentUIState((prev) => {
+
+      let numDisplayCards = prev?.displayCards.length;
+      let newIndex = prev.studyMode.index;
+
+      if(prev.studyMode.index < numDisplayCards -1){
+        newIndex = newIndex + 1;
+      }
+
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          index: newIndex
+        }
+      };
+    });
+  };
+
+  
+  const studyModeMoveBackwards = () => {
+    setPersistentUIState((prev) => {
+      let newIndex = prev.studyMode.index;
+      if(prev.studyMode.index > 0){
+        newIndex = newIndex-1;
+      }
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          index: newIndex
+        }
+    }
+    });
+  };
+
+
   return (
     <UIContext.Provider
       value={{
         ...persistentUIState,
+        ...temporalUIState,
         updateSearchText,
         updateSearchTags,
         addLanguagePreference,
         toggleLoginModal,
         toggleStudyMode,
-        updateStudyModeIndex
+        updateStudyModeIndex,
+        studyModeMoveBackwards, 
+        studyModeMoveForwards
       }}
     >
       <TranslationProvider>{children}</TranslationProvider>

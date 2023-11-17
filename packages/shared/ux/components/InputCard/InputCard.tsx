@@ -11,7 +11,8 @@ import {
   updateTag,
   useCurrentUserTags,
   CardClass,
-  TagClass
+  TagClass,
+  KEY_NAMES
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -30,7 +31,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
-  const { toggleLoginModal, searchTags, studyMode } = useContext(UIContext);
+  const { toggleLoginModal, searchTags, studyMode, studyModeMoveBackwards, studyModeMoveForwards, displayCards } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -40,6 +41,21 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const [submitted, setSubmitted] = useState(false);
   const [edited, setEdited] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [obscure, setObscure] = useState(studyMode.active);
+
+  const handleKeyDown = (e) => {
+    if (e.key === KEY_NAMES.ARROW_UP){
+      setObscure(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  },[])
+
 
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
@@ -191,11 +207,30 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     setHovered(false);
   };
 
-  const onClick = async () => {
+  const onClick = async (e) => {
     if (status !== "authenticated") {
       toggleLoginModal();
     }
+
+    if(studyMode.active){
+
+    const targetRect = e.target.getBoundingClientRect();
+    const elementWidth = targetRect.width;
+    const elementCenter = targetRect.x + elementWidth / 2;
+    const x = e.pageX - elementCenter;
+
+      if( x < 0){
+        studyModeMoveBackwards();
+      }
+      if (x > 0){
+       studyModeMoveForwards();
+      }
+    }
   };
+
+  const onMouseOverSideB = () => {
+    setObscure(false);
+  }
 
   const hasValidInput = sideA?.length > 0;
 
@@ -209,7 +244,8 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const inputSideBStyles = clsx({
     [styles.textInput]: true,
     [styles.sideBInput]: true,
-    [styles.show]: hasValidInput
+    [styles.show]: hasValidInput,
+    [styles.obscure]: obscure
   });
 
   return (
@@ -230,6 +266,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
           onChange={onInputChangeSideA}
           onKeyDown={onKeyDownSideA}
           value={sideA}
+          disabled={studyMode.active}
         />
         <div className={styles.divider} />
         <TextInput
@@ -239,6 +276,8 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
           value={sideB}
           onChange={onInputChangeSideB}
           onKeyDown={onKeyDownSideB}
+          onMouseOver={onMouseOverSideB}
+          disabled={studyMode.active}
         />
       </div>
       {sideA && <div className={styles.divider} />}

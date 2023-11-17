@@ -14,7 +14,7 @@ const modalRootID = "modal-root";
 
 const Modals = () => {
   const { modals, toggleLoginModal } = useContext(UIContext);
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const onClickModalInner = (e) => {
     if (e.target.id === modalInnerID) {
@@ -31,9 +31,10 @@ const Modals = () => {
 
   useEffect(() => {
     if (status === "authenticated" && modals?.login) {
+      console.log("__TRY_HIDE")
       toggleLoginModal(false);
     }
-  }, [status, modals]);
+  }, [status, modals?.login]);
 
   return (
     <div className={modalRootStyles} id={modalRootID}>

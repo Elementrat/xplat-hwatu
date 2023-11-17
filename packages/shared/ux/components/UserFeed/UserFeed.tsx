@@ -26,7 +26,7 @@ const UserFeed = () => {
     <div className={styles.UserFeed}>
       {Boolean(!searchText?.length) && !studyMode.active && <InputCard />}
       {visibleCards?.map((card) => {
-        return <InputCard cardID={card._id} key={card._id} />;
+        return card?._id && <InputCard cardID={card?._id} key={card?._id} />
       })}
       {studyMode.active && <StudyControls />}
     </div>

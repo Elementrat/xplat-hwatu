@@ -33,10 +33,11 @@ export type SessionUser = {
   email: string;
 };
 
-import KEY_CODES from "./util/keys";
+import { KEY_CODES, KEY_NAMES } from "./util/keys";
 
 export {
   KEY_CODES,
+  KEY_NAMES,
   sorts,
   filters,
   Card,

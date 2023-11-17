@@ -1,25 +1,40 @@
-import React, { useContext } from "react";
+"use client"
+
+import React, { useContext, useEffect } from "react";
 
 import styles from "./StudyControls.module.css";
 import { Button } from "../Button/Button";
 import { chevronBack, chevronForward } from "ionicons/icons";
-import { UIContext } from "xplat-lib";
+import { KEY_CODES, KEY_NAMES, UIContext } from "xplat-lib";
 
 const StudyControls = () => {
-  const { studyMode, updateStudyModeIndex, displayCards } =
+  const { studyMode, studyModeMoveForwards, studyModeMoveBackwards, displayCards } =
     useContext(UIContext);
 
   const onClickBack = () => {
-    if (studyMode.index > 0) {
-      updateStudyModeIndex(studyMode.index - 1);
-    }
+    studyModeMoveBackwards()
   };
 
   const onClickForward = () => {
-    if (studyMode.index < displayCards.length - 1) {
-      updateStudyModeIndex(studyMode.index + 1);
-    }
+    studyModeMoveForwards();
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === KEY_NAMES.ARROW_LEFT) {
+      studyModeMoveBackwards();
+    }
+    if(e.key === KEY_NAMES.ARROW_RIGHT){
+      studyModeMoveForwards();
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  },[])
+
   return (
     <div className={styles.StudyControls}>
       <Button icon={chevronBack} onClick={onClickBack} primary={true} />
