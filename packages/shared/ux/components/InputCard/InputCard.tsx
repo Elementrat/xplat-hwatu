@@ -30,7 +30,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
-  const { toggleLoginModal, searchTags } = useContext(UIContext);
+  const { toggleLoginModal, searchTags, studyMode } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -202,7 +202,8 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const cardStyles = clsx({
     [styles.InputCard]: true,
     [styles.hasValidInput]: hasValidInput && edited,
-    [styles.hovered]: hovered
+    [styles.hovered]: hovered,
+    [styles.StudyMode]: studyMode.active
   });
 
   const inputSideBStyles = clsx({

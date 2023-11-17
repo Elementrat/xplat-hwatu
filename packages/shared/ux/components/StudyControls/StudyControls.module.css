@@ -1,0 +1,13 @@
+.StudyControls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+  color: var(--grey-500);
+}
+
+.Counts {
+  min-width: 50px;
+  text-align: center;
+}

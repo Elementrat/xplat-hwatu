@@ -26,6 +26,7 @@
   top: var(--spacing-3);
   justify-content: flex-start;
   align-items: flex-start;
+  transition: height 1s ease;
 }
 
 .btns {

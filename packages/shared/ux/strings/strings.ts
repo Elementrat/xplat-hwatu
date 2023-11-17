@@ -16,6 +16,7 @@ const STR = {
   CREATE_TAG: " Create Tag",
   SIGN_IN_CTA: "You'll need an account to create cards",
   SIGN_IN: "Sign In",
+  STUDY_MODE_ACTIVE: "(Quiz Mode)"
 };
 
 export default STR;

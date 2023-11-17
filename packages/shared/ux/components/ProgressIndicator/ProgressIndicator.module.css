@@ -1,0 +1,19 @@
+.ProgressIndicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--spacing-2);
+}
+
+.Item {
+  width: 15px;
+  height: 15px;
+  background-color: var(--grey-900);
+  border-radius: 15px;
+}
+
+.active {
+  background-color: white;
+}

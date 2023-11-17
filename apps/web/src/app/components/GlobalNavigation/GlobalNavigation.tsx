@@ -1,8 +1,8 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import styles from "./GlobalNavigation.module.css";
 import AuthManager from "../AuthManager/AuthManager";
-import { UserCards, UserTags } from "ux";
+import { UserTags } from "ux";
 import clsx from "clsx";
 import { IonIcon } from "@ionic/react";
 import { menuOutline } from "ionicons/icons";
@@ -11,7 +11,7 @@ import { UIContext } from "xplat-lib";
 
 const GlobalNavigation = () => {
   const [expanded, setExpanded] = useState(false);
-  const { languages } = useContext(UIContext);
+  const { studyMode } = useContext(UIContext);
 
   const navClasses = clsx({
     [styles.nav]: true,
@@ -23,6 +23,12 @@ const GlobalNavigation = () => {
     "cursor-pointer": true,
     "select-none": true
   });
+
+  useEffect(() => {
+    if (expanded && studyMode.active) {
+      setExpanded(false);
+    }
+  }, [studyMode]);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);

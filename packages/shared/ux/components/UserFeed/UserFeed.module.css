@@ -9,3 +9,16 @@
   width: 100%;
   max-width: var(--app-content-max-width);
 }
+
+.modeIndicator {
+  display: flex;
+  justify-content: center;
+  color: var(--grey-600);
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+
+.modeIndicator.show {
+  max-height: 200px;
+}

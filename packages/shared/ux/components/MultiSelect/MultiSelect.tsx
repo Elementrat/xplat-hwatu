@@ -39,6 +39,7 @@ const getSelectStyles = (isCreate) => {
     }),
     placeholder: (baseStyles, state) => ({
       ...baseStyles,
+      color: "rgba(255, 255, 255, 0.6)",
       padding: "10px"
     }),
     clearIndicator: (baseStyles, state) => ({
@@ -153,7 +154,10 @@ const MultiSelect = ({
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, b) => {
+    if (b.action === "input-blur" || b.action === "menu-close") {
+      return;
+    }
     if (onInputChange) {
       onInputChange(e);
     }

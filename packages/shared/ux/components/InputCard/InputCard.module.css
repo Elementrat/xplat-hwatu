@@ -45,6 +45,16 @@
     color: var(--grey-600);
   }
 }
+.InputCard.StudyMode {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  animation: none;
+  .cardModifiers {
+    display: none;
+  }
+}
 
 .InputCard.hovered {
   border: 1px solid var(--grey-600);

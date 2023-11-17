@@ -11,18 +11,21 @@ const Button = ({
   label,
   icon,
   onClick,
-  fillSpace
+  fillSpace,
+  active
 }: {
-  fillSpace: boolean;
+  fillSpace?: boolean;
   primary?: boolean;
   label?: string;
   icon?: any;
   onClick?: MouseEventHandler;
+  active?: boolean;
 }) => {
   const btnStyles = clsx({
     [styles.btn]: true,
     [styles.primary]: primary,
-    [styles.fillSpace]: fillSpace
+    [styles.fillSpace]: fillSpace,
+    [styles.active]: active
   });
   return (
     <button className={btnStyles} onClick={onClick}>

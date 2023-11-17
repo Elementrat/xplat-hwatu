@@ -8,15 +8,17 @@ import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
 import { filters } from "xplat-lib";
 import { IonIcon } from "@ionic/react";
 import { bookOutline } from "ionicons/icons";
-import { Button } from "ux";
+import { Button, ProgressIndicator } from "ux";
 
 const GlobalSearch = () => {
   const {
-    searchText,
+    displayCards,
     searchTags,
+    searchText,
     updateSearchText,
     updateSearchTags,
-    toggleStudyMode
+    toggleStudyMode,
+    studyMode
   } = useContext(UIContext);
   const { tags } = useCurrentUserTags();
   const { cards } = useCurrentUserCards();
@@ -70,23 +72,33 @@ const GlobalSearch = () => {
 
   return (
     <div className={s.appControls}>
-      <div className={classes}>
-        <MultiSelect
-          initialValue={searchText}
-          knownOptions={displayTags}
-          onSelectOption={onSelectOption}
-          onRemoveValue={onRemoveValue}
-          placeholder={STR.SEARCH}
-          onInputChange={onSearchChange}
-          values={displayValues}
-          inputValue={searchText}
+      {!studyMode.active && (
+        <div className={classes}>
+          <MultiSelect
+            initialValue={searchText}
+            knownOptions={displayTags}
+            onSelectOption={onSelectOption}
+            onRemoveValue={onRemoveValue}
+            placeholder={STR.SEARCH}
+            onInputChange={onSearchChange}
+            values={displayValues}
+            inputValue={searchText}
+          />
+        </div>
+      )}
+      {studyMode.active && (
+        <ProgressIndicator
+          numItems={displayCards.length}
+          currentIndex={studyMode.index}
         />
-      </div>
+      )}
+
       <div className={s.btns}>
         <Button
           icon={bookOutline}
           fillSpace={true}
           onClick={onStudyModeClick}
+          active={studyMode.active}
         />
       </div>
     </div>

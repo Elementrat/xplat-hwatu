@@ -1,8 +1,15 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { TranslationProvider } from "./TranslationProvider";
-import { TagClass } from "..";
+import {
+  CardClass,
+  TagClass,
+  filters,
+  sorts,
+  useCurrentUserCards,
+  useCurrentUserTags
+} from "..";
 
 type ModalState = {
   login: boolean;
@@ -14,10 +21,12 @@ interface PersistentUIState {
   languages?: Array<string>;
   modals?: ModalState;
   studyMode: StudyModeState;
+  displayCards: Array<CardClass>;
 }
 
 interface StudyModeState {
   active: boolean;
+  index: number;
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -26,9 +35,11 @@ interface UIStateAndControls extends PersistentUIState {
   updateSearchTags: Function;
   toggleLoginModal: Function;
   toggleStudyMode: Function;
+  updateStudyModeIndex: Function;
 }
 
 const defaultUIStateAndControls: UIStateAndControls = {
+  displayCards: [],
   searchTags: [],
   searchText: "",
   languages: ["en", "ko"],
@@ -36,16 +47,19 @@ const defaultUIStateAndControls: UIStateAndControls = {
   updateSearchTags: Function,
   toggleLoginModal: Function,
   toggleStudyMode: Function,
+  updateStudyModeIndex: Function,
   addLanguagePreference: Function,
   modals: {
     login: false
   },
   studyMode: {
-    active: false
+    active: false,
+    index: 0
   }
 };
 
 const defaultPersistentUIState: PersistentUIState = {
+  displayCards: [],
   searchTags: [],
   searchText: "",
   languages: ["en", "ko"],
@@ -53,14 +67,13 @@ const defaultPersistentUIState: PersistentUIState = {
     login: false
   },
   studyMode: {
-    active: false
+    active: false,
+    index: 0
   }
 };
 
 const cacheKey = "app-ui-cache";
-
 const UIContext = createContext(defaultUIStateAndControls);
-
 let initialValue: PersistentUIState = defaultPersistentUIState;
 
 try {
@@ -77,6 +90,39 @@ try {
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] = useState(initialValue);
+
+  const { cards } = useCurrentUserCards();
+  const { tags } = useCurrentUserTags();
+
+  useEffect(() => {
+    const cardsSortedNewestFirst = sorts.sortByCreatedDate(cards);
+
+    let displayCards = filters.filterBySearchText(
+      cardsSortedNewestFirst,
+      persistentUIState.searchText
+    );
+
+    const validSearchTags = tags?.filter((tag) => {
+      let matchingTag = persistentUIState.searchTags?.find(
+        (e) => e._id === tag.id
+      );
+      return Boolean(matchingTag);
+    });
+
+    displayCards = filters.filterCardsBySearchTags(
+      displayCards,
+      validSearchTags
+    );
+
+    setPersistentUIState({
+      ...persistentUIState,
+      displayCards,
+      studyMode: {
+        ...persistentUIState.studyMode,
+        index: 0
+      }
+    });
+  }, [persistentUIState.searchText, persistentUIState.searchTags, cards, tags]);
 
   useEffect(() => {
     localStorage.setItem(cacheKey, JSON.stringify(persistentUIState));
@@ -154,6 +200,18 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const updateStudyModeIndex = (newValue: number) => {
+    setPersistentUIState((prev) => {
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          index: newValue
+        }
+      };
+    });
+  };
+
   return (
     <UIContext.Provider
       value={{
@@ -162,7 +220,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateSearchTags,
         addLanguagePreference,
         toggleLoginModal,
-        toggleStudyMode
+        toggleStudyMode,
+        updateStudyModeIndex
       }}
     >
       <TranslationProvider>{children}</TranslationProvider>

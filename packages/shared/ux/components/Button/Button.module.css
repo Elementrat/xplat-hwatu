@@ -5,10 +5,16 @@
   justify-self: center;
   align-items: center;
   box-shadow: var(--box-shadow-1);
+  border: 1px solid transparent;
 }
 
 .btn.primary {
   background-color: var(--accent-1);
+  color: var(--primary-accent);
+}
+
+.btn.active {
+  border: 1px solid var(--primary-accent);
   color: var(--primary-accent);
 }
 

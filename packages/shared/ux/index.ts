@@ -11,7 +11,8 @@ import {
   createOption
 } from "./components/MultiSelect/MultiSelect";
 import { Modals } from "./components/Modals/Modals";
-
+import { ProgressIndicator } from "./components/ProgressIndicator/ProgressIndicator";
+import { StudyControls } from "./components/StudyControls/StudyControls";
 import STR from "./strings/strings";
 
 export {
@@ -20,11 +21,13 @@ export {
   createOption,
   Button,
   MultiSelect,
+  ProgressIndicator,
   InputCard,
   UserCards,
   UserTags,
   TextInput,
   UserFeed,
+  StudyControls,
   STR,
   LanguageList
 };
