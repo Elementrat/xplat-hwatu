@@ -26,6 +26,7 @@
 
 .btn:hover {
   background-color: var(--darken-bg-1);
+  color: white;
 }
 
 .btn.primary:hover {
