@@ -1,14 +1,14 @@
 "use client";
 import React, { useMemo, useContext, useCallback } from "react";
-import { UIContext, useCurrentUserCards } from "xplat-lib";
+import { CONSTANTS, UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
 import { filters } from "xplat-lib";
-import { IonIcon } from "@ionic/react";
 import { bookOutline } from "ionicons/icons";
 import { Button, ProgressIndicator } from "ux";
+import { useSession } from "next-auth/react";
 
 const GlobalSearch = () => {
   const {
@@ -18,10 +18,12 @@ const GlobalSearch = () => {
     updateSearchText,
     updateSearchTags,
     toggleStudyMode,
-    studyMode
+    studyMode,
+    toggleLoginModal
   } = useContext(UIContext);
   const { tags } = useCurrentUserTags();
   const { cards } = useCurrentUserCards();
+  const { status } = useSession();
 
   const classes = clsx({
     [s.globalSearch]: true,
@@ -55,7 +57,17 @@ const GlobalSearch = () => {
   );
 
   const onStudyModeClick = () => {
-    toggleStudyMode();
+    if (status === CONSTANTS.AUTHENTICATED) {
+      toggleStudyMode();
+    }
+  };
+
+  const onClickAppControls = (e) => {
+    if (status !== CONSTANTS.AUTHENTICATED) {
+      e.preventDefault();
+      toggleLoginModal();
+      return false;
+    }
   };
 
   const displayTags = useMemo(() => {
@@ -71,7 +83,7 @@ const GlobalSearch = () => {
   }, [searchTags]);
 
   return (
-    <div className={s.appControls}>
+    <div className={s.appControls} onClick={onClickAppControls}>
       {!studyMode.active && (
         <div className={classes}>
           <MultiSelect

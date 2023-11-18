@@ -12,7 +12,8 @@ import {
   useCurrentUserTags,
   CardClass,
   TagClass,
-  KEY_NAMES
+  KEY_NAMES,
+  CONSTANTS
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -31,7 +32,14 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
-  const { toggleLoginModal, searchTags, studyMode, studyModeMoveBackwards, studyModeMoveForwards, displayCards } = useContext(UIContext);
+  const {
+    toggleLoginModal,
+    searchTags,
+    studyMode,
+    studyModeMoveBackwards,
+    studyModeMoveForwards,
+    displayCards
+  } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
 
@@ -44,27 +52,25 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const [obscure, setObscure] = useState(studyMode.active);
 
   useEffect(() => {
-    if(studyMode.active){
+    if (studyMode.active) {
       setObscure(true);
-    }
-    else{
+    } else {
       setObscure(false);
     }
-  },[studyMode])
+  }, [studyMode]);
 
   const handleKeyDown = (e) => {
-    if (e.key === KEY_NAMES.ARROW_UP){
-      setObscure(false)
+    if (e.key === KEY_NAMES.ARROW_UP) {
+      setObscure(false);
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  },[])
-
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
@@ -217,29 +223,28 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   };
 
   const onClick = async (e) => {
-    if (status !== "authenticated") {
+    if (status !== CONSTANTS.AUTHENTICATED) {
       toggleLoginModal();
     }
 
-    if(studyMode.active){
+    if (studyMode.active) {
+      const targetRect = e.target.getBoundingClientRect();
+      const elementWidth = targetRect.width;
+      const elementCenter = targetRect.x + elementWidth / 2;
+      const x = e.pageX - elementCenter;
 
-    const targetRect = e.target.getBoundingClientRect();
-    const elementWidth = targetRect.width;
-    const elementCenter = targetRect.x + elementWidth / 2;
-    const x = e.pageX - elementCenter;
-
-      if( x < 0){
+      if (x < 0) {
         studyModeMoveBackwards();
       }
-      if (x > 0){
-       studyModeMoveForwards();
+      if (x > 0) {
+        studyModeMoveForwards();
       }
     }
   };
 
   const onMouseOverSideB = () => {
     setObscure(false);
-  }
+  };
 
   const hasValidInput = sideA?.length > 0;
 

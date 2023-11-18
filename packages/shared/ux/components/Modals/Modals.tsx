@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 
 import styles from "./Modals.module.css";
 import { useContext } from "react";
-import { UIContext } from "xplat-lib";
+import { CONSTANTS, UIContext } from "xplat-lib";
 import clsx from "clsx";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../Button/Button";
@@ -30,8 +30,7 @@ const Modals = () => {
   });
 
   useEffect(() => {
-    if (status === "authenticated" && modals?.login) {
-      console.log("__TRY_HIDE")
+    if (status === CONSTANTS.AUTHENTICATED && modals?.login) {
       toggleLoginModal(false);
     }
   }, [status, modals?.login]);
