@@ -15,11 +15,11 @@
   --grey-800: #343a40;
   --grey-850: #2b3035;
   --grey-900: #212529;
-  --accent-1: #633857;
-  --accent-2: #74f495;
-  --accent-3: #74f495;
+  --accent-1: #845EC2;
+  --accent-2: #4B4453
+  --accent-3:#B0A8B9;
   --accent-4: #9674f4;
-  --accent-valid: var(--accent-3);
+  --accent-valid: #74f495;
   --darken-bg-1: rgba(0, 0, 0, 0.2);
   --primary-accent: #ffb4eb;
 }

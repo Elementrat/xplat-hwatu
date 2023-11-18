@@ -5,6 +5,7 @@ import { Button } from "ux";
 import strings from "./AuthManager.strings";
 import styles from "./AuthManager.module.css";
 import { CONSTANTS } from "xplat-lib";
+import { personCircleOutline } from "ionicons/icons";
 
 const AuthManager = () => {
   const { data: session, status } = useSession();
@@ -12,14 +13,13 @@ const AuthManager = () => {
     <div className={styles.authManager}>
       {status === CONSTANTS.AUTHENTICATED ? (
         <>
-          <div
-            className={styles.userName}
+          <Button
+            icon={personCircleOutline}
             onClick={() => {
               signOut();
             }}
-          >
-            {session?.user?.name}
-          </div>
+          />
+          <div className={styles.userName}>{session?.user?.name}</div>
         </>
       ) : (
         <Button
@@ -27,6 +27,7 @@ const AuthManager = () => {
             signIn();
           }}
           label={strings.SIGN_IN}
+          icon={personCircleOutline}
         />
       )}
     </div>

@@ -6,6 +6,7 @@
   align-items: center;
   box-shadow: var(--box-shadow-1);
   border: 1px solid transparent;
+  gap: var(--spacing-2);
 }
 
 .btn.primary {
