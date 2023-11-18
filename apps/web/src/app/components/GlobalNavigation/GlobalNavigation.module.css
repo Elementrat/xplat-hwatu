@@ -42,13 +42,18 @@
       align-items: center;
     }
     .visibleWhenExpandedNavContent {
-      display: none;
+      max-height: 0px;
+      transition: all 0.3s;
+      margin-top: 0px;
+      overflow: hidden;
     }
   }
   .nav.expanded {
-    position: absolute;
     .visibleWhenExpandedNavContent {
       display: block;
+      max-height: 100vh;
+      overflow: scroll;
+      padding-top: 20px;
     }
   }
 }

@@ -50,6 +50,7 @@
 }
 .InputCard.StudyMode {
   height: 90%;
+  flex-shrink: 1;
   width: 100%;
   justify-content: center;
   align-items: center;

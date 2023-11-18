@@ -1,12 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { UserFeed } from "ux";
+import { UserFeed, GlobalSearch } from "ux";
 
-import GlobalSearch from "./components/GlobalSearch/GlobalSearch";
 export default function Home() {
   return (
     <main className={styles.homePage}>
-      <GlobalSearch />
       <UserFeed />
     </main>
   );

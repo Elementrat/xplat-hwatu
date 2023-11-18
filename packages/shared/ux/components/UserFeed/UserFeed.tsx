@@ -13,6 +13,7 @@ import { sorts } from "xplat-lib";
 import STR from "../../strings/strings";
 import clsx from "clsx";
 import { StudyControls } from "../StudyControls/StudyControls";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 const UserFeed = () => {
   const { displayCards, searchText, studyMode } = useContext(UIContext);
@@ -24,9 +25,10 @@ const UserFeed = () => {
 
   return (
     <div className={styles.UserFeed}>
+      <GlobalSearch />
       {Boolean(!searchText?.length) && !studyMode.active && <InputCard />}
       {visibleCards?.map((card) => {
-        return card?._id && <InputCard cardID={card?._id} key={card?._id} />
+        return card?._id && <InputCard cardID={card?._id} key={card?._id} />;
       })}
       {studyMode.active && <StudyControls />}
     </div>
