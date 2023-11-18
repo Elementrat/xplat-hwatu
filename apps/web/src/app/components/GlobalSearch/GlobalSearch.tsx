@@ -1,5 +1,11 @@
 "use client";
-import React, { useMemo, useContext, useCallback } from "react";
+import React, {
+  useMemo,
+  useContext,
+  useCallback,
+  MouseEventHandler,
+  MouseEvent
+} from "react";
 import { CONSTANTS, UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
@@ -62,7 +68,7 @@ const GlobalSearch = () => {
     }
   };
 
-  const onClickAppControls = (e: MouseEvent) => {
+  const onClickAppControls = (e: MouseEvent<HTMLDivElement>) => {
     if (status !== CONSTANTS.AUTHENTICATED) {
       e.preventDefault();
       toggleLoginModal();
