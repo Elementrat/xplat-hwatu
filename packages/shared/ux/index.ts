@@ -14,8 +14,11 @@ import { Modals } from "./components/Modals/Modals";
 import { ProgressIndicator } from "./components/ProgressIndicator/ProgressIndicator";
 import { StudyControls } from "./components/StudyControls/StudyControls";
 import STR from "./strings/strings";
+import { colors, randomColor } from "./colors/colors";
 
 export {
+  colors,
+  randomColor,
   Modals,
   DebugInfo,
   createOption,

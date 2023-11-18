@@ -39,12 +39,14 @@ function useCurrentUserTags(): UserTagData {
 
 async function createTag({
   title,
-  cards
+  cards,
+  color
 }: {
   title: string;
   cards: Array<string>;
+  color?: string;
 }) {
-  return await postRequest(tagsAPIURL, { title, cards });
+  return await postRequest(tagsAPIURL, { title, cards, color });
 }
 
 async function updateTag({

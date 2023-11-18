@@ -45,6 +45,9 @@ class TagClass {
   @prop({ required: true })
   userID: mongoose.Types.ObjectId | string;
 
+  @prop({ required: true, default: "rgba(0,0,0,.2)" })
+  color: string;
+
   _id: mongoose.Types.ObjectId | string;
 
   id: string;

@@ -51,7 +51,7 @@ const defaultPersistentUIState: PersistentUIState = {
   languages: ["en", "ko"],
   studyMode: {
     active: false,
-    index: 0,
+    index: 0
   }
 };
 
@@ -67,11 +67,11 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   ...defaultPersistentUIState
 };
 
-const defaultTemporalUIState : TemporalUIState = {
+const defaultTemporalUIState: TemporalUIState = {
   modals: {
     login: false
-  },
-}
+  }
+};
 
 const cacheKey = "app-ui-cache";
 const UIContext = createContext(defaultUIStateAndControls);
@@ -91,7 +91,9 @@ try {
 
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] = useState(initialValue);
-  const [temporalUIState, setTemporalUIState] = useState(defaultTemporalUIState)
+  const [temporalUIState, setTemporalUIState] = useState(
+    defaultTemporalUIState
+  );
 
   const { cards } = useCurrentUserCards();
   const { tags } = useCurrentUserTags();
@@ -106,15 +108,17 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
     const validSearchTags = tags?.filter((tag) => {
       let matchingTag = persistentUIState.searchTags?.find(
-        (e:TagClass) => e._id === tag.id
+        (e: TagClass) => e._id === tag.id
       );
       return Boolean(matchingTag);
     });
 
-    let untaggedSearch = persistentUIState.searchTags.find((tag:TagClass) => tag._id === 'untagged');
-    if(untaggedSearch){
+    let untaggedSearch = persistentUIState.searchTags.find(
+      (tag: TagClass) => tag._id === "untagged"
+    );
+    if (untaggedSearch) {
       displayCards = filters.untaggedCards(tags, displayCards);
-    }else{
+    } else {
       displayCards = filters.filterCardsBySearchTags(
         displayCards,
         validSearchTags
@@ -136,7 +140,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   }, [persistentUIState]);
 
   useEffect(() => {
-    const merged = mergeDeep(defaultPersistentUIState, persistentUIState )
+    const merged = mergeDeep(defaultPersistentUIState, persistentUIState);
     setPersistentUIState(merged);
   }, []);
 
@@ -186,7 +190,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleStudyMode = (newValue: boolean) => {
-    setPersistentUIState((prev:PersistentUIState) => {
+    setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeState =
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
       return {
@@ -200,7 +204,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const updateStudyModeIndex = (newValue: number) => {
-    setPersistentUIState((prev:PersistentUIState) => {
+    setPersistentUIState((prev: PersistentUIState) => {
       return {
         ...prev,
         studyMode: {
@@ -212,12 +216,11 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const studyModeMoveForwards = () => {
-    setPersistentUIState((prev:PersistentUIState) => {
-
+    setPersistentUIState((prev: PersistentUIState) => {
       let numDisplayCards = prev?.displayCards.length;
       let newIndex = prev.studyMode.index;
 
-      if(prev.studyMode.index < numDisplayCards -1){
+      if (prev.studyMode.index < numDisplayCards - 1) {
         newIndex = newIndex + 1;
       }
 
@@ -231,12 +234,11 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  
   const studyModeMoveBackwards = () => {
-    setPersistentUIState((prev:PersistentUIState) => {
+    setPersistentUIState((prev: PersistentUIState) => {
       let newIndex = prev.studyMode.index;
-      if(prev.studyMode.index > 0){
-        newIndex = newIndex-1;
+      if (prev.studyMode.index > 0) {
+        newIndex = newIndex - 1;
       }
       return {
         ...prev,
@@ -244,10 +246,9 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
           ...prev.studyMode,
           index: newIndex
         }
-    }
+      };
     });
   };
-
 
   return (
     <UIContext.Provider
@@ -260,7 +261,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         toggleLoginModal,
         toggleStudyMode,
         updateStudyModeIndex,
-        studyModeMoveBackwards, 
+        studyModeMoveBackwards,
         studyModeMoveForwards
       }}
     >

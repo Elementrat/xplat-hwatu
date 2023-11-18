@@ -22,6 +22,18 @@
   --accent-valid: #74f495;
   --darken-bg-1: rgba(0, 0, 0, 0.2);
   --primary-accent: #ffb4eb;
+
+  /* Color Group 1 */
+  --cg1-1: #78C2ED;
+  --cg1-2: #78EDDE;
+  --cg1-3: #78EDA3;
+  --cg1-4: #87ED78;
+  --cg1-5: #C2ED78;
+  --cg1-6: #EDDE78;
+  --cg1-7: #EDA378;
+  --cg1-8: #ED7885;
+  --cg1-9: #ED78C0;
+  --cg1-10: #E078ED;
 }
 
 .chili {

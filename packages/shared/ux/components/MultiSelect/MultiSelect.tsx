@@ -13,6 +13,7 @@ type MultiSelectOption = {
 export const createOption = (label: string, details?: any) => ({
   label,
   value: label?.toLowerCase()?.replace(/\W/g, ""),
+  color: details?.color || "rgba(0,0,0,.2)",
   details: { ...details }
 });
 
@@ -61,7 +62,7 @@ const getSelectStyles = (isCreate) => {
     }),
     multiValue: (baseStyles, state) => ({
       ...baseStyles,
-      backgroundColor: "rgba(0,0,0,.5)",
+      backgroundColor: state.data.color || "rgba(0,0,0,.5)",
       padding: "5px 10px"
     }),
     multiValueLabel: (baseStyles, state) => ({
@@ -100,7 +101,7 @@ const MultiSelect = ({
 
   useEffect(() => {
     setValue(values);
-  },[values])
+  }, [values]);
 
   useEffect(() => {
     setOptions(knownOptions);
@@ -186,8 +187,6 @@ const MultiSelect = ({
   ) : (
     <Select
       isMulti
-      isClearable={true}
-      backspaceRemovesValue={true}
       name="colors"
       noOptionsMessage={() => null}
       options={options}

@@ -7,6 +7,7 @@ import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import STR from "../../strings/strings";
 import { useCurrentUserCards, filters } from "xplat-lib";
 import { TaggedCardCollection } from "../TaggedCardCollection/TaggedCardCollection";
+import clsx from "clsx";
 
 const UserTags = () => {
   const { tags, isLoading, isError } = useCurrentUserTags();
@@ -23,10 +24,16 @@ const UserTags = () => {
   const displayTags = filters.filterTagsWithCards(tags, cards);
   const untaggedCards = filters.untaggedCards(tags, cards);
 
+  const UserTagsTitleTextStyle = clsx({
+    "text-lg": true,
+    "font-bold": true,
+    [styles.titleText]: true
+  });
+
   return (
     <div>
       <div className="flex align-items-center justify-content-space-between">
-        <h2 className="text-lg font-bold">{STR.TAGS}</h2>
+        <h2 className={UserTagsTitleTextStyle}>{STR.TAGS}</h2>
       </div>
       <div className={styles.UserTags}>
         {displayTags?.map((tag) => {

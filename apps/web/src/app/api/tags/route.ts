@@ -80,6 +80,7 @@ export async function POST(request: Request) {
     const { tag, error } = await createTag({
       title: body.title,
       cards: body.cards,
+      color: body.color,
       userID
     });
     if (error) {

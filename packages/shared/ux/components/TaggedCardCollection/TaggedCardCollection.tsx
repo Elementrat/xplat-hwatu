@@ -6,12 +6,6 @@ import clsx from "clsx";
 
 const visibleCutoff = 14;
 
-const collectionTitleStyles = clsx({
-  "text-md": true,
-  "font-bold": true,
-  [styles.collectionTitle]: true
-});
-
 const TaggedCardCollection = ({
   tag,
   cards
@@ -19,42 +13,59 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
-  const { updateSearchText, updateSearchTags, searchTags } = useContext(UIContext);
+  const { updateSearchText, updateSearchTags, searchTags } =
+    useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
+
+  const tagColor = tag?.color || "rgba(0,0,0,.2)";
 
   const collectionStyles = clsx({
     [styles.expand]: expand,
     [styles.TaggedCardCollection]: true
   });
 
+  const collectionTitleStyles = clsx({
+    "text-md": true,
+    "font-bold": true,
+    [styles.collectionTitle]: true
+  });
+
+  const titleTextStyles = clsx({
+    [styles.tagTitleText]: true,
+    [styles.active]: expand
+  });
+
   const toggleExpand = () => {
     let newExpandValue = !expand;
-    if(!tag._id){
-      if(!searchTags.find((tag) => tag._id === 'untagged')){
-      updateSearchTags([{
-        _id: 'untagged',
-        title: 'untagged'
-      }])
-      updateSearchText("");
-    }
-    else{
-      updateSearchTags([])
-      updateSearchText("");
-    }
+    if (!tag._id) {
+      if (!searchTags.find((tag) => tag._id === "untagged")) {
+        updateSearchTags([
+          {
+            _id: "untagged",
+            title: "untagged"
+          }
+        ]);
+        updateSearchText("");
+      } else {
+        updateSearchTags([]);
+        updateSearchText("");
+      }
       return;
     }
-    if(newExpandValue){
+    if (newExpandValue) {
       updateSearchTags([tag]);
-    }
-    else{
-      updateSearchTags([])
+    } else {
+      updateSearchTags([]);
     }
   };
 
   return (
-    <div className={collectionStyles}>
+    <div
+      className={collectionStyles}
+      style={{ borderLeft: `1px solid ${tagColor}` }}
+    >
       <div className={collectionTitleStyles} onClick={toggleExpand}>
-        {tag?.title}
+        <span className={titleTextStyles}>{tag?.title}</span>
         <span className={styles.cardCount}>{` (${cards?.length})`}</span>
       </div>
       <div>

@@ -38,16 +38,18 @@ export async function getTags(filter: TagFilter = {}) {
 export async function createTag({
   title,
   cards,
-  userID
+  userID,
+  color
 }: {
   title: string;
   cards?: Array<string>;
   userID: string;
+  color?: string;
 }) {
   try {
     await connectDB();
 
-    const tag = await Tag.create({ title, userID, cards });
+    const tag = await Tag.create({ title, userID, cards, color });
 
     return {
       tag

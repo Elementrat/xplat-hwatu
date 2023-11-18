@@ -1,14 +1,35 @@
 .TaggedCardCollection {
+  border-radius: var(--border-radius-1);
   .cards {
     max-height: 0px;
     overflow: hidden;
   }
   .collectionTitle {
-    margin: var(--spacing-2) 0px;
+    padding: var(--spacing-2);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    color: var(--grey-600);
+  }
+  .tagTitleText {
+    color: var(--grey-500);
+  }
+  .tagTitleText.active {
+    color: var(--grey-100);
+  }
+  .activeIndicator {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 5px;
+    height: 5px;
+  }
+  .activeIndicator.active {
+    width: 15px;
+    height: 15px;
   }
   .cardCount {
-    color: var(--grey-700);
+    color: var(--grey-500);
   }
   .TaggedCard {
     cursor: pointer;
@@ -17,6 +38,8 @@
     border-bottom: 1px solid var(--grey-800);
     padding: var(--spacing-1) 0;
     animation: fadeIn 1s;
+    padding: var(--spacing-2);
+
     .cardSideA {
       flex: 1;
     }
@@ -32,7 +55,6 @@
     max-height: max-content;
   }
   .collectionTitle {
-    color: var(--primary-accent);
   }
 }
 

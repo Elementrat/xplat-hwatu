@@ -3,9 +3,10 @@ import React, { useRef, useEffect, useMemo } from "react";
 import styles from "./CardTags.module.css";
 import { TagClass, createTag } from "xplat-lib";
 import { useCurrentUserTags, updateTag } from "xplat-lib/client-api/tags";
-import { MultiSelect } from "../MultiSelect/MultiSelect";
+import { MultiSelect, createOption } from "../MultiSelect/MultiSelect";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import STR from "../../strings/strings";
+import { randomColor } from "../../colors/colors";
 
 const CardTags = ({ cardID }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +21,8 @@ const CardTags = ({ cardID }) => {
     if (!existingTagWithTitle) {
       const createResult = await createTag({
         title,
-        cards: cardID ? [cardID] : []
+        cards: cardID ? [cardID] : [],
+        color: randomColor()
       });
       let newTag = createResult?.data?.tag as TagClass;
       if (newTag) {
@@ -96,13 +98,13 @@ const CardTags = ({ cardID }) => {
 
   const dataListOptions = useMemo(() => {
     const results = tags?.map((tag) => {
-      return { label: tag.title, value: tag.title };
+      return createOption(tag.title, tag);
     });
     return results;
   }, [tags]);
 
   const cardTagValues = cardTags?.map((tag) => {
-    return { label: tag.title, value: tag.title };
+    return createOption(tag.title, tag);
   });
 
   return (
