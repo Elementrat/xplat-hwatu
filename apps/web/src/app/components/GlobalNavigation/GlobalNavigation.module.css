@@ -47,7 +47,6 @@
   }
   .nav.expanded {
     position: absolute;
-    height: 100%;
     .visibleWhenExpandedNavContent {
       display: block;
     }
