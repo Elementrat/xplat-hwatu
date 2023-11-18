@@ -62,7 +62,7 @@ const GlobalSearch = () => {
     }
   };
 
-  const onClickAppControls = (e) => {
+  const onClickAppControls = (e: MouseEvent) => {
     if (status !== CONSTANTS.AUTHENTICATED) {
       e.preventDefault();
       toggleLoginModal();
