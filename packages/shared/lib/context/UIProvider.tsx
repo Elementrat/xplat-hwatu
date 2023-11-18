@@ -106,12 +106,12 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
     const validSearchTags = tags?.filter((tag) => {
       let matchingTag = persistentUIState.searchTags?.find(
-        (e) => e._id === tag.id
+        (e:TagClass) => e._id === tag.id
       );
       return Boolean(matchingTag);
     });
 
-    let untaggedSearch = persistentUIState.searchTags.find((tag) => tag._id === 'untagged');
+    let untaggedSearch = persistentUIState.searchTags.find((tag:TagClass) => tag._id === 'untagged');
     if(untaggedSearch){
       displayCards = filters.untaggedCards(tags, displayCards);
     }else{
@@ -186,7 +186,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleStudyMode = (newValue: boolean) => {
-    setPersistentUIState((prev) => {
+    setPersistentUIState((prev:PersistentUIState) => {
       const newStudyModeState =
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
       return {
@@ -200,7 +200,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const updateStudyModeIndex = (newValue: number) => {
-    setPersistentUIState((prev) => {
+    setPersistentUIState((prev:PersistentUIState) => {
       return {
         ...prev,
         studyMode: {
@@ -212,7 +212,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const studyModeMoveForwards = () => {
-    setPersistentUIState((prev) => {
+    setPersistentUIState((prev:PersistentUIState) => {
 
       let numDisplayCards = prev?.displayCards.length;
       let newIndex = prev.studyMode.index;
@@ -233,7 +233,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
   
   const studyModeMoveBackwards = () => {
-    setPersistentUIState((prev) => {
+    setPersistentUIState((prev:PersistentUIState) => {
       let newIndex = prev.studyMode.index;
       if(prev.studyMode.index > 0){
         newIndex = newIndex-1;
