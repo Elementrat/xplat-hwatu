@@ -77,7 +77,10 @@ const getSelectStyles = (isCreate) => {
       padding: "10px",
       backgroundColor: state.isFocused
         ? "rgba(255,255,255,.1)"
-        : "rgba(0,0,0,.5)"
+        : "rgba(0,0,0,.5)",
+      borderLeft: `3px solid ${state.data.color || "rgba(0,0,0,.5)"}`,
+      borderRadius: "5px",
+      overflow: "hidden"
     })
   };
   return styles;
