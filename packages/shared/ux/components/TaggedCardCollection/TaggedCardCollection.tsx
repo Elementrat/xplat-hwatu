@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { UIContext } from "xplat-lib";
+import { CONSTANTS, UIContext } from "xplat-lib";
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
+import { Button } from "../Button/Button";
+import { trash } from "ionicons/icons";
 
 const visibleCutoff = 14;
 
@@ -13,11 +15,13 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
-  const { updateSearchText, updateSearchTags, searchTags, studyMode } =
+  const { updateSearchText, updateSearchTags, searchTags, studyMode, toggleDeleteTagModal } =
     useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
 
   const tagColor = tag?.color || "rgba(0,0,0,.2)";
+
+  const showTagControls = tag.title !== CONSTANTS.UNTAGGED;
 
   const collectionStyles = clsx({
     [styles.expand]: expand,
@@ -35,14 +39,19 @@ const TaggedCardCollection = ({
     [styles.active]: expand
   });
 
+  const tagControlStyles = clsx({
+    [styles.tagControls]: true,
+    [styles.active]: expand
+  })
+
   const toggleExpand = () => {
     let newExpandValue = !expand;
     if (!tag._id) {
-      if (!searchTags.find((tag) => tag._id === "untagged")) {
+      if (!searchTags.find((tag) => tag._id === CONSTANTS.UNTAGGED)) {
         updateSearchTags([
           {
-            _id: "untagged",
-            title: "untagged"
+            _id:  CONSTANTS.UNTAGGED,
+            title:  CONSTANTS.UNTAGGED
           }
         ]);
         updateSearchText("");
@@ -59,14 +68,25 @@ const TaggedCardCollection = ({
     }
   };
 
+  const onTrashClick = () => {
+    if(tag.title !== CONSTANTS.UNTAGGED){
+    toggleDeleteTagModal();
+    }
+  }
+
   return (
     <div
       className={collectionStyles}
       style={{ borderLeft: `1px solid ${tagColor}` }}
     >
-      <div className={collectionTitleStyles} onClick={toggleExpand}>
-        <span className={titleTextStyles}>{tag?.title}</span>
-        <span className={styles.cardCount}>{` (${cards?.length})`}</span>
+      <div className={collectionTitleStyles}>
+        <div onClick={toggleExpand} className={styles.collectionTitleTextContainer}>
+          <span className={titleTextStyles}>{tag?.title}</span>
+          <span className={styles.cardCount}>{` (${cards?.length})`}</span>
+        </div>
+        {showTagControls && <div className={tagControlStyles}>
+          <Button icon={trash} onClick={onTrashClick}/>
+          </div>}
       </div>
       <div>
         <div className={styles.cards}>

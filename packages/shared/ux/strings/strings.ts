@@ -16,7 +16,10 @@ const STR = {
   CREATE_TAG: " Create Tag",
   SIGN_IN_CTA: "You'll need an account to create cards",
   SIGN_IN: "Sign In",
-  STUDY_MODE_ACTIVE: "(Quiz Mode)"
+  STUDY_MODE_ACTIVE: "(Quiz Mode)",
+  DELETE_TAG_WARNING: "The tag will be deleted and removed from all cards.",
+  CONFIRM_PROCEED: "Are you sure you want to proceed?",
+  DELETE: "Delete",
 };
 
 export default STR;

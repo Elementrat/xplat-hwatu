@@ -300,12 +300,10 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         />
       </div>
       {sideA && <div className={controlsDivider} />}
-      {sideA && (
         <CardSuggestions
           inputText={lastUpdatedText}
           onClickSuggestion={onClickSuggestion}
         />
-      )}
       <div className={styles.cardModifiers}>
         {cardID && <CardTags cardID={cardID} />}
 

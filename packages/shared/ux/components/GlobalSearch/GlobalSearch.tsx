@@ -10,7 +10,7 @@ import { CONSTANTS, UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
-import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
+import { MultiSelect, STR, createOption } from "ux";
 import { filters } from "xplat-lib";
 import { bookOutline } from "ionicons/icons";
 import { Button } from "ux";

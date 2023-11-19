@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { TranslationProvider } from "./TranslationProvider";
 import {
+  CONSTANTS,
   CardClass,
   TagClass,
   filters,
@@ -13,7 +14,8 @@ import {
 } from "..";
 
 type ModalState = {
-  login: boolean;
+  login?: boolean;
+  deleteTag?: boolean;
 };
 
 interface TemporalUIState {
@@ -38,7 +40,9 @@ interface UIStateAndControls extends PersistentUIState {
   addLanguagePreference: Function;
   updateSearchTags: Function;
   toggleLoginModal: Function;
+  toggleDeleteTagModal: Function;
   toggleStudyMode: Function;
+  closeAllModals: Function;
   updateStudyModeIndex: Function;
   studyModeMoveBackwards: Function;
   studyModeMoveForwards: Function;
@@ -52,13 +56,15 @@ const defaultPersistentUIState: PersistentUIState = {
   studyMode: {
     active: false,
     index: 0
-  }
+  },
 };
 
 const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   updateSearchText: Function,
   updateSearchTags: Function,
   toggleLoginModal: Function,
+  toggleDeleteTagModal: Function,
+  closeAllModals: Function,
   toggleStudyMode: Function,
   updateStudyModeIndex: Function,
   addLanguagePreference: Function,
@@ -69,7 +75,8 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
 
 const defaultTemporalUIState: TemporalUIState = {
   modals: {
-    login: false
+    login: false,
+    deleteTag: false,
   }
 };
 
@@ -114,7 +121,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     let untaggedSearch = persistentUIState.searchTags.find(
-      (tag: TagClass) => tag._id === "untagged"
+      (tag: TagClass) => tag._id ===  CONSTANTS.UNTAGGED
     );
     if (untaggedSearch) {
       displayCards = filters.untaggedCards(tags, displayCards);
@@ -189,6 +196,34 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const closeAllModals = () => {
+    setTemporalUIState((prev) => {
+      return {
+        ...prev,
+        modals: {
+          deleteTag: false,
+          login: false
+        }
+      };
+    });
+  };
+
+
+  const toggleDeleteTagModal = (newValue: boolean) => {
+    setTemporalUIState((prev) => {
+      const newDeleteTag =
+        typeof newValue !== "undefined" ? newValue : !prev.modals?.deleteTag;
+
+      return {
+        ...prev,
+        modals: {
+          ...prev.modals,
+          deleteTag: newDeleteTag
+        }
+      };
+    });
+  };
+
   const toggleStudyMode = (newValue: boolean) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeState =
@@ -202,6 +237,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       };
     });
   };
+
+
 
   const updateStudyModeIndex = (newValue: number) => {
     setPersistentUIState((prev: PersistentUIState) => {
@@ -259,6 +296,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateSearchTags,
         addLanguagePreference,
         toggleLoginModal,
+        toggleDeleteTagModal,
+        closeAllModals,
         toggleStudyMode,
         updateStudyModeIndex,
         studyModeMoveBackwards,

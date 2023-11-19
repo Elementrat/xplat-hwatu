@@ -8,28 +8,33 @@ import clsx from "clsx";
 
 const Button = ({
   primary,
+  negative,
   label,
   icon,
   onClick,
   fillSpace,
-  active
+  active,
+  size
 }: {
   fillSpace?: boolean;
   primary?: boolean;
+  negative?: boolean;
   label?: string;
   icon?: any;
   onClick?: MouseEventHandler;
   active?: boolean;
+  size?: string;
 }) => {
   const btnStyles = clsx({
     [styles.btn]: true,
     [styles.primary]: primary,
+    [styles.negative]: negative,
     [styles.fillSpace]: fillSpace,
-    [styles.active]: active
+    [styles.active]: active,
   });
   return (
     <button className={btnStyles} onClick={onClick}>
-      {icon && <IonIcon icon={icon} size="small" />}
+      {icon && <IonIcon icon={icon} size={size || "small"} />}
       {label}
     </button>
   );

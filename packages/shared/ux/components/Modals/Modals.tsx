@@ -3,26 +3,29 @@ import React, { useEffect } from "react";
 
 import styles from "./Modals.module.css";
 import { useContext } from "react";
-import { CONSTANTS, UIContext } from "xplat-lib";
+import { CONSTANTS, UIContext, useCurrentUserTags } from "xplat-lib";
 import clsx from "clsx";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Button } from "../Button/Button";
+import { closeOutline } from "ionicons/icons";
+import { deleteTag } from "xplat-lib";
+import { fetchConfigs } from "xplat-lib/client-api/swr";
 import STR from "../../strings/strings";
 
 const modalInnerID = "modal-inner";
 const modalRootID = "modal-root";
 
 const Modals = () => {
-  const { modals, toggleLoginModal } = useContext(UIContext);
+  const { modals, toggleLoginModal, closeAllModals } = useContext(UIContext);
   const { status } = useSession();
 
   const onClickModalInner = (e) => {
     if (e.target.id === modalInnerID) {
-      toggleLoginModal();
+      closeAllModals();
     }
   };
 
-  let showModal = modals?.login;
+  let showModal = modals?.login || modals?.deleteTag;
 
   const modalRootStyles = clsx({
     [styles.ModalRoot]: true,
@@ -35,6 +38,10 @@ const Modals = () => {
     }
   }, [status, modals?.login]);
 
+  const onClickCloseModalBtn = () => {
+    closeAllModals();
+  }
+
   return (
     <div className={modalRootStyles} id={modalRootID}>
       <div
@@ -43,15 +50,53 @@ const Modals = () => {
         id={modalInnerID}
       >
         <div className={styles.ModalContent}>
-          {modals?.login && <SignInModalContent />}
-          <div className={styles.authStatus}>{status}</div>
+          <div className={styles.closeModalBtn} onClick={onClickCloseModalBtn}>
+            <Button icon={closeOutline} fillSpace={true} size="large"/>
+          </div>
+          {modals?.login && <SignInModalContent status={status}/>}
+          {modals?.deleteTag && <DeleteTagModalContent />}
         </div>
       </div>
     </div>
   );
 };
 
-const SignInModalContent = () => {
+const DeleteTagModalContent = () => {
+  const { tags, mutate: mutateTags } = useCurrentUserTags();
+  const { searchTags, closeAllModals, updateSearchTags } = useContext(UIContext);
+  const selectedTag = searchTags[0];
+
+  const onClickConfirmDeleteTag = async () => {
+    console.log("DELETEY", selectedTag)
+
+    if (selectedTag) {
+      const newTags = tags?.filter((c) => c._id !== selectedTag._id);
+      await mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
+      await deleteTag({ id: selectedTag.id });
+      await updateSearchTags([])
+      closeAllModals();
+    }
+  }
+
+  return (
+    <div className={styles.SignInModalContent}>
+      <div className={styles.TitleLine}>
+        <div className="font-bold text-xl">{STR.DELETE} Tag</div>
+        <div className={styles.tag} style={{border: `1px solid ${selectedTag?.color}`}}>{selectedTag.title}</div>
+      </div>
+      <div className={styles.cta}>{STR.DELETE_TAG_WARNING}</div>
+      <div className={styles.cta}>{STR.CONFIRM_PROCEED}</div>
+
+      <Button
+        negative={true}
+        onClick={onClickConfirmDeleteTag}
+        label={STR.DELETE}
+      />
+    </div>
+  );
+}
+
+const SignInModalContent = ({status}) => {
   return (
     <div className={styles.SignInModalContent}>
       <div className={styles.cta}>{STR.SIGN_IN_CTA}</div>
@@ -62,6 +107,7 @@ const SignInModalContent = () => {
         }}
         label={STR.SIGN_IN}
       />
+      <div className={styles.authStatus}>{status}</div>
     </div>
   );
 };

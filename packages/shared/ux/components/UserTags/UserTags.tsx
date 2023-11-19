@@ -5,7 +5,7 @@ import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { ErrorIndicator } from "../ErrorIndicator/ErrorIndicator";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import STR from "../../strings/strings";
-import { useCurrentUserCards, filters } from "xplat-lib";
+import { useCurrentUserCards, filters, CONSTANTS } from "xplat-lib";
 import { TaggedCardCollection } from "../TaggedCardCollection/TaggedCardCollection";
 import clsx from "clsx";
 
@@ -45,7 +45,7 @@ const UserTags = () => {
         })}
         <TaggedCardCollection
           cards={untaggedCards}
-          tag={{ title: "untagged", _id: "untagged" }}
+          tag={{ title: CONSTANTS.UNTAGGED, _id:  CONSTANTS.UNTAGGED }}
         />
       </div>
     </div>

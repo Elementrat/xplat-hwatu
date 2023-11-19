@@ -2,6 +2,7 @@ const CONSTANTS = {
   USER_ID: "userID",
   PAGE: "page",
   LIMIT: "limit",
-  AUTHENTICATED: "authenticated"
+  AUTHENTICATED: "authenticated",
+  UNTAGGED: "untagged",
 };
 export { CONSTANTS };
