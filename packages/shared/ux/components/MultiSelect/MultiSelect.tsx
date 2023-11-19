@@ -21,18 +21,23 @@ const getSelectStyles = (isCreate) => {
   const styles = {
     menu: (baseStyles, state) => ({
       ...baseStyles,
-      backgroundColor: "black",
+      backgroundColor: "transparent",
       minWidth: "fit-content",
       position: isCreate ? "absolute" : "relative",
       marginTop: "0px",
-      marginBottom: "0px"
+      marginBottom: "0px",
+      padding: "0px"
+    }),
+    menuList: (baseStyles, state) => ({
+      ...baseStyles,
+      padding: "0px"
     }),
     control: (baseStyles, state) => ({
       cursor: "pointer",
       ...baseStyles,
-      border: "none",
-      backgroundColor: "transparent",
-      color: "white"
+      backgroundColor: isCreate ? `transparent` : `#2b3035`,
+      color: "white",
+      border: isCreate ? `none` : `1px solid rgba(255, 255, 255, 0.1)`
     }),
     container: (baseStyles, state) => ({
       ...baseStyles,
@@ -62,7 +67,7 @@ const getSelectStyles = (isCreate) => {
     }),
     multiValue: (baseStyles, state) => ({
       ...baseStyles,
-      backgroundColor: state.data.color || "rgba(0,0,0,.5)",
+      backgroundColor: state.data.color || "#212529",
       padding: "5px 10px"
     }),
     multiValueLabel: (baseStyles, state) => ({
@@ -75,11 +80,10 @@ const getSelectStyles = (isCreate) => {
     option: (baseStyles, state) => ({
       ...baseStyles,
       padding: "10px",
-      backgroundColor: state.isFocused
-        ? "rgba(255,255,255,.1)"
-        : "rgba(0,0,0,.5)",
-      borderLeft: `3px solid ${state.data.color || "rgba(0,0,0,.5)"}`,
-      borderRadius: "5px",
+      backgroundColor: state.isFocused ? `#212529` : `#15171a`,
+      borderLeft: `3px solid ${state.data.color || "#212529"}`,
+      borderTopLeftRadius: "5px",
+      borderBottomLeftRadius: "5px",
       overflow: "hidden"
     })
   };

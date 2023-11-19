@@ -6,16 +6,13 @@
   transition: opacity 1s ease;
   font-size: var(--font-size-md);
   box-shadow: var(--box-shadow-1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex: 1;
-  background-color: #2b3035;
 }
 
 .globalSearch:hover {
-  background-color: var(--grey-700);
 }
 
 .appControls {
