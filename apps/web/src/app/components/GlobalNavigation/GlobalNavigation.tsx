@@ -28,7 +28,7 @@ const GlobalNavigation = () => {
     if (expanded && studyMode.active) {
       setExpanded(false);
     }
-  }, [studyMode]);
+  }, [studyMode, expanded]);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);

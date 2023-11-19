@@ -2,9 +2,7 @@
 
 import React, { useContext } from "react";
 import styles from "./UserFeed.module.css";
-import {
-  UIContext,
-} from "xplat-lib";
+import { UIContext } from "xplat-lib";
 import { InputCard } from "../InputCard/InputCard";
 import { StudyControls } from "../StudyControls/StudyControls";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
