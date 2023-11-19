@@ -4,14 +4,8 @@ import React, { useContext } from "react";
 import styles from "./UserFeed.module.css";
 import {
   UIContext,
-  filters,
-  useCurrentUserCards,
-  useCurrentUserTags
 } from "xplat-lib";
 import { InputCard } from "../InputCard/InputCard";
-import { sorts } from "xplat-lib";
-import STR from "../../strings/strings";
-import clsx from "clsx";
 import { StudyControls } from "../StudyControls/StudyControls";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
