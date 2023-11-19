@@ -85,6 +85,10 @@ const getSelectStyles = (isCreate) => {
       borderTopLeftRadius: "5px",
       borderBottomLeftRadius: "5px",
       overflow: "hidden"
+    }),
+    noOptionsMessage: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: `#15171a`
     })
   };
   return styles;

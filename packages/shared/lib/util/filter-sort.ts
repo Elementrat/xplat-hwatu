@@ -9,6 +9,15 @@ const sortByCreatedDate = (cards: Array<any>) => {
   return cardsSortedNewestFirst;
 };
 
+const sortByUpdatedAt = (tags: Array<any>) => {
+  const sortedNewestFirst =
+    tags &&
+    [...tags]?.sort(
+      (a, b) => Date.parse(a.updatedAt) - Date.parse(b.updatedAt)
+    );
+  return sortedNewestFirst;
+};
+
 const filterBySearchText = (cards: Array<any>, searchText?: string) => {
   if (!searchText) {
     return cards;
@@ -84,7 +93,8 @@ const untaggedCards = (tags: Array<TagClass>, cards: Array<CardClass>) => {
 };
 
 const sorts = {
-  sortByCreatedDate
+  sortByCreatedDate,
+  sortByUpdatedAt
 };
 
 const filters = {

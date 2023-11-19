@@ -7,13 +7,15 @@ import { MultiSelect, createOption } from "../MultiSelect/MultiSelect";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import STR from "../../strings/strings";
 import { randomColor } from "../../colors/colors";
+import { sorts } from "xplat-lib";
 
 const CardTags = ({ cardID }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { tags, mutate } = useCurrentUserTags();
 
-  const cardTags = tags?.filter((tag) => tag.cards?.includes(cardID));
+  let cardTags = tags?.filter((tag) => tag.cards?.includes(cardID));
+  cardTags = sorts.sortByUpdatedAt(cardTags);
 
   const tryCreateTag = async (title) => {
     let existingTagWithTitle = tags?.find((tag) => tag.title === title);

@@ -13,7 +13,7 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
-  const { updateSearchText, updateSearchTags, searchTags } =
+  const { updateSearchText, updateSearchTags, searchTags, studyMode } =
     useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
 
@@ -72,7 +72,9 @@ const TaggedCardCollection = ({
         <div className={styles.cards}>
           {cards.map((card) => {
             const onCardClick = () => {
-              updateSearchText(card.title);
+              if (!studyMode.active) {
+                updateSearchText(card.title);
+              }
             };
 
             let longString = card.title?.length > visibleCutoff;

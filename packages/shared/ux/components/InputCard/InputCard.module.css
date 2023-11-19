@@ -55,6 +55,9 @@
   justify-content: center;
   align-items: center;
   animation: none;
+  .controlsDivider {
+    opacity: 0;
+  }
   .cardModifiers {
     display: none;
   }
@@ -158,6 +161,9 @@
       padding: var(--spacing-1) var(--spacing-2);
     }
   }
+}
+
+@media screen and (max-width: 450px) {
   .InputCard.StudyMode {
     height: 70%;
   }

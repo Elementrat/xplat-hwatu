@@ -12,6 +12,7 @@ import { UIContext } from "xplat-lib";
 const GlobalNavigation = () => {
   const [expanded, setExpanded] = useState(false);
   const { studyMode } = useContext(UIContext);
+  const [knownStudyMode, setKnownStudyMode] = useState(studyMode.active);
 
   const navClasses = clsx({
     [styles.nav]: true,
@@ -25,10 +26,11 @@ const GlobalNavigation = () => {
   });
 
   useEffect(() => {
-    if (expanded && studyMode.active) {
+    if (expanded && studyMode.active && studyMode.active !== knownStudyMode) {
       setExpanded(false);
+      setKnownStudyMode(studyMode.active);
     }
-  }, [studyMode, expanded]);
+  }, [studyMode, expanded, knownStudyMode]);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);

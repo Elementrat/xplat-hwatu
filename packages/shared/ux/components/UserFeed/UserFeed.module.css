@@ -22,3 +22,9 @@
 .modeIndicator.show {
   max-height: 200px;
 }
+
+@media screen and (max-width: 600px) {
+  .UserFeed {
+    padding-bottom: var(--spacing-6);
+  }
+}

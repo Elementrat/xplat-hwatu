@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useContext, useEffect } from "react";
 
@@ -6,13 +6,18 @@ import styles from "./StudyControls.module.css";
 import { Button } from "../Button/Button";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import { KEY_NAMES, UIContext } from "xplat-lib";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 const StudyControls = () => {
-  const { studyMode, studyModeMoveForwards, studyModeMoveBackwards, displayCards } =
-    useContext(UIContext);
+  const {
+    studyMode,
+    studyModeMoveForwards,
+    studyModeMoveBackwards,
+    displayCards
+  } = useContext(UIContext);
 
   const onClickBack = () => {
-    studyModeMoveBackwards()
+    studyModeMoveBackwards();
   };
 
   const onClickForward = () => {
@@ -23,17 +28,17 @@ const StudyControls = () => {
     if (e.key === KEY_NAMES.ARROW_LEFT) {
       studyModeMoveBackwards();
     }
-    if(e.key === KEY_NAMES.ARROW_RIGHT){
+    if (e.key === KEY_NAMES.ARROW_RIGHT) {
       studyModeMoveForwards();
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  },[])
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div className={styles.StudyControls}>

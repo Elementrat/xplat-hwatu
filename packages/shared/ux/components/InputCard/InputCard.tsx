@@ -262,6 +262,11 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     [styles.obscure]: obscure
   });
 
+  const controlsDivider = clsx({
+    [styles.divider]: true,
+    [styles.controlsDivider]: true
+  });
+
   return (
     <div
       className={cardStyles}
@@ -294,7 +299,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
           disabled={studyMode.active}
         />
       </div>
-      {sideA && <div className={styles.divider} />}
+      {sideA && <div className={controlsDivider} />}
       {sideA && (
         <CardSuggestions
           inputText={lastUpdatedText}
