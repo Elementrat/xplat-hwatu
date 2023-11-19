@@ -13,11 +13,11 @@ const STR = {
   LANGUAGES: "Languages",
   NEW_TAG: "New Tag",
   ENTER_TAG: "Enter Tag",
-  CREATE_TAG: " Create Tag",
+  CREATE_TAG: "Type a Tag to create",
   SIGN_IN_CTA: "You'll need an account to create cards",
   SIGN_IN: "Sign In",
   STUDY_MODE_ACTIVE: "(Quiz Mode)",
-  DELETE_TAG_WARNING: "The tag will be deleted and removed from all cards.",
+  DELETE_TAG_WARNING: (num) => `The tag will be deleted and removed from ${num} cards.`,
   CONFIRM_PROCEED: "Are you sure you want to proceed?",
   DELETE: "Delete",
 };

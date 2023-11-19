@@ -8,11 +8,26 @@ const colors = [
   "#71503D",
   "#713D43",
   "#713D5D",
-  "#6B3D71"
+  "#6B3D71",
+];
+
+const greys = [
+  "#f8f9fa",
+  "#e9ecef",
+  "#dee2e6",
+  "#ced4da",
+  "#adb5bd",
+  "#6c757d",
+  "#495057",
+  "#343a40",
+  "#2b3035",
+  "#212529",
+  "#15171a",
+  "#845EC2",
 ];
 
 const randomColor = () => {
   return colors[Math.round(Math.random() * colors.length - 1)];
 };
 
-export { colors, randomColor };
+export { colors, randomColor, greys };

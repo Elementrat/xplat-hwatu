@@ -309,7 +309,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
         {cardID && (
           <div>
-            <Button icon={trash} onClick={onClickDelete} />
+            <Button icon={trash} onClick={onClickDelete} negative={true}/>
           </div>
         )}
       </div>

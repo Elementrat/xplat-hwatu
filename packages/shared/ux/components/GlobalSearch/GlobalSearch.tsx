@@ -54,6 +54,11 @@ const GlobalSearch = () => {
     updateSearchTags(newSearchTags);
   };
 
+  const onClearSearch = () => {
+    const newSearchTags =[]
+    updateSearchTags(newSearchTags);
+  }
+
   const onSearchChange = useCallback(
     (newSearchText?: string) => {
       updateSearchText(newSearchText);
@@ -95,6 +100,7 @@ const GlobalSearch = () => {
           knownOptions={displayTags}
           onSelectOption={onSelectOption}
           onRemoveValue={onRemoveValue}
+          onClear={onClearSearch}
           placeholder={STR.SEARCH}
           onInputChange={onSearchChange}
           values={displayValues}

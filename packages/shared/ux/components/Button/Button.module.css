@@ -14,12 +14,20 @@
   color: var(--grey-100);
 }
 
-.btn.negative {
+.btn.primary:hover {
+  border: 1px solid var(--primary-accent);
+}
+
+.btn.negative:hover {
+  border: 1px solid var(--negative);
+}
+
+.btn.negative.primary {
   background-color: var(--negative);
   color: var(--grey-100);
 }
 
-.btn.negative:hover {
+.btn.negative.primary:hover {
   background-color: white;
   color: var(--negative);
 }
@@ -27,10 +35,6 @@
 .btn.active {
   border: 1px solid var(--primary-accent);
   color: var(--primary-accent);
-}
-
-.btn.primary:hover {
-  border: 1px solid var(--primary-accent);
 }
 
 .btn:hover {

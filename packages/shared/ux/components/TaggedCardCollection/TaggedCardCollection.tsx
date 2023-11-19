@@ -85,7 +85,7 @@ const TaggedCardCollection = ({
           <span className={styles.cardCount}>{` (${cards?.length})`}</span>
         </div>
         {showTagControls && <div className={tagControlStyles}>
-          <Button icon={trash} onClick={onTrashClick}/>
+          <Button icon={trash} negative={true} onClick={onTrashClick}/>
           </div>}
       </div>
       <div>

@@ -63,12 +63,10 @@ const Modals = () => {
 
 const DeleteTagModalContent = () => {
   const { tags, mutate: mutateTags } = useCurrentUserTags();
-  const { searchTags, closeAllModals, updateSearchTags } = useContext(UIContext);
+  const { searchTags, closeAllModals, updateSearchTags, displayCards } = useContext(UIContext);
   const selectedTag = searchTags[0];
 
   const onClickConfirmDeleteTag = async () => {
-    console.log("DELETEY", selectedTag)
-
     if (selectedTag) {
       const newTags = tags?.filter((c) => c._id !== selectedTag._id);
       await mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
@@ -84,11 +82,12 @@ const DeleteTagModalContent = () => {
         <div className="font-bold text-xl">{STR.DELETE} Tag</div>
         <div className={styles.tag} style={{border: `1px solid ${selectedTag?.color}`}}>{selectedTag.title}</div>
       </div>
-      <div className={styles.cta}>{STR.DELETE_TAG_WARNING}</div>
+      <div className={styles.cta}>{STR.DELETE_TAG_WARNING(displayCards?.length)}</div>
       <div className={styles.cta}>{STR.CONFIRM_PROCEED}</div>
 
       <Button
         negative={true}
+        primary={true}
         onClick={onClickConfirmDeleteTag}
         label={STR.DELETE}
       />
