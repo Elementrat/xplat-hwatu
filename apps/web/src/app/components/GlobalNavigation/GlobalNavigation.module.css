@@ -7,6 +7,8 @@
   overflow-y: scroll;
   color: var(--grey-500);
   border-right: var(--border-1);
+  border-bottom-left-radius: var(--border-radius-1);
+  border-bottom-right-radius: var(--border-radius-1);
   max-height: 100vh;
   z-index: var(--z-3);
   display: flex;

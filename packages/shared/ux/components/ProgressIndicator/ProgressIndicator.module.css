@@ -5,9 +5,8 @@
   align-items: center;
   flex: 1;
   height: 100%;
-  width: 100%;
-  margin-left: var(--spacing-2);
-  margin-right: var(--spacing-3);
+  width: 90%;
+  min-height: 40px;
 }
 
 .Item {
@@ -16,8 +15,9 @@
   background-color: var(--grey-900);
   border-radius: 15px;
   z-index: var(--z-2);
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   position: absolute;
+  transform: translate(-50%), scale(1);
 }
 
 .ProgressBarContainer {

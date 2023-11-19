@@ -7,6 +7,17 @@
   color: var(--grey-500);
 }
 
+.StudyControlsRoot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 1;
+  position: relative;
+  gap: var(--spacing-3);
+}
+
 .Counts {
   min-width: 50px;
   text-align: center;

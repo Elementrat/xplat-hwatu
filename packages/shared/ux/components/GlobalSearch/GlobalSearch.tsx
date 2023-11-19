@@ -13,12 +13,11 @@ import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import { MultiSelect, STR, createOption, MultiSelectOption } from "ux";
 import { filters } from "xplat-lib";
 import { bookOutline } from "ionicons/icons";
-import { Button, ProgressIndicator } from "ux";
+import { Button } from "ux";
 import { useSession } from "next-auth/react";
 
 const GlobalSearch = () => {
   const {
-    displayCards,
     searchTags,
     searchText,
     updateSearchText,
@@ -90,27 +89,18 @@ const GlobalSearch = () => {
 
   return (
     <div className={s.appControls} onClick={onClickAppControls}>
-      {!studyMode.active && (
-        <div className={classes}>
-          <MultiSelect
-            initialValue={searchText}
-            knownOptions={displayTags}
-            onSelectOption={onSelectOption}
-            onRemoveValue={onRemoveValue}
-            placeholder={STR.SEARCH}
-            onInputChange={onSearchChange}
-            values={displayValues}
-            inputValue={searchText}
-          />
-        </div>
-      )}
-      {studyMode.active && (
-        <ProgressIndicator
-          numItems={displayCards.length}
-          currentIndex={studyMode.index}
+      <div className={classes}>
+        <MultiSelect
+          initialValue={searchText}
+          knownOptions={displayTags}
+          onSelectOption={onSelectOption}
+          onRemoveValue={onRemoveValue}
+          placeholder={STR.SEARCH}
+          onInputChange={onSearchChange}
+          values={displayValues}
+          inputValue={searchText}
         />
-      )}
-
+      </div>
       <div className={s.btns}>
         <Button
           icon={bookOutline}

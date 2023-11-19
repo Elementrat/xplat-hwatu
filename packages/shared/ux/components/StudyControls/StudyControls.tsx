@@ -7,6 +7,7 @@ import { Button } from "../Button/Button";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import { KEY_NAMES, UIContext } from "xplat-lib";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
+import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 
 const StudyControls = () => {
   const {
@@ -41,12 +42,21 @@ const StudyControls = () => {
   }, []);
 
   return (
-    <div className={styles.StudyControls}>
-      <Button icon={chevronBack} onClick={onClickBack} primary={true} />
-      <div className={styles.Counts}>
-        {studyMode.index + 1}/{displayCards?.length}
+    <div className={styles.StudyControlsRoot}>
+      {studyMode.active && (
+        <ProgressIndicator
+          numItems={displayCards.length}
+          currentIndex={studyMode.index}
+        />
+      )}
+
+      <div className={styles.StudyControls}>
+        <Button icon={chevronBack} onClick={onClickBack} primary={true} />
+        <div className={styles.Counts}>
+          {studyMode.index + 1}/{displayCards?.length}
+        </div>
+        <Button icon={chevronForward} onClick={onClickForward} primary={true} />
       </div>
-      <Button icon={chevronForward} onClick={onClickForward} primary={true} />
     </div>
   );
 };
