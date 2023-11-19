@@ -14,13 +14,13 @@
   color: var(--grey-100);
 }
 
-.btn.primary:hover {
-  border: 1px solid var(--primary-accent);
-}
-
 .btn.active {
   border: 1px solid var(--primary-accent);
   color: var(--primary-accent);
+}
+
+.btn.primary:hover {
+  border: 1px solid var(--primary-accent);
 }
 
 .btn.fillSpace {

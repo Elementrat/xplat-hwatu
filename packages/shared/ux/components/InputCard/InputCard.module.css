@@ -98,6 +98,7 @@
 
 .newCardIndicator {
   padding-bottom: var(--spacing-2);
+  color: var(--grey-500);
 }
 
 @media screen and (min-width: 1024px) {
