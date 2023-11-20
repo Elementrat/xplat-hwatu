@@ -9,7 +9,7 @@
   row-gap: var(--spacing-2);
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow-1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   transition: border-bottom 0.5s ease;
   box-sizing: border-box;
   overflow: visible;
@@ -99,6 +99,9 @@
 .newCardIndicator {
   padding-bottom: var(--spacing-2);
   color: var(--grey-500);
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
 }
 
 @media screen and (min-width: 1024px) {

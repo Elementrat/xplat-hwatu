@@ -2,11 +2,12 @@ const STR = {
   SEARCH: "Search",
   LOADING: "Loading...",
   NEW_CARD: "New Card",
+  MAKE_FIRST_CARD: "Make your first card!",
   YOUR_CARDS: "Your Cards",
   MY_CARDS: "My Cards",
   CARDS: "Cards",
   TAGS: "Tags",
-  ENTER_TEXT: "Enter Text",
+  ENTER_TEXT: "Type new card",
   SIDE_B: "Side B",
   SUGGESTED: "Suggested",
   ERROR: "Error...",
@@ -17,9 +18,10 @@ const STR = {
   SIGN_IN_CTA: "You'll need an account to create cards",
   SIGN_IN: "Sign In",
   STUDY_MODE_ACTIVE: "(Quiz Mode)",
-  DELETE_TAG_WARNING: (num) => `The tag will be deleted and removed from ${num} cards.`,
+  DELETE_TAG_WARNING: (num) =>
+    `The tag will be deleted and removed from ${num} cards.`,
   CONFIRM_PROCEED: "Are you sure you want to proceed?",
-  DELETE: "Delete",
+  DELETE: "Delete"
 };
 
 export default STR;

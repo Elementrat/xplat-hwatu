@@ -18,13 +18,14 @@ import {
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
 import { CardTags } from "../CardTags/CardTags";
-import { trash } from "ionicons/icons";
+import { trash, cloudUploadOutline } from "ionicons/icons";
 import { Button } from "../Button/Button";
 import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
 import { KEY_CODES } from "xplat-lib";
 import STR from "../../strings/strings";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import { useSession } from "next-auth/react";
+import { IonIcon } from "@ionic/react";
 
 const ANIMATION_DURATION = 500;
 
@@ -276,7 +277,12 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      {!cardID && <div className={styles.newCardIndicator}>{STR.NEW_CARD}</div>}
+      {!cardID && (
+        <div className={styles.newCardIndicator}>
+          <IonIcon icon={cloudUploadOutline} />
+          {cards?.length === 0 ? STR.MAKE_FIRST_CARD : STR.NEW_CARD}
+        </div>
+      )}
       <div className={styles.textInputs}>
         <TextInput
           ref={aRef}
@@ -300,16 +306,16 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
         />
       </div>
       {sideA && <div className={controlsDivider} />}
-        <CardSuggestions
-          inputText={lastUpdatedText}
-          onClickSuggestion={onClickSuggestion}
-        />
+      <CardSuggestions
+        inputText={lastUpdatedText}
+        onClickSuggestion={onClickSuggestion}
+      />
       <div className={styles.cardModifiers}>
         {cardID && <CardTags cardID={cardID} />}
 
         {cardID && (
           <div>
-            <Button icon={trash} onClick={onClickDelete} negative={true}/>
+            <Button icon={trash} onClick={onClickDelete} negative={true} />
           </div>
         )}
       </div>

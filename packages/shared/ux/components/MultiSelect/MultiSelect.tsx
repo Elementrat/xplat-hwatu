@@ -36,7 +36,6 @@ const getSelectStyles = (isCreate) => {
       cursor: "pointer",
       ...baseStyles,
       backgroundColor: isCreate ? `transparent` : `#2b3035`,
-      color: "white",
       border: isCreate ? `none` : `1px solid rgba(255, 255, 255, 0.1)`
     }),
     container: (baseStyles, state) => ({
@@ -60,8 +59,16 @@ const getSelectStyles = (isCreate) => {
         }
       };
     },
-    indicatorsContainer: (baseStyles, state) => ({
-      ...baseStyles
+    indicatorSeparator: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: `rgba(255,255,255,.1)`
+    }),
+    dropdownIndicator: (baseStyles, state) => ({
+      ...baseStyles,
+      color: "rgba(255,255,255,.3)",
+      "&:hover": {
+        color: `rgba(255,255,255,.5)`
+      }
     }),
     multiValueRemove: (baseStyles, state) => ({
       ...baseStyles,

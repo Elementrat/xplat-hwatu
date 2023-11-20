@@ -29,10 +29,21 @@ const GlobalNavigation = () => {
 
   const onMouseLeaveNav = () => {
     if (window.innerWidth > EXPAND_BREAKPOINT && studyMode.active) {
-      console.log("__HUH");
       setExpanded(false);
     }
   };
+
+  useEffect(() => {
+    if (expanded && studyMode.active && studyMode.active !== knownStudyMode) {
+      setExpanded(false);
+    }
+    if (!studyMode.active && !expanded && knownStudyMode !== studyMode.active) {
+      if (window.innerWidth > EXPAND_BREAKPOINT) {
+        setExpanded(true);
+      }
+    }
+    setKnownStudyMode(studyMode.active);
+  }, [studyMode, expanded, knownStudyMode]);
 
   useEffect(() => {
     if (typeof window !== CONSTANTS.UNDEFINED) {
@@ -60,13 +71,6 @@ const GlobalNavigation = () => {
       return !ex;
     });
   };
-
-  useEffect(() => {
-    if (expanded && studyMode.active && studyMode.active !== knownStudyMode) {
-      setExpanded(false);
-    }
-    setKnownStudyMode(studyMode.active);
-  }, [studyMode, expanded, knownStudyMode]);
 
   return (
     <div className={navClasses} onMouseLeave={onMouseLeaveNav}>
