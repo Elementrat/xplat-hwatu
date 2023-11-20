@@ -18,18 +18,13 @@ const GlobalNavigation = () => {
   const { studyMode } = useContext(UIContext);
   const [knownStudyMode, setKnownStudyMode] = useState(studyMode.active);
 
-  const handleResize = (e) => {
+  const handleResize = (e: any) => {
     const windowWidth = e.target.innerWidth;
     if (!expanded) {
       if (windowWidth > EXPAND_BREAKPOINT) {
         setExpanded(true);
       }
     }
-    console.log("E", e.target.innerWidth);
-  };
-
-  const onMouseOverNav = () => {
-    //    setExpanded(true);
   };
 
   const onMouseLeaveNav = () => {
@@ -61,7 +56,6 @@ const GlobalNavigation = () => {
   });
 
   const toggleExpanded = () => {
-    console.log("__TOG_EXP", expanded);
     setExpanded((ex) => {
       return !ex;
     });
@@ -75,11 +69,7 @@ const GlobalNavigation = () => {
   }, [studyMode, expanded, knownStudyMode]);
 
   return (
-    <div
-      className={navClasses}
-      onMouseOver={onMouseOverNav}
-      onMouseLeave={onMouseLeaveNav}
-    >
+    <div className={navClasses} onMouseLeave={onMouseLeaveNav}>
       <div className={styles.alwaysVisibleNavContent}>
         <div className="text-3xl font-bold text-center">Hwatu</div>
         <AuthManager />
