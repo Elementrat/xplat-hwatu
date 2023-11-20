@@ -12,6 +12,12 @@ import {
   useCurrentUserCards,
   useCurrentUserTags
 } from "..";
+import { CARD_PROGRESS } from "../models/UserProfile";
+import {
+  updateUserProfile,
+  useCurrentUserProfile
+} from "xplat-lib/client-api/user-profile";
+import { fetchConfigs } from "../client-api/swr";
 
 type ModalState = {
   login?: boolean;
@@ -41,6 +47,8 @@ interface UIStateAndControls extends PersistentUIState {
   updateSearchTags: Function;
   toggleLoginModal: Function;
   toggleDeleteTagModal: Function;
+  updateCardProgressPositive: Function;
+  updateCardProgress: Function;
   toggleStudyMode: Function;
   closeAllModals: Function;
   updateStudyModeIndex: Function;
@@ -56,14 +64,16 @@ const defaultPersistentUIState: PersistentUIState = {
   studyMode: {
     active: false,
     index: 0
-  },
+  }
 };
 
 const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   updateSearchText: Function,
   updateSearchTags: Function,
+  updateCardProgressPositive: Function,
   toggleLoginModal: Function,
   toggleDeleteTagModal: Function,
+  updateCardProgress: Function,
   closeAllModals: Function,
   toggleStudyMode: Function,
   updateStudyModeIndex: Function,
@@ -76,7 +86,7 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
 const defaultTemporalUIState: TemporalUIState = {
   modals: {
     login: false,
-    deleteTag: false,
+    deleteTag: false
   }
 };
 
@@ -104,6 +114,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { cards } = useCurrentUserCards();
   const { tags } = useCurrentUserTags();
+  const { userProfile, mutate: mutateUserProfile } = useCurrentUserProfile();
 
   useEffect(() => {
     const cardsSortedNewestFirst = sorts.sortByCreatedDate(cards);
@@ -121,7 +132,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     let untaggedSearch = persistentUIState.searchTags.find(
-      (tag: TagClass) => tag._id ===  CONSTANTS.UNTAGGED
+      (tag: TagClass) => tag._id === CONSTANTS.UNTAGGED
     );
     if (untaggedSearch) {
       displayCards = filters.untaggedCards(tags, displayCards);
@@ -208,7 +219,6 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-
   const toggleDeleteTagModal = (newValue: boolean) => {
     setTemporalUIState((prev) => {
       const newDeleteTag =
@@ -237,8 +247,6 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       };
     });
   };
-
-
 
   const updateStudyModeIndex = (newValue: number) => {
     setPersistentUIState((prev: PersistentUIState) => {
@@ -287,6 +295,34 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const updateCardProgress = async (progressType: CARD_PROGRESS) => {
+    setPersistentUIState((prev: PersistentUIState) => {
+      const curCard = prev.displayCards[prev.studyMode.index];
+      const cardPatch = {
+        [String(curCard._id)]: progressType
+      };
+
+      updateUserProfile({
+        cards: cardPatch
+      });
+
+      const newCardProgress = userProfile.cardProgress;
+      newCardProgress[String(curCard._id)] = progressType;
+
+      mutateUserProfile(
+        {
+          userProfile: {
+            ...userProfile,
+            cardProgress: newCardProgress
+          }
+        },
+        fetchConfigs.preservePrevious
+      );
+
+      return { ...prev };
+    });
+  };
+
   return (
     <UIContext.Provider
       value={{
@@ -301,7 +337,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         toggleStudyMode,
         updateStudyModeIndex,
         studyModeMoveBackwards,
-        studyModeMoveForwards
+        studyModeMoveForwards,
+        updateCardProgress
       }}
     >
       <TranslationProvider>{children}</TranslationProvider>

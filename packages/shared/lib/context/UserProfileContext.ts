@@ -1,0 +1,3 @@
+const updateCardProgressPositive = () => {};
+
+export { updateCardProgressPositive };

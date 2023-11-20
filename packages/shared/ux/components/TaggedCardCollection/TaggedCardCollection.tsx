@@ -15,8 +15,13 @@ const TaggedCardCollection = ({
   tag: TagClass;
   cards: Array<CardClass>;
 }) => {
-  const { updateSearchText, updateSearchTags, searchTags, studyMode, toggleDeleteTagModal } =
-    useContext(UIContext);
+  const {
+    updateSearchText,
+    updateSearchTags,
+    searchTags,
+    studyMode,
+    toggleDeleteTagModal
+  } = useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
 
   const tagColor = tag?.color || "rgba(0,0,0,.2)";
@@ -42,7 +47,7 @@ const TaggedCardCollection = ({
   const tagControlStyles = clsx({
     [styles.tagControls]: true,
     [styles.active]: expand
-  })
+  });
 
   const toggleExpand = () => {
     let newExpandValue = !expand;
@@ -50,8 +55,8 @@ const TaggedCardCollection = ({
       if (!searchTags.find((tag) => tag._id === CONSTANTS.UNTAGGED)) {
         updateSearchTags([
           {
-            _id:  CONSTANTS.UNTAGGED,
-            title:  CONSTANTS.UNTAGGED
+            _id: CONSTANTS.UNTAGGED,
+            title: CONSTANTS.UNTAGGED
           }
         ]);
         updateSearchText("");
@@ -63,16 +68,18 @@ const TaggedCardCollection = ({
     }
     if (newExpandValue) {
       updateSearchTags([tag]);
+      updateSearchText("");
     } else {
       updateSearchTags([]);
+      updateSearchText("");
     }
   };
 
   const onTrashClick = () => {
-    if(tag.title !== CONSTANTS.UNTAGGED){
-    toggleDeleteTagModal();
+    if (tag.title !== CONSTANTS.UNTAGGED) {
+      toggleDeleteTagModal();
     }
-  }
+  };
 
   return (
     <div
@@ -80,13 +87,18 @@ const TaggedCardCollection = ({
       style={{ borderLeft: `1px solid ${tagColor}` }}
     >
       <div className={collectionTitleStyles}>
-        <div onClick={toggleExpand} className={styles.collectionTitleTextContainer}>
+        <div
+          onClick={toggleExpand}
+          className={styles.collectionTitleTextContainer}
+        >
           <span className={titleTextStyles}>{tag?.title}</span>
           <span className={styles.cardCount}>{` (${cards?.length})`}</span>
         </div>
-        {showTagControls && <div className={tagControlStyles}>
-          <Button icon={trash} negative={true} onClick={onTrashClick}/>
-          </div>}
+        {showTagControls && (
+          <div className={tagControlStyles}>
+            <Button icon={trash} negative={true} onClick={onTrashClick} />
+          </div>
+        )}
       </div>
       <div>
         <div className={styles.cards}>

@@ -20,6 +20,31 @@
   transform: translate(-50%), scale(1);
 }
 
+.Item.active {
+  animation: activate 1s infinite;
+  border: 2px solid white;
+}
+
+.Item.negativeProgress {
+  border: 1px solid var(--negative);
+}
+.Item.positiveProgress {
+  border: 1px solid var(--positive);
+}
+
+.itemComplete,
+.Item.negativeProgress.itemComplete,
+.Item.positiveProgress.itemComplete {
+  border: 1px solid white;
+}
+
+.Item.negativeProgress.itemComplete {
+  background-color: var(--negative);
+}
+.Item.positiveProgress.itemComplete {
+  background-color: var(--positive);
+}
+
 .ProgressBarContainer {
   flex: 1;
   background-color: var(--grey-950);
@@ -29,14 +54,10 @@
 }
 
 .ProgressBar {
-  background-color: var(--primary-accent);
+  background-color: var(--grey-400);
   height: 5px;
   position: absolute;
   transition: width 0.25s;
-}
-
-.itemComplete {
-  background-color: var(--primary-accent);
 }
 
 @keyframes activate {
@@ -49,9 +70,4 @@
   100% {
     transform: scale(1);
   }
-}
-
-.active {
-  background-color: white;
-  animation: activate 0.5s;
 }

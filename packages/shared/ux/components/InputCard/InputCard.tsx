@@ -61,7 +61,6 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   }, [studyMode]);
 
   const handleKeyDown = (e) => {
-    console.log("__E", e)
     if (e.key === KEY_NAMES.ARROW_UP) {
       setObscure(false);
     }
@@ -78,10 +77,10 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const bRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if(aRef.current){
-      aRef.current.addEventListener('keydown', handleKeyDown)
+    if (aRef.current) {
+      aRef.current.addEventListener("keydown", handleKeyDown);
     }
-  },[aRef])
+  }, [aRef]);
 
   const updateSideA = (text) => {
     setSideA(text);
@@ -195,8 +194,8 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onKeyDownSideA({keyCode: KEY_CODES.ENTER})
-  }
+    onKeyDownSideA({ keyCode: KEY_CODES.ENTER });
+  };
 
   const onKeyDownSideA = async (e) => {
     if (e.keyCode === KEY_CODES.ENTER || e.code === KEY_CODES.ENTER) {
@@ -308,7 +307,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
             value={sideA}
             disabled={studyMode.active}
           />
-        <div className={styles.divider} />
+          <div className={styles.divider} />
           <TextInput
             ref={bRef}
             classNames={inputSideBStyles}

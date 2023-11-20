@@ -12,12 +12,13 @@
   --grey-950: #15171a;
   --accent-1: #845EC2;
   --accent-2: #4B4453
-  --accent-3:#B0A8B9;
+  --accent-3: #B0A8B9;
   --accent-4: #9674f4;
   --accent-valid: #74f495;
   --darken-bg-1: rgba(0, 0, 0, 0.2);
   --primary-accent: #ffb4eb;
-  --negative: #8B2020;
+  --negative: #e63946;
+  --positive: #1d3557;
 
   /* Color Group 1 */
   --cg1-1: #78C2ED;

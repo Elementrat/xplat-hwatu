@@ -2,13 +2,19 @@
 
 import React, { useContext } from "react";
 import styles from "./UserFeed.module.css";
-import { UIContext } from "xplat-lib";
+import {
+  UIContext,
+  useCurrentUserCards,
+  useCurrentUserProfile
+} from "xplat-lib";
 import { InputCard } from "../InputCard/InputCard";
 import { StudyControls } from "../StudyControls/StudyControls";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 const UserFeed = () => {
   const { displayCards, searchText, studyMode } = useContext(UIContext);
+
+  const { userProfile } = useCurrentUserProfile();
 
   let visibleCards = displayCards;
   if (studyMode.active) {
