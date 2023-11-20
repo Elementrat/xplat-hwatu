@@ -3,6 +3,7 @@
   flex: 1;
   padding-left: var(--spacing-4);
   padding-right: var(--spacing-4);
+  background-color: var(--grey-900);
 }
 
 @media screen and (max-width: 600px) {

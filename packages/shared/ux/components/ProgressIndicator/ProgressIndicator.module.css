@@ -12,7 +12,7 @@
 .Item {
   width: 15px;
   height: 15px;
-  background-color: var(--grey-900);
+  background-color: var(--grey-950);
   border-radius: 15px;
   z-index: var(--z-2);
   transition: all 0.2s;
@@ -22,7 +22,7 @@
 
 .ProgressBarContainer {
   flex: 1;
-  background-color: var(--grey-900);
+  background-color: var(--grey-950);
   height: 5px;
   position: absolute;
   width: 100%;

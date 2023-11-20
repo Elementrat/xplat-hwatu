@@ -1,10 +1,13 @@
 .nav {
-  width: var(--global-nav-width);
+  position: relative;
+  width: 75px;
+  transition: all 0.5s;
   box-shadow: 0 0 2em rgba(0, 0, 0, 0.12);
   background-color: var(--grey-900);
   padding: var(--spacing-3);
   flex-shrink: 0;
   overflow-y: scroll;
+  overflow-x: hidden;
   color: var(--grey-500);
   border-right: var(--border-1);
   border-bottom-left-radius: var(--border-radius-1);
@@ -14,19 +17,38 @@
   display: flex;
   flex-direction: column;
   .btnToggleExpand {
-    display: none;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    opacity: 0.3;
+    transform: rotate(0deg);
   }
   .alwaysVisibleNavContent {
+    min-width: calc(var(--global-nav-width) - 2 * var(--spacing-3));
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   .visibleWhenExpandedNavContent {
-    display: flex;
+    min-width: calc(var(--global-nav-width) - 2 * var(--spacing-3));
+    overflow: hidden;
+    opacity: 0;
     flex-direction: column;
     margin-top: var(--spacing-4);
     gap: var(--spacing-4);
+    transition: all 0.5s;
+  }
+}
+
+.nav.expanded {
+  width: var(--global-nav-width);
+  .visibleWhenExpandedNavContent {
+    opacity: 1;
+  }
+  .btnToggleExpand {
+    transform: rotate(-90deg);
   }
 }
 
@@ -35,7 +57,15 @@
     width: 100%;
     overflow: hidden;
     .btnToggleExpand {
+      top: unset;
+      right: unset;
+      position: relative;
       display: flex;
+      transition: transform 0.2s ease;
+      transform: rotate(-180deg);
+    }
+    .btnToggleExpand.expanded {
+      transform: rotate(0deg);
     }
     .alwaysVisibleNavContent {
       flex-direction: row;
@@ -51,6 +81,7 @@
     }
   }
   .nav.expanded {
+    width: 100%;
     .visibleWhenExpandedNavContent {
       display: block;
       max-height: 100vh;

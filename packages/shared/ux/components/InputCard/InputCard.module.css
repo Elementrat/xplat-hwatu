@@ -14,7 +14,7 @@
   box-sizing: border-box;
   overflow: visible;
   transition: all 0.1s ease;
-  animation: appear 0.5s ease;
+  animation: appear 0.5s;
   color: var(--grey-600);
   .textInputs {
     display: flex;
@@ -143,7 +143,7 @@
   }
   50% {
     opacity: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
   100% {
     opacity: 100%;
@@ -167,5 +167,17 @@
 @media screen and (max-width: 450px) {
   .InputCard.StudyMode {
     height: 70%;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

@@ -4,5 +4,6 @@ const CONSTANTS = {
   LIMIT: "limit",
   AUTHENTICATED: "authenticated",
   UNTAGGED: "untagged",
+  UNDEFINED: "undefined"
 };
 export { CONSTANTS };

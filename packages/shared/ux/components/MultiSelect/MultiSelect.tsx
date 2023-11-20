@@ -49,21 +49,19 @@ const getSelectStyles = (isCreate) => {
       padding: "10px"
     }),
     clearIndicator: (baseStyles, state) => {
-      if(!isCreate){
-      console.log(state)
-      }
-      const clearColor =  "#495057";
-      const clearColorFocused ="#adb5bd";
-      return ({
-      ...baseStyles,
-      display: isCreate ? "none" : `block` ,
-      color: clearColor,
-      '&:hover':{
-        color: clearColorFocused
-      }
-    })},
+      const clearColor = "#495057";
+      const clearColorFocused = "#adb5bd";
+      return {
+        ...baseStyles,
+        display: isCreate ? "none" : `block`,
+        color: clearColor,
+        "&:hover": {
+          color: clearColorFocused
+        }
+      };
+    },
     indicatorsContainer: (baseStyles, state) => ({
-      ...baseStyles,
+      ...baseStyles
     }),
     multiValueRemove: (baseStyles, state) => ({
       ...baseStyles,
@@ -145,11 +143,11 @@ const MultiSelect = ({
 
   const onChange = (e, b) => {
     switch (b?.action) {
-      case "clear": 
+      case "clear":
         setValue([]);
         onInputChange("");
         onClear();
-      break;
+        break;
       case "select-option":
         {
           if (onSelectOption) {
