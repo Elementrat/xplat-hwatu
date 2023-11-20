@@ -61,6 +61,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   }, [studyMode]);
 
   const handleKeyDown = (e) => {
+    console.log("__E", e)
     if (e.key === KEY_NAMES.ARROW_UP) {
       setObscure(false);
     }
@@ -75,6 +76,12 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
 
   const aRef = useRef<HTMLInputElement>(null);
   const bRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if(aRef.current){
+      aRef.current.addEventListener('keydown', handleKeyDown)
+    }
+  },[aRef])
 
   const updateSideA = (text) => {
     setSideA(text);
@@ -185,8 +192,14 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onKeyDownSideA({keyCode: KEY_CODES.ENTER})
+  }
+
   const onKeyDownSideA = async (e) => {
-    if (e.keyCode === KEY_CODES.ENTER) {
+    if (e.keyCode === KEY_CODES.ENTER || e.code === KEY_CODES.ENTER) {
       setEdited(true);
       if (existingCard) {
         createOrUpdateCard();
@@ -283,27 +296,30 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
           {cards?.length === 0 ? STR.MAKE_FIRST_CARD : STR.NEW_CARD}
         </div>
       )}
-      <div className={styles.textInputs}>
-        <TextInput
-          ref={aRef}
-          classNames={styles.textInput}
-          placeholder={STR.ENTER_TEXT}
-          onChange={onInputChangeSideA}
-          onKeyDown={onKeyDownSideA}
-          value={sideA}
-          disabled={studyMode.active}
-        />
+      <div>
+        <form onSubmit={handleSubmit} className={styles.textInputs}>
+          <TextInput
+            ref={aRef}
+            classNames={styles.textInput}
+            placeholder={STR.ENTER_TEXT}
+            onChange={onInputChangeSideA}
+            onKeyDown={onKeyDownSideA}
+            onSubmit={onKeyDownSideA}
+            value={sideA}
+            disabled={studyMode.active}
+          />
         <div className={styles.divider} />
-        <TextInput
-          ref={bRef}
-          classNames={inputSideBStyles}
-          placeholder={STR.SIDE_B}
-          value={sideB}
-          onChange={onInputChangeSideB}
-          onKeyDown={onKeyDownSideB}
-          onMouseOver={onMouseOverSideB}
-          disabled={studyMode.active}
-        />
+          <TextInput
+            ref={bRef}
+            classNames={inputSideBStyles}
+            placeholder={STR.SIDE_B}
+            value={sideB}
+            onChange={onInputChangeSideB}
+            onKeyDown={onKeyDownSideB}
+            onMouseOver={onMouseOverSideB}
+            disabled={studyMode.active}
+          />
+        </form>
       </div>
       {sideA && <div className={controlsDivider} />}
       <CardSuggestions
