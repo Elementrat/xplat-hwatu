@@ -292,6 +292,12 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     [styles.obscure]: obscure
   });
 
+  const inputSideAStyles = clsx({
+    [styles.textInput]: true,
+    [styles.sideAInput]: true,
+  });
+
+
   const controlsDivider = clsx({
     [styles.divider]: true,
     [styles.controlsDivider]: true
@@ -313,6 +319,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
+      <div className={styles.progressLine}/>
       {!cardID && (
         <div className={styles.newCardIndicator}>
           <IonIcon icon={createOutline} />
@@ -323,7 +330,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
         <form onSubmit={handleSubmit} className={styles.textInputs}>
           <TextInput
             ref={aRef}
-            classNames={styles.textInput}
+            classNames={inputSideAStyles}
             placeholder={STR.ENTER_TEXT}
             onChange={onInputChangeSideA}
             onKeyDown={onKeyDownSideA}
@@ -366,7 +373,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
 
           {cardID && (
             <div>
-              <Button icon={trash} onClick={onClickDelete} negative={true} />
+              <Button icon={trash} onClick={onClickDelete} danger={true} />
             </div>
           )}
         </div>

@@ -22,6 +22,36 @@
 
 .Item.active {
   animation: activate 1s infinite;
+  box-shadow:
+    /* inner left magenta short */ inset -0px 0 20px white,
+    /* inner right cyan short */ inset 0px 0 75px white,
+    /* inner left magenta broad */ inset -0px 75px white,
+    /* inner right cyan broad */ 0 0 25px #fff,
+    /* outer white */ -0px 0 20px white,
+    /* outer left magenta */ 0px 0 40px #0ff; /* outer right cyan */
+  border: 1px solid black;
+}
+
+.Item.negativeProgress.active {
+  box-shadow:
+    /* inner white */ inset 10px 0 20px var(--negative),
+    /* inner left magenta short */ inset -0px 0 20px white,
+    /* inner right cyan short */ inset 0px 0 75px var(--negative),
+    /* inner left magenta broad */ inset -0px 75px white,
+    /* outer white */ -0px 0 20px var(--negative),
+    /* outer left magenta */ 0px 0 40px white; /* outer right cyan */
+  border: 1px solid white;
+  background-color: black;
+}
+
+.Item.positiveProgress.active {
+  box-shadow: 
+    /* inner white */ inset 10px 0 20px var(--positive),
+    /* inner left magenta short */ inset -0px 0 20px white,
+    /* inner right cyan short */ inset 0px 0 75px var(--positive),
+    /* inner left magenta broad */ inset -0px 75px white,
+    /* outer white */ -0px 0 20px var(--positive),
+    /* outer left magenta */ 0px 0 40px white; /* outer right cyan */
   border: 1px solid white;
 }
 
@@ -65,7 +95,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.5);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);

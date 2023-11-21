@@ -22,10 +22,21 @@
   }
   .positiveBtn {
     color: var(--positive);
+    .pressed {
+      box-shadow: -1px 2px 58px -13px var(--positive);
+    }
   }
   .negativeBtn {
     color: var(--negative);
+    .pressed {
+      box-shadow: -1px 2px 58px -13px var(--negative);
+    }
   }
+}
+
+.pressed {
+  box-shadow: -1px 2px 58px -13px rgba(255, 255, 255, 0.75);
+  outline: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .StudyControlsRoot {

@@ -10,6 +10,10 @@
   max-width: var(--app-content-max-width);
 }
 
+.StudyMode {
+  padding-bottom: 0;
+}
+
 .modeIndicator {
   display: flex;
   justify-content: center;

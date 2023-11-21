@@ -35,9 +35,12 @@
   .textInput:hover {
     background-color: var(--grey-700);
   }
+  .sideAInput {
+    transition: all 0.3s;
+  }
   .sideBInput {
     max-height: 0px;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
     padding: 0px;
   }
   .sideBInput.show {
@@ -55,7 +58,7 @@
   justify-content: center;
   align-items: center;
   animation: none;
-  min-height: 400px;
+  min-height: 250px;
   .controlsDivider {
     opacity: 0;
   }
@@ -80,8 +83,26 @@
   bottom: 25px;
 }
 
+@media screen and (max-height: 800px) {
+  .progressStatus {
+    display: none;
+  }
+}
+
 .InputCard.hovered {
   border: 1px solid var(--grey-600);
+}
+
+.InputCard {
+  .progressLine {
+    position: absolute;
+    content: "";
+    width: 0px;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+  }
 }
 
 .InputCard.negativeProgress {
@@ -90,6 +111,22 @@
 
 .InputCard.positiveProgress {
   border-left: 2px solid var(--positive);
+}
+
+.InputCard.StudyMode.negativeProgress {
+  border-left: 3px solid var(--negative);
+  .progressLine {
+    display: none;
+    box-shadow: 0px 0px 10px 2px var(--negative);
+  }
+}
+
+.InputCard.StudyMode.positiveProgress {
+  border-left: 3px solid var(--positive);
+  .progressLine {
+    display: none;
+    box-shadow: 0px 0px 10px 2px var(--positive);
+  }
 }
 
 .hasValidInput {
@@ -156,6 +193,20 @@
     .sideBInput.show {
       max-height: 128px;
       width: 100%;
+      padding: var(--spacing-1) var(--spacing-2);
+    }
+  }
+}
+
+@media screen and (max-height: 900px) {
+  .InputCard,
+  .InputCard.StudyMode {
+    .textInputs {
+      .textInput {
+        font-size: var(--font-size-xl);
+      }
+    }
+    .sideBInput.show {
       padding: var(--spacing-1) var(--spacing-2);
     }
   }
