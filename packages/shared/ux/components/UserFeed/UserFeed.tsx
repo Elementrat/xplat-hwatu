@@ -21,7 +21,7 @@ const UserFeed = () => {
     visibleCards = [displayCards[studyMode.index]];
   }
 
-  const progressMap = new Map(Object.entries(userProfile.cardProgress));
+  const progressMap = new Map(Object.entries(userProfile?.cardProgress));
 
   return (
     <div className={styles.UserFeed}>

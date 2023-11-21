@@ -72,7 +72,7 @@ const StudyControls = () => {
         <ProgressIndicator
           items={displayCards}
           currentIndex={studyMode.index}
-          progressStatuses={userProfile.cardProgress}
+          progressStatuses={userProfile?.cardProgress}
         />
       )}
 
