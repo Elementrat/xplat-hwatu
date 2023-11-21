@@ -17,7 +17,7 @@ export async function GET(
     await connectDB();
 
     if (!params.id) {
-      return "Provde an ID";
+      throw "Proide an ID";
     }
 
     const { userProfile, error } = await getUserProfile({ userID: params.id });

@@ -26,10 +26,11 @@ import STR from "../../strings/strings";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import { useSession } from "next-auth/react";
 import { IonIcon } from "@ionic/react";
+import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 
 const ANIMATION_DURATION = 500;
 
-const InputCard = ({ cardID }: { cardID?: string }) => {
+const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
@@ -38,8 +39,7 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     searchTags,
     studyMode,
     studyModeMoveBackwards,
-    studyModeMoveForwards,
-    displayCards
+    studyModeMoveForwards
   } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
@@ -52,6 +52,12 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   const [hovered, setHovered] = useState(false);
   const [obscure, setObscure] = useState(studyMode.active);
 
+  const itemProgress = progressMap?.get(cardID);
+  const hasProgress = typeof itemProgress !== CONSTANTS.UNDEFINED;
+
+  const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
+  const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;
+
   useEffect(() => {
     if (studyMode.active) {
       setObscure(true);
@@ -61,10 +67,11 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   }, [studyMode]);
 
   const handleKeyDown = (e) => {
-    console.log("_E", e);
     if (
       e.keyCode === KEY_CODES.CTRL_LEFT ||
-      e.keyCode === KEY_CODES.CTRL_RIGHT
+      e.keyCode === KEY_CODES.CTRL_RIGHT ||
+      e.key === KEY_NAMES.ARROW_UP ||
+      e.key === KEY_NAMES.ARROW_DOWN
     ) {
       setObscure(false);
     }
@@ -269,7 +276,9 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
     [styles.InputCard]: true,
     [styles.hasValidInput]: hasValidInput && edited,
     [styles.hovered]: hovered,
-    [styles.StudyMode]: studyMode.active
+    [styles.StudyMode]: studyMode.active,
+    [styles.negativeProgress]: isNegativeProgress,
+    [styles.positiveProgress]: isPositiveProgress
   });
 
   const inputSideBStyles = clsx({

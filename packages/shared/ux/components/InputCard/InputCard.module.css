@@ -70,12 +70,21 @@
   border: 1px solid var(--grey-600);
 }
 
+.InputCard.negativeProgress {
+  border-left: 2px solid var(--negative);
+}
+
+.InputCard.positiveProgress {
+  border-left: 2px solid var(--positive);
+}
+
 .hasValidInput {
   border: 1px solid var(--accent-valid);
 }
 
 .obscure {
-  text-shadow: 0 0 15px white;
+  background-color: var(--grey-950);
+  text-shadow: 0 0 20px white;
   color: transparent;
 }
 

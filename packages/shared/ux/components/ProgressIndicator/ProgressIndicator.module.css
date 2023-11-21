@@ -54,7 +54,7 @@
 }
 
 .ProgressBar {
-  background-color: var(--grey-400);
+  background-color: var(--grey-200);
   height: 5px;
   position: absolute;
   transition: width 0.25s;

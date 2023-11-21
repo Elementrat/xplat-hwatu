@@ -3,8 +3,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-3);
+  flex-direction: column;
   color: var(--grey-500);
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .annotation {
+    position: absolute;
+    left: -50%;
+    right: 0px;
+    top: 0px;
+    width: 250px;
+    text-align: center;
+    margin: auto;
+  }
+  .positiveBtn {
+    color: var(--positive);
+  }
+  .negativeBtn {
+    color: var(--negative);
+  }
 }
 
 .StudyControlsRoot {

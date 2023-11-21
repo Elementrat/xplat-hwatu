@@ -43,7 +43,7 @@ const CardSuggestions = ({ inputText, onClickSuggestion }) => {
 
   const classes = clsx({
     [styles.CardSuggestions]: true,
-    [styles.show]: suggestions.length > 0
+    [styles.show]: inputText?.length > 0 && suggestions.length > 0
   });
 
   return (

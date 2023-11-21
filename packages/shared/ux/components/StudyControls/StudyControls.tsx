@@ -3,9 +3,13 @@
 import React, { useContext, useEffect, useCallback } from "react";
 import styles from "./StudyControls.module.css";
 import { Button } from "../Button/Button";
-import { chevronBack, chevronForward } from "ionicons/icons";
+import {
+  chevronBack,
+  chevronForward,
+  refreshCircleOutline,
+  ribbonOutline
+} from "ionicons/icons";
 import { KEY_NAMES, UIContext } from "xplat-lib";
-import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 import { useCurrentUserProfile } from "xplat-lib/client-api/user-profile";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
@@ -29,6 +33,14 @@ const StudyControls = () => {
     studyModeMoveForwards();
   };
 
+  const positiveProgress = () => {
+    updateCardProgress(CARD_PROGRESS.POSITIVE);
+  };
+
+  const negativeProgress = () => {
+    updateCardProgress(CARD_PROGRESS.NEGATIVE);
+  };
+
   const handleKeyDown = useCallback(
     async (e) => {
       if (e.key === KEY_NAMES.ARROW_LEFT) {
@@ -38,16 +50,10 @@ const StudyControls = () => {
         studyModeMoveForwards();
       }
       if (e.key === KEY_NAMES.ARROW_UP) {
-        updateCardProgress(CARD_PROGRESS.POSITIVE);
-        setTimeout(() => {
-          studyModeMoveForwards();
-        });
+        positiveProgress();
       }
       if (e.key === KEY_NAMES.ARROW_DOWN) {
-        updateCardProgress(CARD_PROGRESS.NEGATIVE);
-        setTimeout(() => {
-          studyModeMoveForwards();
-        });
+        negativeProgress();
       }
     },
     [studyMode.index, displayCards]
@@ -71,11 +77,31 @@ const StudyControls = () => {
       )}
 
       <div className={styles.StudyControls}>
-        <Button icon={chevronBack} onClick={onClickBack} />
-        <div className={styles.Counts}>
-          {studyMode.index + 1}/{displayCards?.length}
+        <div className={styles.row}>
+          <div className={styles.positiveBtn}>
+            <Button
+              icon={ribbonOutline}
+              onClick={positiveProgress}
+              size="large"
+            />
+          </div>
         </div>
-        <Button icon={chevronForward} onClick={onClickForward} />
+        <div className={styles.row}>
+          <Button icon={chevronBack} onClick={onClickBack} size="large" />
+          <div className={styles.Counts}>
+            {studyMode.index + 1}/{displayCards?.length}
+          </div>
+          <Button icon={chevronForward} onClick={onClickForward} size="large" />
+        </div>
+        <div className={styles.row}>
+          <div className={styles.negativeBtn}>
+            <Button
+              icon={refreshCircleOutline}
+              onClick={negativeProgress}
+              size="large"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

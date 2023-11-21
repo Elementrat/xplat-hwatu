@@ -21,12 +21,22 @@ const UserFeed = () => {
     visibleCards = [displayCards[studyMode.index]];
   }
 
+  const progressMap = new Map(Object.entries(userProfile.cardProgress));
+
   return (
     <div className={styles.UserFeed}>
       <GlobalSearch />
       {Boolean(!searchText?.length) && !studyMode.active && <InputCard />}
       {visibleCards?.map((card) => {
-        return card?._id && <InputCard cardID={card?._id} key={card?._id} />;
+        return (
+          card?._id && (
+            <InputCard
+              cardID={card?._id}
+              key={card?._id}
+              progressMap={progressMap}
+            />
+          )
+        );
       })}
       {studyMode.active && <StudyControls />}
     </div>
