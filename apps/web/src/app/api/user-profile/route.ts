@@ -1,10 +1,8 @@
 import connectDB from "@/app/lib/connect-db";
-import { createCard, deleteAllCards, getCards } from "@/app/lib/card-db";
 import { createErrorResponse } from "@/app/lib/util";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { authOptions } from "@/app/lib/auth";
 import { getServerSession } from "next-auth/next";
-import { getUserProfile } from "@/app/lib/user-profile-db";
 import { updateCardProgress } from "@/app/lib/user-profile-db";
 
 // ID = userID
@@ -29,7 +27,7 @@ export async function PATCH(
       return createErrorResponse("Cards needed", 400);
     }
 
-    const { cards, error } = await updateCardProgress(userID, {
+    const { error } = await updateCardProgress(userID, {
       cards: body.cards
     });
 
@@ -39,9 +37,7 @@ export async function PATCH(
 
     let json_response = {
       status: "success",
-      data: {
-        cards
-      }
+      data: {}
     };
     return new NextResponse(JSON.stringify(json_response), {
       status: 201,
