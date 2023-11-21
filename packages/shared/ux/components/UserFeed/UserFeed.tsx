@@ -20,8 +20,11 @@ const UserFeed = () => {
   if (studyMode.active) {
     visibleCards = [displayCards[studyMode.index]];
   }
+  let progressMap;
 
-  const progressMap = new Map(Object.entries(userProfile?.cardProgress));
+  if (userProfile?.cardProgress) {
+    progressMap = new Map(Object.entries(userProfile?.cardProgress));
+  }
 
   return (
     <div className={styles.UserFeed}>
