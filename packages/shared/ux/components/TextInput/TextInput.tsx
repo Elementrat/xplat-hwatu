@@ -4,8 +4,17 @@ import styles from "./TextInput.module.css";
 import { clsx } from "clsx";
 
 const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
-  const { classNames, value, onChange, onKeyDown, 
-    placeholder,inputID, onMouseOver, disabled, onSubmit} = props;
+  const {
+    classNames,
+    value,
+    onChange,
+    onKeyDown,
+    placeholder,
+    inputID,
+    onMouseOver,
+    disabled,
+    onSubmit
+  } = props;
 
   let controlledValue = value || "";
 
@@ -20,7 +29,6 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
       value={controlledValue}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      onKeyDownCapture={onKeyDown}
       onSubmit={onSubmit}
       onMouseOver={onMouseOver}
       id={inputID}
