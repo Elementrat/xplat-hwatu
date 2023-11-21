@@ -306,7 +306,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         cards: cardPatch
       });
 
-      const newCardProgress = userProfile.cardProgress;
+      const newCardProgress = userProfile.cardProgress as any;
       newCardProgress[String(curCard._id)] = progressType;
 
       mutateUserProfile(
