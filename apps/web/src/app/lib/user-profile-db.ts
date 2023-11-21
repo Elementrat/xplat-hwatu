@@ -40,7 +40,7 @@ export async function getUserProfile(filter: UserProfileFilter = {}) {
 
 export async function updateCardProgress(
   userID: string,
-  { cards }: { cards?: Map<string, CARD_PROGRESS> }
+  { cards }: { cards?: any }
 ) {
   try {
     await connectDB();
@@ -48,6 +48,10 @@ export async function updateCardProgress(
 
     if (!parsedId) {
       return { error: "User ID not found" };
+    }
+
+    if (!cards) {
+      return { error: "Cards needed" };
     }
 
     let userProfile = await UserProfile.findOne<UserProfileClass>({
