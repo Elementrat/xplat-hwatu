@@ -18,18 +18,18 @@
   border: 1px solid var(--primary-accent);
 }
 
-.btn.negative:hover {
-  border: 1px solid var(--negative);
+.btn.danger:hover {
+  border: 1px solid var(--danger);
 }
 
-.btn.negative.primary {
-  background-color: var(--negative);
+.btn.danger.primary {
+  background-color: var(--danger);
   color: var(--grey-100);
 }
 
-.btn.negative.primary:hover {
+.btn.danger.primary:hover {
   background-color: white;
-  color: var(--negative);
+  color: var(--danger);
 }
 
 .btn.active {

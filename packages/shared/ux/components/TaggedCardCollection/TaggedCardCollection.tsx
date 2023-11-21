@@ -96,7 +96,7 @@ const TaggedCardCollection = ({
         </div>
         {showTagControls && (
           <div className={tagControlStyles}>
-            <Button icon={trash} negative={true} onClick={onTrashClick} />
+            <Button icon={trash} danger={true} onClick={onTrashClick} />
           </div>
         )}
       </div>

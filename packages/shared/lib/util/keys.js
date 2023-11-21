@@ -1,7 +1,9 @@
 const KEY_CODES = {
   ENTER: 13,
   LEFT: 21,
-  RIGHT: 22
+  RIGHT: 22,
+  CTRL_LEFT: 17,
+  CTRL_RIGHT: 25
 };
 
 const KEY_NAMES = {

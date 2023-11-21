@@ -61,7 +61,11 @@ const InputCard = ({ cardID }: { cardID?: string }) => {
   }, [studyMode]);
 
   const handleKeyDown = (e) => {
-    if (e.key === KEY_NAMES.ARROW_UP) {
+    console.log("_E", e);
+    if (
+      e.keyCode === KEY_CODES.CTRL_LEFT ||
+      e.keyCode === KEY_CODES.CTRL_RIGHT
+    ) {
       setObscure(false);
     }
   };

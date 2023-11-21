@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 const Button = ({
   primary,
-  negative,
+  danger,
   label,
   icon,
   onClick,
@@ -18,7 +18,7 @@ const Button = ({
 }: {
   fillSpace?: boolean;
   primary?: boolean;
-  negative?: boolean;
+  danger?: boolean;
   label?: string;
   icon?: any;
   onClick?: MouseEventHandler;
@@ -28,9 +28,9 @@ const Button = ({
   const btnStyles = clsx({
     [styles.btn]: true,
     [styles.primary]: primary,
-    [styles.negative]: negative,
+    [styles.danger]: danger,
     [styles.fillSpace]: fillSpace,
-    [styles.active]: active,
+    [styles.active]: active
   });
   return (
     <button className={btnStyles} onClick={onClick}>

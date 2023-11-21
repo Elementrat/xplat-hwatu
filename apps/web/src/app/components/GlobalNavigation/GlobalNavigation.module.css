@@ -5,6 +5,7 @@
   box-shadow: 0 0 2em rgba(0, 0, 0, 0.12);
   background-color: var(--grey-900);
   padding: var(--spacing-3);
+  padding-bottom: 0px;
   flex-shrink: 0;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -30,10 +31,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
   }
   .visibleWhenExpandedNavContent {
     min-width: calc(var(--global-nav-width) - 2 * var(--spacing-3));
     overflow: hidden;
+    overflow-y: scroll;
     opacity: 0;
     flex-direction: column;
     margin-top: var(--spacing-4);
@@ -56,6 +59,7 @@
   .nav {
     width: 100%;
     overflow: hidden;
+    padding-bottom: var(--spacing-3);
     .btnToggleExpand {
       top: unset;
       right: unset;

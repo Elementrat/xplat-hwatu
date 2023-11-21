@@ -22,7 +22,7 @@
 
 .Item.active {
   animation: activate 1s infinite;
-  border: 2px solid white;
+  border: 1px solid white;
 }
 
 .Item.negativeProgress {

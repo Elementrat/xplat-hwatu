@@ -39,9 +39,15 @@ const StudyControls = () => {
       }
       if (e.key === KEY_NAMES.ARROW_UP) {
         updateCardProgress(CARD_PROGRESS.POSITIVE);
+        setTimeout(() => {
+          studyModeMoveForwards();
+        });
       }
       if (e.key === KEY_NAMES.ARROW_DOWN) {
         updateCardProgress(CARD_PROGRESS.NEGATIVE);
+        setTimeout(() => {
+          studyModeMoveForwards();
+        });
       }
     },
     [studyMode.index, displayCards]

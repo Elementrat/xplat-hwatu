@@ -40,7 +40,7 @@ const Modals = () => {
 
   const onClickCloseModalBtn = () => {
     closeAllModals();
-  }
+  };
 
   return (
     <div className={modalRootStyles} id={modalRootID}>
@@ -51,9 +51,9 @@ const Modals = () => {
       >
         <div className={styles.ModalContent}>
           <div className={styles.closeModalBtn} onClick={onClickCloseModalBtn}>
-            <Button icon={closeOutline} fillSpace={true} size="large"/>
+            <Button icon={closeOutline} fillSpace={true} size="large" />
           </div>
-          {modals?.login && <SignInModalContent status={status}/>}
+          {modals?.login && <SignInModalContent status={status} />}
           {modals?.deleteTag && <DeleteTagModalContent />}
         </div>
       </div>
@@ -63,7 +63,8 @@ const Modals = () => {
 
 const DeleteTagModalContent = () => {
   const { tags, mutate: mutateTags } = useCurrentUserTags();
-  const { searchTags, closeAllModals, updateSearchTags, displayCards } = useContext(UIContext);
+  const { searchTags, closeAllModals, updateSearchTags, displayCards } =
+    useContext(UIContext);
   const selectedTag = searchTags[0];
 
   const onClickConfirmDeleteTag = async () => {
@@ -71,31 +72,38 @@ const DeleteTagModalContent = () => {
       const newTags = tags?.filter((c) => c._id !== selectedTag._id);
       await mutateTags({ tags: newTags }, fetchConfigs.preservePrevious);
       await deleteTag({ id: selectedTag.id });
-      await updateSearchTags([])
+      await updateSearchTags([]);
       closeAllModals();
     }
-  }
+  };
 
   return (
     <div className={styles.SignInModalContent}>
       <div className={styles.TitleLine}>
         <div className="font-bold text-xl">{STR.DELETE} Tag</div>
-        <div className={styles.tag} style={{border: `1px solid ${selectedTag?.color}`}}>{selectedTag.title}</div>
+        <div
+          className={styles.tag}
+          style={{ border: `1px solid ${selectedTag?.color}` }}
+        >
+          {selectedTag.title}
+        </div>
       </div>
-      <div className={styles.cta}>{STR.DELETE_TAG_WARNING(displayCards?.length)}</div>
+      <div className={styles.cta}>
+        {STR.DELETE_TAG_WARNING(displayCards?.length)}
+      </div>
       <div className={styles.cta}>{STR.CONFIRM_PROCEED}</div>
 
       <Button
-        negative={true}
+        danger={true}
         primary={true}
         onClick={onClickConfirmDeleteTag}
         label={STR.DELETE}
       />
     </div>
   );
-}
+};
 
-const SignInModalContent = ({status}) => {
+const SignInModalContent = ({ status }) => {
   return (
     <div className={styles.SignInModalContent}>
       <div className={styles.cta}>{STR.SIGN_IN_CTA}</div>
