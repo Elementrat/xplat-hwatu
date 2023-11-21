@@ -18,7 +18,7 @@ import {
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
 import { CardTags } from "../CardTags/CardTags";
-import { trash, cloudUploadOutline } from "ionicons/icons";
+import { trash, cloudUploadOutline, createOutline } from "ionicons/icons";
 import { Button } from "../Button/Button";
 import { CardSuggestions } from "../CardSuggestions/CardSuggestions";
 import { KEY_CODES } from "xplat-lib";
@@ -246,6 +246,10 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     setHovered(false);
   };
 
+  const onClickCreate = () => {
+    createOrUpdateCard();
+  };
+
   const onClick = async (e) => {
     if (status !== CONSTANTS.AUTHENTICATED) {
       toggleLoginModal();
@@ -293,6 +297,13 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     [styles.controlsDivider]: true
   });
 
+  const showModifiers = cardID || (!cardID && hasValidInput);
+
+  const modifierStyles = clsx({
+    [styles.cardModifiers]: true,
+    [styles.show]: showModifiers
+  });
+
   return (
     <div
       className={cardStyles}
@@ -304,7 +315,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     >
       {!cardID && (
         <div className={styles.newCardIndicator}>
-          <IonIcon icon={cloudUploadOutline} />
+          <IonIcon icon={createOutline} />
           {cards?.length === 0 ? STR.MAKE_FIRST_CARD : STR.NEW_CARD}
         </div>
       )}
@@ -334,18 +345,30 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
         </form>
       </div>
       {sideA && <div className={controlsDivider} />}
-      <CardSuggestions
-        inputText={lastUpdatedText}
-        onClickSuggestion={onClickSuggestion}
-      />
-      <div className={styles.cardModifiers}>
-        {cardID && <CardTags cardID={cardID} />}
 
-        {cardID && (
-          <div>
-            <Button icon={trash} onClick={onClickDelete} negative={true} />
-          </div>
-        )}
+      <div className={modifierStyles}>
+        <div className={styles.row}>
+          <CardSuggestions
+            inputText={lastUpdatedText}
+            onClickSuggestion={onClickSuggestion}
+          />
+          {!cardID && hasValidInput && (
+            <Button
+              icon={cloudUploadOutline}
+              onClick={onClickCreate}
+              primary={true}
+            />
+          )}
+        </div>
+        <div className={styles.row}>
+          {cardID && <CardTags cardID={cardID} />}
+
+          {cardID && (
+            <div>
+              <Button icon={trash} onClick={onClickDelete} negative={true} />
+            </div>
+          )}
+        </div>
       </div>
       {studyMode.active && (
         <div className={styles.progressStatus}>

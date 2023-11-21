@@ -25,6 +25,5 @@
 }
 
 .show {
-  margin-top: var(--spacing-2);
   max-height: 100px;
 }

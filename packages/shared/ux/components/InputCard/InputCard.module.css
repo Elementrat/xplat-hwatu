@@ -41,7 +41,7 @@
     padding: 0px;
   }
   .sideBInput.show {
-    max-height: 72px;
+    max-height: 128px;
     padding: var(--spacing-1) var(--spacing-2);
   }
   .textInput::placeholder {
@@ -55,6 +55,7 @@
   justify-content: center;
   align-items: center;
   animation: none;
+  min-height: 400px;
   .controlsDivider {
     opacity: 0;
   }
@@ -63,6 +64,13 @@
   }
   input {
     user-select: none;
+  }
+  .textInputs {
+    flex-direction: column;
+    .textInput {
+      font-size: var(--font-size-xxl);
+      background-color: transparent;
+    }
   }
 }
 
@@ -105,10 +113,22 @@
 
 .cardModifiers {
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  max-height: 0px;
+  transition: max-height 1s ease;
+  .row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.cardModifiers.show {
+  max-height: 140px;
 }
 
 .newCardIndicator {
@@ -134,10 +154,30 @@
       max-height: unset;
     }
     .sideBInput.show {
-      max-height: 64px;
+      max-height: 128px;
       width: 100%;
       padding: var(--spacing-1) var(--spacing-2);
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .InputCard,
+  .InputCard.StudyMode {
+    .textInputs {
+      .textInput {
+        font-size: var(--font-size-xl);
+      }
+    }
+    .sideBInput.show {
+      padding: var(--spacing-1) var(--spacing-2);
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .InputCard.StudyMode {
+    height: 70%;
   }
 }
 
@@ -156,46 +196,13 @@
 @keyframes appear {
   0% {
     opacity: 0%;
-    background-color: rgba(255, 255, 255, 0);
     max-height: 0px;
   }
   50% {
     opacity: 50%;
-    background-color: rgba(255, 255, 255, 0.05);
   }
   100% {
     opacity: 100%;
-    background-color: rgba(255, 255, 255, 0);
     max-height: 500px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .InputCard {
-    .textInput {
-      font-size: 24px;
-    }
-    .sideBInput.show {
-      height: 50px;
-      padding: var(--spacing-1) var(--spacing-2);
-    }
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .InputCard.StudyMode {
-    height: 70%;
-  }
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
   }
 }

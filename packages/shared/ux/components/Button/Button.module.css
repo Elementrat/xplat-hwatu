@@ -10,8 +10,13 @@
 }
 
 .btn.primary {
-  background-color: var(--accent-4);
+  background-color: var(--grey-900);
   color: var(--grey-100);
+}
+
+.btn:hover {
+  border: 1px solid var(--primary-accent);
+  color: white;
 }
 
 .btn.primary:hover {
@@ -35,11 +40,6 @@
 .btn.active {
   border: 1px solid var(--primary-accent);
   color: var(--primary-accent);
-}
-
-.btn:hover {
-  border: 1px solid var(--primary-accent);
-  color: white;
 }
 
 .btn.fillSpace {
