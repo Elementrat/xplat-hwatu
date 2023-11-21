@@ -7,7 +7,8 @@ import {
   chevronBack,
   chevronForward,
   refreshCircleOutline,
-  ribbonOutline
+  closeOutline,
+  checkmarkOutline
 } from "ionicons/icons";
 import { KEY_NAMES, UIContext } from "xplat-lib";
 import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
@@ -80,7 +81,7 @@ const StudyControls = () => {
         <div className={styles.row}>
           <div className={styles.positiveBtn}>
             <Button
-              icon={ribbonOutline}
+              icon={checkmarkOutline}
               onClick={positiveProgress}
               size="large"
             />
@@ -96,7 +97,7 @@ const StudyControls = () => {
         <div className={styles.row}>
           <div className={styles.negativeBtn}>
             <Button
-              icon={refreshCircleOutline}
+              icon={closeOutline}
               onClick={negativeProgress}
               size="large"
             />

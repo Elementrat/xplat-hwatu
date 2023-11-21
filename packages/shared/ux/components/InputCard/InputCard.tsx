@@ -357,6 +357,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
               icon={cloudUploadOutline}
               onClick={onClickCreate}
               primary={true}
+              label="Save"
             />
           )}
         </div>
