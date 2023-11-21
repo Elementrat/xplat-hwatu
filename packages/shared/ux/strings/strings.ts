@@ -21,7 +21,9 @@ const STR = {
   DELETE_TAG_WARNING: (num) =>
     `The tag will be deleted and removed from ${num} cards.`,
   CONFIRM_PROCEED: "Are you sure you want to proceed?",
-  DELETE: "Delete"
+  DELETE: "Delete",
+  NEEDS_REVIEW: "Needs Review",
+  GOT_IT: "Got it!"
 };
 
 export default STR;

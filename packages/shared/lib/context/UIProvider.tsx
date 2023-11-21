@@ -311,10 +311,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
       mutateUserProfile(
         {
-          userProfile: {
-            ...userProfile,
-            cardProgress: newCardProgress
-          }
+          ...userProfile,
+          cardProgress: newCardProgress
         },
         fetchConfigs.preservePrevious
       );

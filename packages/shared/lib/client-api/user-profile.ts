@@ -12,7 +12,7 @@ const userProfileAPIURL = `${apiBaseURL}${userProfileAPIPath}`;
 
 interface UserProfileData extends SWRState {
   userProfile: UserProfileClass;
-  mutate: KeyedMutator<UserProfileData>;
+  mutate: KeyedMutator<UserProfileClass>;
 }
 
 function useCurrentUserProfile(): UserProfileData {

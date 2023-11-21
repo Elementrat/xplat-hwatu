@@ -66,6 +66,12 @@
   }
 }
 
+.progressStatus {
+  color: var(--grey-600);
+  position: absolute;
+  bottom: 25px;
+}
+
 .InputCard.hovered {
   border: 1px solid var(--grey-600);
 }
