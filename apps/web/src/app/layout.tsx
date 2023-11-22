@@ -14,7 +14,7 @@ import { Modals } from "ux";
 const inter = Poppins({ subsets: ["latin"], weight: ["300", "500"] });
 
 export const metadata: Metadata = {
-  title: "Hwatu Study Cards",
+  title: "Hwatu Study Tool",
   description: "Simuldeploy to web, iOS, Android"
 };
 

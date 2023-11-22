@@ -1,0 +1,21 @@
+.CardAttachmentRenderer {
+  display: flex;
+  justify-content: center;
+  max-height: 0px;
+  transition: all 1s;
+  overflow: hidden;
+
+  .pictureAttachment {
+    border-radius: var(--border-radius-2);
+    transition: all 0.2s;
+  }
+  .obscure {
+    filter: blur(25px);
+    opacity: 0.25;
+  }
+}
+
+.CardAttachmentRenderer.hasImage {
+  max-height: 600px;
+  padding-bottom: 15px;
+}

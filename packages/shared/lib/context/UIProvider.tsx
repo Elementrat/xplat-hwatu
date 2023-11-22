@@ -19,9 +19,15 @@ import {
 } from "xplat-lib/client-api/user-profile";
 import { fetchConfigs } from "../client-api/swr";
 
+export interface MessageModalState {
+  title: string;
+}
+
 type ModalState = {
   login?: boolean;
   deleteTag?: boolean;
+  message?: MessageModalState;
+  imageUploader: boolean;
 };
 
 interface TemporalUIState {
@@ -46,6 +52,8 @@ interface UIStateAndControls extends PersistentUIState {
   addLanguagePreference: Function;
   updateSearchTags: Function;
   toggleLoginModal: Function;
+  toggleMessageModal: Function;
+  toggleImageUploaderModal: Function;
   toggleDeleteTagModal: Function;
   updateCardProgressPositive: Function;
   updateCardProgress: Function;
@@ -72,6 +80,8 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   updateSearchTags: Function,
   updateCardProgressPositive: Function,
   toggleLoginModal: Function,
+  toggleImageUploaderModal: Function,
+  toggleMessageModal: Function,
   toggleDeleteTagModal: Function,
   updateCardProgress: Function,
   closeAllModals: Function,
@@ -86,7 +96,9 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
 const defaultTemporalUIState: TemporalUIState = {
   modals: {
     login: false,
-    deleteTag: false
+    deleteTag: false,
+    message: undefined,
+    imageUploader: false
   }
 };
 
@@ -207,13 +219,29 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const toggleMessageModal = ({ title }: { title: string }) => {
+    setTemporalUIState((prev) => {
+      const newMessageModalState =
+        typeof title !== "undefined" ? { title } : false;
+      return {
+        ...prev,
+        modals: {
+          ...prev.modals,
+          message: newMessageModalState
+        }
+      };
+    });
+  };
+
   const closeAllModals = () => {
     setTemporalUIState((prev) => {
       return {
         ...prev,
         modals: {
           deleteTag: false,
-          login: false
+          login: false,
+          imageUploader: false,
+          message: false
         }
       };
     });
@@ -229,6 +257,23 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         modals: {
           ...prev.modals,
           deleteTag: newDeleteTag
+        }
+      };
+    });
+  };
+
+  const toggleImageUploaderModal = (newValue: boolean) => {
+    setTemporalUIState((prev) => {
+      const newImageUploaderModal =
+        typeof newValue !== "undefined"
+          ? newValue
+          : !prev.modals?.imageUploader;
+
+      return {
+        ...prev,
+        modals: {
+          ...prev.modals,
+          imageUploader: newImageUploaderModal
         }
       };
     });
@@ -329,6 +374,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateSearchText,
         updateSearchTags,
         addLanguagePreference,
+        toggleMessageModal,
+        toggleImageUploaderModal,
         toggleLoginModal,
         toggleDeleteTagModal,
         closeAllModals,

@@ -1,4 +1,9 @@
-import { Card, CardClass } from "./models/Card";
+import {
+  Card,
+  CardClass,
+  CardAttachment,
+  CARD_ATTACHMENT_TYPES
+} from "./models/Card";
 import { Tag, TagClass } from "./models/Tag";
 import { UserProfile, UserProfileClass } from "./models/UserProfile";
 import {
@@ -69,3 +74,5 @@ export {
   LocalStorageProvider,
   translate
 };
+
+export type { CardAttachment };

@@ -8,6 +8,8 @@ interface CardFilter {
   userID?: string;
 }
 
+import { CardAttachment } from "xplat-lib/models/Card";
+
 export async function getCards(filter: CardFilter = {}) {
   try {
     await connectDB();
@@ -84,7 +86,11 @@ export async function getCard(id: string) {
 
 export async function updateCard(
   id: string,
-  { title, sideB }: { title?: string; sideB: string }
+  {
+    title,
+    sideB,
+    attachments
+  }: { title?: string; sideB: string; attachments: Array<CardAttachment> }
 ) {
   try {
     await connectDB();
@@ -97,11 +103,13 @@ export async function updateCard(
 
     const card = await Card.findByIdAndUpdate(
       parsedId,
-      { title, sideB },
-      { new: true }
+      { title, sideB, attachments },
+      { new: true, strict: false, returnDocument: "after" }
     )
       .lean()
       .exec();
+
+    console.log("__UPDATED", card);
 
     if (card) {
       return {

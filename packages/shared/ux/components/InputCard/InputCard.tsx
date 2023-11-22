@@ -11,6 +11,7 @@ import {
   updateTag,
   useCurrentUserTags,
   CardClass,
+  CardAttachment,
   TagClass,
   KEY_NAMES,
   CONSTANTS
@@ -27,6 +28,9 @@ import { fetchConfigs } from "xplat-lib/client-api/swr";
 import { useSession } from "next-auth/react";
 import { IonIcon } from "@ionic/react";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
+import { FileUploader } from "../FileUploader/FileUploader";
+import { CARD_ATTACHMENT_TYPES } from "xplat-lib/models/Card";
+import { CardAttachmentRenderer } from "../CardAttachmentRenderer/CardAttachmentRenderer";
 
 const ANIMATION_DURATION = 500;
 
@@ -39,7 +43,8 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     searchTags,
     studyMode,
     studyModeMoveBackwards,
-    studyModeMoveForwards
+    studyModeMoveForwards,
+    toggleImageUploaderModal
   } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
@@ -51,6 +56,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const [edited, setEdited] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [obscure, setObscure] = useState(studyMode.active);
+  const [imageURL, setImageURL] = useState("");
 
   const itemProgress = progressMap?.get(cardID);
   const hasProgress = typeof itemProgress !== CONSTANTS.UNDEFINED;
@@ -148,7 +154,11 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     }
   };
 
-  const createOrUpdateCard = async (dirtySideB?) => {
+  const onFileUpload = (fileURL) => {
+    createOrUpdateCard(null, fileURL);
+  };
+
+  const createOrUpdateCard = async (dirtySideB?, fileURL?) => {
     let newOrUpdatedCard;
     const localSideB = dirtySideB || sideB;
 
@@ -161,17 +171,32 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
       }
       applySearchTags(newOrUpdatedCard);
     } else {
-      const createResult = await updateCard({
+      let attachments = existingCard?.attachments || [];
+
+      let url = fileURL || imageURL;
+
+      if (fileURL || imageURL) {
+        attachments = [
+          {
+            type: CARD_ATTACHMENT_TYPES.IMAGE,
+            url
+          }
+        ];
+      }
+
+      const newCardData = {
         ...existingCard,
         title: sideA,
-        sideB: localSideB
-      });
+        sideB: localSideB,
+        attachments
+      };
+
+      const createResult = await updateCard(newCardData);
       newOrUpdatedCard = createResult?.data?.card;
+      console.log("__NEW_OR_UPDATED", newOrUpdatedCard);
       if (newOrUpdatedCard) {
         const newCards = cards.map((card) => {
-          return card?.id === cardID
-            ? { ...existingCard, title: sideA, sideB: localSideB }
-            : card;
+          return card?.id === cardID ? newCardData : card;
         });
         mutateCards({ cards: newCards }, fetchConfigs.preservePrevious);
       }
@@ -294,9 +319,8 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
 
   const inputSideAStyles = clsx({
     [styles.textInput]: true,
-    [styles.sideAInput]: true,
+    [styles.sideAInput]: true
   });
-
 
   const controlsDivider = clsx({
     [styles.divider]: true,
@@ -310,6 +334,11 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
     [styles.show]: showModifiers
   });
 
+  const onClickImageUpload = () => {
+    //toggleMessageModal({title: "Image uploads coming soon!"})
+    toggleImageUploaderModal();
+  };
+
   return (
     <div
       className={cardStyles}
@@ -319,7 +348,13 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      <div className={styles.progressLine}/>
+      <div className={styles.progressLine} />
+
+      <CardAttachmentRenderer
+        attachments={existingCard?.attachments}
+        obscure={obscure}
+      />
+
       {!cardID && (
         <div className={styles.newCardIndicator}>
           <IonIcon icon={createOutline} />
@@ -372,7 +407,8 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
           {cardID && <CardTags cardID={cardID} />}
 
           {cardID && (
-            <div>
+            <div className="flex">
+              <FileUploader onUploadComplete={onFileUpload} cardID={cardID} />
               <Button icon={trash} onClick={onClickDelete} danger={true} />
             </div>
           )}

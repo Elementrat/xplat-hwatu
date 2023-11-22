@@ -9,6 +9,15 @@ import {
 
 import mongoose from "mongoose";
 
+export const CARD_ATTACHMENT_TYPES = {
+  IMAGE: "image"
+};
+
+export interface CardAttachment {
+  type: string;
+  url?: string;
+}
+
 @post<CardClass>("save", function (doc) {
   if (doc) {
     doc.id = doc._id.toString();
@@ -26,6 +35,7 @@ import mongoose from "mongoose";
 })
 @ModelOptions({
   schemaOptions: {
+    strict: false,
     timestamps: true,
     collection: "cards"
   },
@@ -44,6 +54,9 @@ class CardClass {
 
   @prop({ required: true })
   userID: mongoose.Types.ObjectId | string;
+
+  @prop({ default: [] })
+  attachments: Array<CardAttachment>;
 
   _id: mongoose.Types.ObjectId | string;
 

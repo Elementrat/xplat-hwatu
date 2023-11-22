@@ -12,7 +12,10 @@
         "AUTH_GITHUB_CLIENT_ID",
         "AUTH_GITHUB_CLIENT_SECRET",
         "MONGODB_URI",
-        "NODE_ENV"
+        "NODE_ENV",
+        "BACKBLAZE_KEY_ID",
+        "BACKBLAZE_APPLICATION_KEY",
+        "BACKBLAZE_KEY_NAME"
       ]
     },
     "lint": {

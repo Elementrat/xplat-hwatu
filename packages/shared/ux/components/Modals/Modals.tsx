@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import styles from "./Modals.module.css";
 import { useContext } from "react";
@@ -11,6 +11,7 @@ import { closeOutline } from "ionicons/icons";
 import { deleteTag } from "xplat-lib";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import STR from "../../strings/strings";
+import { MessageModalState } from "xplat-lib/context/UIProvider";
 
 const modalInnerID = "modal-inner";
 const modalRootID = "modal-root";
@@ -25,7 +26,11 @@ const Modals = () => {
     }
   };
 
-  let showModal = modals?.login || modals?.deleteTag;
+  let showModal =
+    modals?.login ||
+    modals?.deleteTag ||
+    modals?.message ||
+    modals?.imageUploader;
 
   const modalRootStyles = clsx({
     [styles.ModalRoot]: true,
@@ -53,10 +58,33 @@ const Modals = () => {
           <div className={styles.closeModalBtn} onClick={onClickCloseModalBtn}>
             <Button icon={closeOutline} fillSpace={true} size="large" />
           </div>
+          {modals?.imageUploader && <ImageUploaderModalContent />}
+          {modals?.message && <MessageModalContent message={modals.message} />}
           {modals?.login && <SignInModalContent status={status} />}
           {modals?.deleteTag && <DeleteTagModalContent />}
         </div>
       </div>
+    </div>
+  );
+};
+
+const MessageModalContent = ({ message }: { message: MessageModalState }) => {
+  return (
+    <div className={styles.SignInModalContent}>
+      <div className={styles.cta}>{message.title}</div>
+    </div>
+  );
+};
+
+const ImageUploaderModalContent = () => {
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  return (
+    <div className={styles.SignInModalContent}>
+      <form onSubmit={async (e) => {}}>
+        <input name="file" ref={inputFileRef} type="file" required />
+        <button type="submit">Upload</button>
+      </form>
+      <div className={styles.cta}> img upload</div>
     </div>
   );
 };

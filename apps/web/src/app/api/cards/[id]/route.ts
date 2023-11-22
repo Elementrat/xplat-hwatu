@@ -47,8 +47,10 @@ export async function PATCH(
     const id = params.id;
 
     let body = await request.json();
-    const { title, sideB } = body;
-    const { card, error } = await updateCard(id, { title, sideB });
+    const { title, sideB, attachments } = body;
+    const { card, error } = await updateCard(id, { title, sideB, attachments });
+
+    console.log("__UPDATED_CARD_RESULT", card);
 
     if (error) {
       throw error;

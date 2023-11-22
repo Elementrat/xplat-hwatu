@@ -14,6 +14,7 @@
     "@auth/mongodb-adapter": "^2.0.3",
     "@azure-rest/ai-translation-text": "^1.0.0-beta.1",
     "@typegoose/typegoose": "^11.7.0",
+    "backblaze-b2": "^1.7.0",
     "clsx": "^2.0.0",
     "mongoose": "^8.0.0",
     "next": "14.0.0",
@@ -24,6 +25,7 @@
     "react-dom": "^18",
     "react-ionicons": "^4.2.1",
     "swr": "^2.2.4",
+    "uuid": "^9.0.1",
     "ux": "*",
     "xplat-lib": "*"
   },

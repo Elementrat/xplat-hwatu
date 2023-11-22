@@ -1,0 +1,19 @@
+.fileUploadInput {
+  display: none;
+}
+
+.fileUploadBtn {
+  padding: var(--spacing-2) var(--spacing-2);
+  border-radius: var(--border-radius-xsm);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--box-shadow-1);
+  border: 1px solid transparent;
+  gap: var(--spacing-2);
+}
+
+.fileUploadBtn:hover {
+  border: 1px solid var(--primary-accent);
+  color: white;
+}
