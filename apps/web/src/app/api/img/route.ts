@@ -43,7 +43,7 @@ export async function POST(request: Request) {
 
     const buffers = [];
 
-    for await (const data of request.body) {
+    for await (const data of request.body as any) {
       buffers.push(data);
     }
 
