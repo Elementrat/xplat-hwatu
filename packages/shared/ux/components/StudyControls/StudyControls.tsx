@@ -6,11 +6,10 @@ import { Button } from "../Button/Button";
 import {
   chevronBack,
   chevronForward,
-  refreshCircleOutline,
   closeOutline,
   checkmarkOutline
 } from "ionicons/icons";
-import { KEY_NAMES, UIContext } from "xplat-lib";
+import { CONSTANTS, KEY_NAMES, UIContext, getItemProgressStatuses } from "xplat-lib";
 import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 import { useCurrentUserProfile } from "xplat-lib/client-api/user-profile";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
@@ -26,6 +25,8 @@ const StudyControls = () => {
   } = useContext(UIContext);
 
   const { userProfile } = useCurrentUserProfile();
+
+  const currentItem = displayCards[studyMode.index];
 
   const [keys, setKeys] = useState({
     left: false,
@@ -81,7 +82,7 @@ const StudyControls = () => {
         })
       }
     },
-    [studyMode.index, displayCards]
+    [studyMode.index, displayCards, currentItem]
   );
 
   

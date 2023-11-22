@@ -52,14 +52,16 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const [sideA, setSideA] = useState(existingCard?.title);
   const [sideB, setCardTextSideB] = useState(existingCard?.sideB);
   const [lastUpdatedText, setLastUpdatedText] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [edited, setEdited] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [obscure, setObscure] = useState(studyMode.active);
   const [imageURL, setImageURL] = useState("");
+  const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
 
-  const itemProgress = progressMap?.get(cardID);
-  const hasProgress = typeof itemProgress !== CONSTANTS.UNDEFINED;
+
+  useEffect(() => {
+    setItemProgress(progressMap?.get(cardID))
+  },[progressMap])
 
   const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
   const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;

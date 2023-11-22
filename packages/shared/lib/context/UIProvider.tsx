@@ -305,8 +305,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const studyModeMoveForwards = () => {
-    setPersistentUIState((prev: PersistentUIState) => {
+  const studyModeMoveForwardAction = (prev:PersistentUIState) => {
       let numDisplayCards = prev?.displayCards.length;
       let newIndex = prev.studyMode.index;
 
@@ -321,6 +320,11 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
           index: newIndex
         }
       };
+  }
+
+  const studyModeMoveForwards =  () => {
+     setPersistentUIState((prev: PersistentUIState) => {
+     return studyModeMoveForwardAction(prev);
     });
   };
 
@@ -352,7 +356,13 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       const newCardProgress = userProfile?.cardProgress as any;
+      let existingCardProgress = newCardProgress[String(curCard?._id)];
       newCardProgress[String(curCard._id)] = progressType;
+
+      let moveForward = false;
+      if (existingCardProgress === progressType){
+        moveForward = true;
+      }
 
       mutateUserProfile(
         {

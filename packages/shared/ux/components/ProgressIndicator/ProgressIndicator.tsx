@@ -4,7 +4,7 @@ import styles from "./ProgressIndicator.module.css";
 import clsx from "clsx";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import mongoose from "mongoose";
-import { CONSTANTS } from "xplat-lib";
+import { CONSTANTS, getItemProgressStatuses } from "xplat-lib";
 
 const ProgressIndicator = ({
   items,
@@ -27,12 +27,7 @@ const ProgressIndicator = ({
       </div>
       {items.map((item, index) => {
         const percentage = (index / (items?.length - 1)) * 100;
-        const localMap = new Map(Object.entries(progressStatuses));
-        const itemProgress = localMap.get(item._id);
-        const hasProgress = typeof itemProgress !== CONSTANTS.UNDEFINED;
-
-        const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
-        const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;
+        const { isNegativeProgress, hasProgress, isPositiveProgress } = getItemProgressStatuses(progressStatuses, item);
 
         const itemStyles = clsx({
           [styles.Item]: true,

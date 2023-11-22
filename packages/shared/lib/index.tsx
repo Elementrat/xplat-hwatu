@@ -35,6 +35,7 @@ import {
 import { LocalStorageProvider } from "./context/LocalStorageProvider";
 import { sorts, filters } from "./util/filter-sort";
 import { mergeDeep } from "./util/merge";
+import  { getCardProgressGroups, getItemProgressStatuses } from "./util/progress"
 
 export type SessionUser = {
   id: string;
@@ -49,6 +50,8 @@ export {
   KEY_NAMES,
   sorts,
   filters,
+  getCardProgressGroups,
+  getItemProgressStatuses,
   mergeDeep,
   UserProfile,
   UserProfileClass,

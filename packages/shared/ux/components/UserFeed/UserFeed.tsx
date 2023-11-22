@@ -2,7 +2,7 @@
 
 import React, { useContext } from "react";
 import styles from "./UserFeed.module.css";
-import { UIContext, useCurrentUserProfile } from "xplat-lib";
+import { UIContext, getCardProgressGroups, useCurrentUserProfile } from "xplat-lib";
 import { InputCard } from "../InputCard/InputCard";
 import { StudyControls } from "../StudyControls/StudyControls";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
@@ -34,22 +34,7 @@ const UserFeed = () => {
     [styles.StudyMode]: studyMode.active
   });
 
-  const cardsNegativeProgress = visibleCards.filter((card) => {
-    let hasNeedsReviewProgress =
-      progressMap.get(card._id) === CARD_PROGRESS.NEGATIVE;
-    return hasNeedsReviewProgress;
-  });
-
-  const cardsNoProgress = visibleCards.filter((card) => {
-    const hasNoProgress = typeof progressMap.get(card._id) === "undefined";
-    return hasNoProgress;
-  });
-
-  const cardsPositiveProgress = visibleCards.filter((card) => {
-    let hasPositiveProgress =
-      progressMap.get(card._id) === CARD_PROGRESS.POSITIVE;
-    return hasPositiveProgress;
-  });
+  const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(visibleCards, progressMap);
 
   const openStudyModeBtn = (
     <Button
