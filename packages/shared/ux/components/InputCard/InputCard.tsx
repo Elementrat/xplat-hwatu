@@ -193,7 +193,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
 
       const createResult = await updateCard(newCardData);
       newOrUpdatedCard = createResult?.data?.card;
-      console.log("__NEW_OR_UPDATED", newOrUpdatedCard);
       if (newOrUpdatedCard) {
         const newCards = cards.map((card) => {
           return card?.id === cardID ? newCardData : card;

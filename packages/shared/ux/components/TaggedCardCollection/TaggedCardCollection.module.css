@@ -26,7 +26,6 @@
   }
   .tagTitleText {
     color: var(--grey-500);
-    cursor: pointer;
   }
   .tagTitleText.active {
     color: var(--grey-100);
@@ -44,7 +43,6 @@
     color: var(--grey-500);
   }
   .TaggedCard {
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--grey-800);

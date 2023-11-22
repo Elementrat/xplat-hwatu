@@ -34,7 +34,7 @@ const CardAttachmentRenderer = ({
         switch (attachment.type) {
           case CARD_ATTACHMENT_TYPES.IMAGE:
             contents = (
-              <picture key={attachment.url}>
+              <picture>
                 <img
                   className={imageStyles}
                   src={attachment.url}
@@ -47,7 +47,7 @@ const CardAttachmentRenderer = ({
             break;
         }
 
-        return <div>{contents}</div>;
+        return <div key={attachment.url}>{contents}</div>;
       })}
     </div>
   );

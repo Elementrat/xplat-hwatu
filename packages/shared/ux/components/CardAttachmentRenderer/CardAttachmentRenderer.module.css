@@ -8,6 +8,9 @@
   .pictureAttachment {
     border-radius: var(--border-radius-2);
     transition: all 0.2s;
+    object-fit: contain;
+    overflow: hidden;
+    max-height: 350px;
   }
   .obscure {
     filter: blur(25px);

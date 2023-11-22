@@ -50,8 +50,6 @@ export async function PATCH(
     const { title, sideB, attachments } = body;
     const { card, error } = await updateCard(id, { title, sideB, attachments });
 
-    console.log("__UPDATED_CARD_RESULT", card);
-
     if (error) {
       throw error;
     }

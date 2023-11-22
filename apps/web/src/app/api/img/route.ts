@@ -68,8 +68,6 @@ export async function POST(request: Request) {
       fileId
     });
 
-    console.log("__FILE_INFO_RESPONSE", fileInfoResponse.data);
-
     const cloudFileName = fileInfoResponse?.data?.fileName;
 
     const friendlyFilePath = `https://f005.backblazeb2.com/file/hwatu-uploads/${cloudFileName}`;
@@ -85,7 +83,6 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" }
     });
   } catch (error: any) {
-    console.log("__FILE_UPLOAD_ERROR", error);
     if (error.code === 11000) {
       return createErrorResponse("Image with title already exists", 409);
     }

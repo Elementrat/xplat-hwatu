@@ -9,6 +9,7 @@ import AppWrapperClient from "./context/AppWrapperClient/AppWrapperClient";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { UIProvider, LocalStorageProvider } from "xplat-lib";
+import { TranslationProvider } from "xplat-lib";
 import { Modals } from "ux";
 
 const inter = Poppins({ subsets: ["latin"], weight: ["300", "500"] });
@@ -36,9 +37,11 @@ export default async function RootLayout({
           <AppWrapperClient session={session}>
             <LocalStorageProvider>
               <UIProvider>
-                <GlobalNavigation />
-                <AppContent>{children}</AppContent>
-                <Modals />
+                <TranslationProvider>
+                  <GlobalNavigation />
+                  <AppContent>{children}</AppContent>
+                  <Modals />
+                </TranslationProvider>
               </UIProvider>
             </LocalStorageProvider>
           </AppWrapperClient>

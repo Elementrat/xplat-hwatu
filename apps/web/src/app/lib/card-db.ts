@@ -109,8 +109,6 @@ export async function updateCard(
       .lean()
       .exec();
 
-    console.log("__UPDATED", card);
-
     if (card) {
       return {
         card

@@ -2,6 +2,8 @@ const STR = {
   SEARCH: "Search",
   LOADING: "Loading...",
   NEW_CARD: "New Card",
+  UNREVIEWED: "Unreviewed",
+  MASTERED: "Mastered",
   MAKE_FIRST_CARD: "Make your first card!",
   YOUR_CARDS: "Your Cards",
   MY_CARDS: "My Cards",
@@ -25,6 +27,7 @@ const STR = {
   CONFIRM_PROCEED: "Are you sure you want to proceed?",
   DELETE: "Delete",
   NEEDS_REVIEW: "Needs Review",
+  NEEDS_STUDY: "Needs Study",
   GOT_IT: "Got it!"
 };
 

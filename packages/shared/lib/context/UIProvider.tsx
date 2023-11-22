@@ -386,7 +386,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateCardProgress
       }}
     >
-      <TranslationProvider>{children}</TranslationProvider>
+      {children}
     </UIContext.Provider>
   );
 };
