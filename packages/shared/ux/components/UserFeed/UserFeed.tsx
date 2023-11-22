@@ -10,9 +10,12 @@ import { Heading } from "../Heading/Heading";
 import STR from "../../strings/strings";
 import clsx from "clsx";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
+import { Button } from "../Button/Button";
+import { bookOutline } from "ionicons/icons";
 
 const UserFeed = () => {
-  const { displayCards, searchText, studyMode } = useContext(UIContext);
+  const { displayCards, searchText, studyMode, toggleStudyMode } =
+    useContext(UIContext);
 
   const { userProfile } = useCurrentUserProfile();
 
@@ -48,6 +51,16 @@ const UserFeed = () => {
     return hasPositiveProgress;
   });
 
+  const openStudyModeBtn = (
+    <Button
+      label="Review"
+      icon={bookOutline}
+      onClick={() => {
+        toggleStudyMode();
+      }}
+    />
+  );
+
   return (
     <div className={userFeedStyles}>
       <GlobalSearch />
@@ -61,7 +74,9 @@ const UserFeed = () => {
 
       {!studyMode.active && (
         <>
-          {cardsNoProgress?.length > 0 && <Heading text={STR.UNREVIEWED} />}
+          {cardsNoProgress?.length > 0 && (
+            <Heading text={STR.UNREVIEWED} action={openStudyModeBtn} />
+          )}
           {cardsNoProgress?.map((card) => {
             return (
               card?._id && (
@@ -74,7 +89,7 @@ const UserFeed = () => {
             );
           })}
           {cardsNegativeProgress?.length > 0 && (
-            <Heading text={STR.NEEDS_STUDY} />
+            <Heading text={STR.NEEDS_STUDY} action={openStudyModeBtn} />
           )}
           {cardsNegativeProgress?.map((card) => {
             return (
@@ -103,20 +118,23 @@ const UserFeed = () => {
         </>
       )}
 
-      {studyMode.active &&
-        visibleCards?.map((card) => {
-          <Heading text={STR.STUDY_MODE} />;
+      {studyMode.active && (
+        <>
+          <Heading text={STR.STUDY_MODE} />
+          {visibleCards?.map((card) => {
+            return (
+              card?._id && (
+                <InputCard
+                  cardID={card?._id}
+                  key={card?._id}
+                  progressMap={progressMap}
+                />
+              )
+            );
+          })}
+        </>
+      )}
 
-          return (
-            card?._id && (
-              <InputCard
-                cardID={card?._id}
-                key={card?._id}
-                progressMap={progressMap}
-              />
-            )
-          );
-        })}
       {studyMode.active && <StudyControls />}
     </div>
   );
