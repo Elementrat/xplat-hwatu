@@ -27,7 +27,7 @@ type ModalState = {
   login?: boolean;
   deleteTag?: boolean;
   message?: MessageModalState;
-  imageUploader: boolean;
+  imageUploader?: boolean;
 };
 
 interface TemporalUIState {
@@ -222,7 +222,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleMessageModal = ({ title }: { title: string }) => {
     setTemporalUIState((prev) => {
       const newMessageModalState =
-        typeof title !== "undefined" ? { title } : false;
+        typeof title !== "undefined" ? { title } : undefined;
       return {
         ...prev,
         modals: {
@@ -241,7 +241,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
           deleteTag: false,
           login: false,
           imageUploader: false,
-          message: false
+          message: undefined
         }
       };
     });
