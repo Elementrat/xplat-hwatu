@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     }
 
     if (!request.body) {
-      return "no data in request";
+      return createErrorResponse("No Data", 500);
     }
 
     await b2.authorize(); // must authorize first (authorization lasts 24 hrs)
