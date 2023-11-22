@@ -2,7 +2,6 @@ import { createErrorResponse } from "@/app/lib/util";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/lib/auth";
 import { getServerSession } from "next-auth/next";
-import Bucket from "backblaze";
 import B2 from "backblaze-b2";
 import { v4 as uuid } from "uuid";
 
