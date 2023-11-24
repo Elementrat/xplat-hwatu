@@ -371,7 +371,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
           {cards?.length === 0 ? STR.MAKE_FIRST_CARD : STR.NEW_CARD}
         </div>
       )}
-      <div>
+      <div style={{width: `100%`}}>
         <form onSubmit={handleSubmit} className={styles.textInputs}>
           <TextInput
             ref={aRef}
