@@ -1,7 +1,11 @@
-import React, { forwardRef } from "react";
+"use client"
+
+import React, { forwardRef, useLayoutEffect, useState } from "react";
 
 import styles from "./TextInput.module.css";
 import { clsx } from "clsx";
+
+const MIN_TEXTAREA_HEIGHT = 32;
 
 const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
   const {
@@ -17,11 +21,24 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
   } = props;
 
   let controlledValue = value || "";
+  const [textRowCount, setTextRowCount] = useState(controlledValue.split("\n").length || 1)
 
   const styleClasses = clsx(classNames, styles.TextInput);
 
+  
+  useLayoutEffect(() => {
+    setTextRowCount(controlledValue.split("\n").length)
+  })
+
+
+  /*
+  useEffect(() => {
+   
+  },[value])*/
+
   return (
-    <input
+    <textarea
+      rows={textRowCount}
       ref={ref}
       className={styleClasses}
       type="text"

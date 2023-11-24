@@ -43,6 +43,10 @@
     transition: all 0.3s;
     padding: 0px;
   }
+  .sideBInput.obscure {
+    background-color: var(--grey-950);
+    color: var(--grey-950);
+  }
   .sideBInput.show {
     max-height: 128px;
     padding: var(--spacing-1) var(--spacing-2);
@@ -72,7 +76,6 @@
     flex-direction: column;
     .textInput {
       font-size: var(--font-size-xxl);
-      background-color: transparent;
     }
   }
 }
@@ -134,9 +137,7 @@
 }
 
 .obscure {
-  background-color: var(--grey-950);
-  text-shadow: 0 0 20px white;
-  color: transparent;
+  background-color: white;
 }
 
 .submitted {
@@ -191,7 +192,7 @@
       max-height: unset;
     }
     .sideBInput.show {
-      max-height: 128px;
+      max-height: 200px;
       width: 100%;
       padding: var(--spacing-1) var(--spacing-2);
     }

@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
 import { MultiSelect, STR, createOption } from "ux";
 import { filters } from "xplat-lib";
-import { bookOutline } from "ionicons/icons";
+import { bookOutline, schoolOutline } from "ionicons/icons";
 import { Button } from "ux";
 import { useSession } from "next-auth/react";
 
@@ -108,8 +108,9 @@ const GlobalSearch = () => {
         />
       </div>
       <div className={s.btns}>
+      
         <Button
-          icon={bookOutline}
+          icon={studyMode.active ? bookOutline :  schoolOutline}
           fillSpace={true}
           onClick={onStudyModeClick}
           active={studyMode.active}

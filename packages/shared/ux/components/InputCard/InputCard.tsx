@@ -54,10 +54,10 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const [lastUpdatedText, setLastUpdatedText] = useState("");
   const [edited, setEdited] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [obscure, setObscure] = useState(studyMode.active);
   const [imageURL, setImageURL] = useState("");
   const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
-
 
   useEffect(() => {
     setItemProgress(progressMap?.get(cardID))
@@ -66,7 +66,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
   const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;
 
-  useEffect(() => {
+  useEffect(() => { 
     if (studyMode.active) {
       setObscure(true);
     } else {
@@ -235,7 +235,12 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   };
 
   const onKeyDownSideA = async (e) => {
+    if(e.shiftKey){
+      return;
+    }
     if (e.keyCode === KEY_CODES.ENTER || e.code === KEY_CODES.ENTER) {
+      e.preventDefault();
+      e.stopPropagation();
       setEdited(true);
       if (existingCard) {
         createOrUpdateCard();
@@ -246,7 +251,11 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   };
 
   const onKeyDownSideB = async (e) => {
+    if(e.shiftKey){
+      return;
+    }
     if (e.keyCode === KEY_CODES.ENTER) {
+      e.preventDefault();
       createOrUpdateCard();
     }
   };

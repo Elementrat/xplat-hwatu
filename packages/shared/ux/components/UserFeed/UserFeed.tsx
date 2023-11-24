@@ -11,7 +11,7 @@ import STR from "../../strings/strings";
 import clsx from "clsx";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import { Button } from "../Button/Button";
-import { bookOutline } from "ionicons/icons";
+import { schoolOutline } from "ionicons/icons";
 
 const UserFeed = () => {
   const { displayCards, searchText, studyMode, toggleStudyMode } =
@@ -23,6 +23,7 @@ const UserFeed = () => {
   if (studyMode.active) {
     visibleCards = [displayCards[studyMode.index]];
   }
+
   let progressMap;
 
   if (userProfile?.cardProgress) {
@@ -39,7 +40,7 @@ const UserFeed = () => {
   const openStudyModeBtn = (
     <Button
       label="Review"
-      icon={bookOutline}
+      icon={schoolOutline}
       onClick={() => {
         toggleStudyMode();
       }}
