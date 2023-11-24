@@ -21,8 +21,8 @@ const UserTags = () => {
     return <ErrorIndicator />;
   }
 
-  const displayTags = filters.filterTagsWithCards(tags, cards);
-  const untaggedCards = filters.untaggedCards(tags, cards);
+  const displayTags = filters.filterTagsWithCards(tags, cards) || [];
+  const untaggedCards = filters.untaggedCards(tags, cards) || [];
 
   const UserTagsTitleTextStyle = clsx({
     "text-lg": true,
@@ -38,14 +38,14 @@ const UserTags = () => {
       <div className={styles.UserTags}>
         {displayTags?.map((tag) => {
           const tagKey = tag?.title + "-" + tag?._id;
-          let cardsForTag = filters.filterCardsBySearchTags(cards, [tag]);
+          let cardsForTag = filters?.filterCardsBySearchTags(cards, [tag]);
           return (
             <TaggedCardCollection cards={cardsForTag} tag={tag} key={tagKey} />
           );
         })}
         <TaggedCardCollection
           cards={untaggedCards}
-          tag={{ title: CONSTANTS.UNTAGGED, _id:  CONSTANTS.UNTAGGED }}
+          tag={{ title: CONSTANTS.UNTAGGED, _id: CONSTANTS.UNTAGGED }}
         />
       </div>
     </div>

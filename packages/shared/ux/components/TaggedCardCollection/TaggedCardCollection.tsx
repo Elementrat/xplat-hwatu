@@ -5,6 +5,7 @@ import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
 import { Button } from "../Button/Button";
 import { trash } from "ionicons/icons";
+import { TextInput } from "../TextInput/TextInput";
 
 const visibleCutoff = 14;
 
@@ -23,6 +24,7 @@ const TaggedCardCollection = ({
     toggleDeleteTagModal
   } = useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
+  const [editable, setEditable] = useState(false)
 
   const tagColor = tag?.color || "rgba(0,0,0,.2)";
 
@@ -81,6 +83,10 @@ const TaggedCardCollection = ({
     }
   };
 
+  const onClickTagTitle = () => {
+    setEditable(true);
+  }
+
   return (
     <div
       className={collectionStyles}
@@ -91,7 +97,12 @@ const TaggedCardCollection = ({
           onClick={toggleExpand}
           className={styles.collectionTitleTextContainer}
         >
-          <span className={titleTextStyles}>{tag?.title}</span>
+          <TextInput
+            classNames={titleTextStyles} 
+            value={tag?.title}
+            readonly={true}
+            onClick={onClickTagTitle}
+          />
           <span className={styles.cardCount}>{` (${cards?.length})`}</span>
         </div>
         {showTagControls && (

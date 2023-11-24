@@ -45,7 +45,7 @@ const filterCardsBySearchTags = (
   if (!searchTags?.length) {
     return cards;
   }
-  let displayCards = cards.filter((card) => {
+  let displayCards = cards?.filter((card) => {
     let matchingTag = searchTags?.find((searchTag) =>
       searchTag.cards.includes(card._id as any)
     );
@@ -59,6 +59,10 @@ const filterTagsWithCards = (
   tags: Array<TagClass>,
   cards: Array<CardClass>
 ) => {
+  if (!tags?.length || !cards?.length) {
+    return [];
+  }
+
   let prelimResults = tags?.filter((t) => t?.cards?.length > 0);
 
   let tagsWithCorrespondingCard = prelimResults?.filter((t) => {
@@ -74,9 +78,10 @@ const filterTagsWithCards = (
 };
 
 const untaggedCards = (tags: Array<TagClass>, cards: Array<CardClass>) => {
-  if (!cards || !tags) {
+  if (!cards?.length || !tags?.length) {
     return [];
   }
+
   let prelimResults = [...cards];
 
   let filtered = prelimResults.filter((card) => {

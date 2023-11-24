@@ -25,12 +25,12 @@ function useCards(userID: string) {
   };
 }
 
-interface UserCardData extends SWRState{
-  cards: Array<CardClass>,
-  mutate: KeyedMutator<Array<CardClass>>,
+interface UserCardData extends SWRState {
+  cards: Array<CardClass>;
+  mutate: KeyedMutator<Array<CardClass>>;
 }
 
-function useCurrentUserCards():UserCardData {
+function useCurrentUserCards(): UserCardData {
   const { data: session } = useSession();
 
   let user = session?.user as SessionUser;
@@ -42,12 +42,12 @@ function useCurrentUserCards():UserCardData {
   );
 
   return {
-    cards: data?.cards || data,
+    cards: data?.cards || data || [],
     mutate,
     isLoading,
     isValidating,
     isError: error
-  }
+  };
 }
 
 async function createCard(title: string, sideB: string) {

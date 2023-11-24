@@ -9,6 +9,10 @@
   resize: none;
 }
 
+.TextInput:read-only {
+  background-color: transparent;
+}
+
 .TextInput:focus {
   background-color: var(--grey-700);
   outline: none;

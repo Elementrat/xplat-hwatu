@@ -29,7 +29,7 @@ function useCurrentUserTags(): UserTagData {
   );
 
   return {
-    tags: data?.tags || data,
+    tags: data?.tags || data || [],
     mutate,
     isLoading,
     isValidating,

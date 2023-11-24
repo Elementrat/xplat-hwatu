@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React, { forwardRef, useLayoutEffect, useState } from "react";
+import React, { forwardRef, useState } from "react";
 
 import styles from "./TextInput.module.css";
 import { clsx } from "clsx";
@@ -17,27 +17,25 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
     inputID,
     onMouseOver,
     disabled,
+    readonly,
     onSubmit
   } = props;
 
   let controlledValue = value || "";
-  const [textRowCount, setTextRowCount] = useState(controlledValue.split("\n").length || 1)
+  const [textRowCount, setTextRowCount] = useState(
+    controlledValue.split("\n").length || 1
+  );
 
   const styleClasses = clsx(classNames, styles.TextInput);
 
-  
-  useLayoutEffect(() => {
-    setTextRowCount(controlledValue.split("\n").length)
-  })
-
-
   /*
-  useEffect(() => {
-   
-  },[value])*/
+  useLayoutEffect(() => {
+    setTextRowCount(controlledValue.split("\n").length);
+  }, [value]);*/
 
   return (
     <textarea
+      readOnly={readonly}
       rows={textRowCount}
       ref={ref}
       className={styleClasses}

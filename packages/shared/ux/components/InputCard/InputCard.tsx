@@ -60,13 +60,13 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
 
   useEffect(() => {
-    setItemProgress(progressMap?.get(cardID))
-  },[progressMap])
+    setItemProgress(progressMap?.get(cardID));
+  }, [progressMap]);
 
   const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
   const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;
 
-  useEffect(() => { 
+  useEffect(() => {
     if (studyMode.active) {
       setObscure(true);
     } else {
@@ -235,7 +235,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   };
 
   const onKeyDownSideA = async (e) => {
-    if(e.shiftKey){
+    if (e.shiftKey) {
       return;
     }
     if (e.keyCode === KEY_CODES.ENTER || e.code === KEY_CODES.ENTER) {
@@ -251,7 +251,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   };
 
   const onKeyDownSideB = async (e) => {
-    if(e.shiftKey){
+    if (e.shiftKey) {
       return;
     }
     if (e.keyCode === KEY_CODES.ENTER) {
@@ -371,7 +371,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
           {cards?.length === 0 ? STR.MAKE_FIRST_CARD : STR.NEW_CARD}
         </div>
       )}
-      <div style={{width: `100%`}}>
+      <div style={{ width: `100%` }}>
         <form onSubmit={handleSubmit} className={styles.textInputs}>
           <TextInput
             ref={aRef}

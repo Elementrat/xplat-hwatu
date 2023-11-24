@@ -6,6 +6,9 @@
   }
   .collectionTitleTextContainer {
     cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
   .collectionTitle {
     padding: var(--spacing-2);
@@ -29,6 +32,8 @@
   }
   .tagTitleText.active {
     color: var(--grey-100);
+    border: 2px solid red;
+    background-color: transparent;
   }
   .activeIndicator {
     background-color: rgba(0, 0, 0, 0.2);
