@@ -3,7 +3,12 @@ import { CONSTANTS, CardClass } from "..";
 import { CARD_PROGRESS } from "../models/UserProfile";
 
 const getCardProgressGroups = (cards: Array<CardClass>, progressMap:any) => {
-    const cardsNegativeProgress = cards?.filter((card:CardClass) => {
+  
+  if (!progressMap){
+    return {cardsNegativeProgress: [], cardsPositiveProgress: [], cardsNoProgress : []}
+  }
+  
+  const cardsNegativeProgress = cards?.filter((card:CardClass) => {
         let hasNeedsReviewProgress =
           progressMap.get(card._id) === CARD_PROGRESS.NEGATIVE;
         return hasNeedsReviewProgress;
