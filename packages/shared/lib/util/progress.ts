@@ -3,26 +3,26 @@ import { CONSTANTS, CardClass } from "..";
 import { CARD_PROGRESS } from "../models/UserProfile";
 
 const getCardProgressGroups = (cards: Array<CardClass>, progressMap:any) => {
-    const cardsNegativeProgress = cards.filter((card:CardClass) => {
+    const cardsNegativeProgress = cards?.filter((card:CardClass) => {
         let hasNeedsReviewProgress =
           progressMap.get(card._id) === CARD_PROGRESS.NEGATIVE;
         return hasNeedsReviewProgress;
-      });
+      }) || [];
     
       const cardsNoProgress = cards.filter((card:CardClass) => {
         const hasNoProgress = typeof progressMap.get(card._id) === "undefined";
         return hasNoProgress;
-      });
+      }) || [];
     
       const cardsPositiveProgress = cards.filter((card:CardClass) => {
         let hasPositiveProgress =
           progressMap.get(card._id) === CARD_PROGRESS.POSITIVE;
         return hasPositiveProgress;
-      });
+      }) || [];
     
       return {
         cardsNegativeProgress, cardsNoProgress, cardsPositiveProgress
-      }
+      } 
 }
 
 const getItemProgressStatuses = (progressStatuses: Map<mongoose.Types.ObjectId, number>, item:CardClass) => {
