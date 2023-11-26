@@ -9,12 +9,38 @@
   resize: none;
 }
 
+.TextInput.showControls {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
 .TextInput:read-only {
   background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
 }
 
 .TextInput:focus {
+  outline: none;
+}
+
+.TextInput:focus:not(:read-only) {
   background-color: var(--grey-700);
   outline: none;
   border: 0px;
+}
+
+.controls {
+}
+
+.controls.show {
+  display: flex;
+}
+
+.TextInputContainer {
+  display: flex;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  align-items: stretch;
 }

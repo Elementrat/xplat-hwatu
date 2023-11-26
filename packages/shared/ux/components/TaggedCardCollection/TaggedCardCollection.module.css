@@ -2,6 +2,7 @@
   border-radius: var(--border-radius-1);
   .cards {
     max-height: 0px;
+    padding: var(--spacing-1);
     overflow: hidden;
   }
   .collectionTitleTextContainer {
@@ -9,19 +10,23 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    gap: var(--spacing-2);
+    overflow: visible;
   }
   .collectionTitle {
     padding: var(--spacing-2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: stretch;
     gap: 10px;
     color: var(--grey-600);
+    flex-direction: row;
   }
   .tagControls {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
+    display: flex;
   }
   .tagControls.active {
     opacity: 1;
@@ -29,11 +34,10 @@
   }
   .tagTitleText {
     color: var(--grey-500);
+    width: 100%;
   }
   .tagTitleText.active {
     color: var(--grey-100);
-    border: 2px solid red;
-    background-color: transparent;
   }
   .activeIndicator {
     background-color: rgba(0, 0, 0, 0.2);

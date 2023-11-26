@@ -374,6 +374,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
       <div style={{ width: `100%` }}>
         <form onSubmit={handleSubmit} className={styles.textInputs}>
           <TextInput
+            editable={true}
             ref={aRef}
             classNames={inputSideAStyles}
             placeholder={STR.ENTER_TEXT}
@@ -385,6 +386,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
           />
           <div className={styles.divider} />
           <TextInput
+            editable={true}
             ref={bRef}
             classNames={inputSideBStyles}
             placeholder={STR.SIDE_B}

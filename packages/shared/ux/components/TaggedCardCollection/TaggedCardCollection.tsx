@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { CONSTANTS, UIContext } from "xplat-lib";
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
 import { Button } from "../Button/Button";
-import { trash } from "ionicons/icons";
+import { trash, createOutline, close, cloudUploadOutline } from "ionicons/icons";
 import { TextInput } from "../TextInput/TextInput";
 
 const visibleCutoff = 14;
@@ -24,11 +24,13 @@ const TaggedCardCollection = ({
     toggleDeleteTagModal
   } = useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
-  const [editable, setEditable] = useState(false)
+  const [editable, setEditable] = useState(false);
+  const [localValue, setLocalValue] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const tagColor = tag?.color || "rgba(0,0,0,.2)";
 
-  const showTagControls = tag.title !== CONSTANTS.UNTAGGED;
+  const showTagControls = tag.title !== CONSTANTS.UNTAGGED && expand;
 
   const collectionStyles = clsx({
     [styles.expand]: expand,
@@ -36,14 +38,14 @@ const TaggedCardCollection = ({
   });
 
   const collectionTitleStyles = clsx({
-    "text-md": true,
-    "font-bold": true,
     [styles.collectionTitle]: true
   });
 
   const titleTextStyles = clsx({
     [styles.tagTitleText]: true,
-    [styles.active]: expand
+    [styles.active]: expand,
+    "text-md": true,
+    "font-bold": true
   });
 
   const tagControlStyles = clsx({
@@ -52,28 +54,30 @@ const TaggedCardCollection = ({
   });
 
   const toggleExpand = () => {
-    let newExpandValue = !expand;
-    if (!tag._id) {
-      if (!searchTags.find((tag) => tag._id === CONSTANTS.UNTAGGED)) {
-        updateSearchTags([
-          {
-            _id: CONSTANTS.UNTAGGED,
-            title: CONSTANTS.UNTAGGED
-          }
-        ]);
+    if (!editable) {
+      let newExpandValue = !expand;
+      if (!tag._id) {
+        if (!searchTags.find((tag) => tag._id === CONSTANTS.UNTAGGED)) {
+          updateSearchTags([
+            {
+              _id: CONSTANTS.UNTAGGED,
+              title: CONSTANTS.UNTAGGED
+            }
+          ]);
+          updateSearchText("");
+        } else {
+          updateSearchTags([]);
+          updateSearchText("");
+        }
+        return;
+      }
+      if (newExpandValue) {
+        updateSearchTags([tag]);
         updateSearchText("");
       } else {
         updateSearchTags([]);
         updateSearchText("");
       }
-      return;
-    }
-    if (newExpandValue) {
-      updateSearchTags([tag]);
-      updateSearchText("");
-    } else {
-      updateSearchTags([]);
-      updateSearchText("");
     }
   };
 
@@ -83,8 +87,24 @@ const TaggedCardCollection = ({
     }
   };
 
-  const onClickTagTitle = () => {
-    setEditable(true);
+  const onEditClick = (e) => {
+    if (!editable) {
+      setEditable(true);
+      setLocalValue(tag?.title);
+    }
+    if (editable) {
+      setEditable(false);
+    }
+    inputRef?.current?.focus();
+  };
+
+  const onTagTitleChange = (e) => {
+    setLocalValue(e.target.value);
+  };
+
+  const onClear = () => {
+    setEditable(false);
+    setLocalValue(tag?.title);
   }
 
   return (
@@ -94,21 +114,27 @@ const TaggedCardCollection = ({
     >
       <div className={collectionTitleStyles}>
         <div
-          onClick={toggleExpand}
           className={styles.collectionTitleTextContainer}
         >
           <TextInput
-            classNames={titleTextStyles} 
-            value={tag?.title}
-            readonly={true}
-            onClick={onClickTagTitle}
+            ref={inputRef}
+            classNames={titleTextStyles}
+            value={Boolean(editable) ? localValue : tag?.title}
+            editable={editable}
+            onChange={onTagTitleChange}
+            clearable={true}
+            onClearClick={onClear}
+            onEditClick={onEditClick}
+            showEditBtn={expand}
+            onClick={toggleExpand}
           />
-          <span className={styles.cardCount}>{` (${cards?.length})`}</span>
+          {!expand && <span className={styles.cardCount}>{` (${cards?.length})`}</span>}
         </div>
         {showTagControls && (
-          <div className={tagControlStyles}>
-            <Button icon={trash} danger={true} onClick={onTrashClick} />
-          </div>
+          <>
+            {!localValue && <Button icon={trash} danger={true} onClick={onTrashClick} />}
+            {localValue && editable && <Button icon={cloudUploadOutline}/>}
+            </>
         )}
       </div>
       <div>
