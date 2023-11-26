@@ -48,7 +48,7 @@
     color: var(--grey-950);
   }
   .sideBInput.show {
-    max-height: 128px;
+    max-height: 350px;
     padding: var(--spacing-1) var(--spacing-2);
   }
   .textInput::placeholder {
@@ -192,7 +192,8 @@
       max-height: unset;
     }
     .sideBInput.show {
-      max-height: 200px;
+      overflow-y: scroll;
+      max-height: 400px;
       width: 100%;
       padding: var(--spacing-1) var(--spacing-2);
     }
