@@ -33,20 +33,18 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
     controlledValue.split("\n").length || 1
   );
 
-
   const showControls = editable || clearable;
 
   const textAreaStyles = clsx(classNames, {
     [styles.TextInput]: true,
     [styles.showControls]: showControls
-  })
+  });
 
   const controlsStyles = clsx({
     [styles.controls]: true,
-    [styles.show]:showControls
-  })
-  
-  
+    [styles.show]: showControls
+  });
+
   useLayoutEffect(() => {
     setTextRowCount(controlledValue.split("\n").length);
   }, [value]);
@@ -69,22 +67,18 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
         id={inputID}
         name={inputID}
         disabled={disabled}
+        maxLength={11}
       />
-      {(clearable || editable) && showEditBtn && 
-      <div className={controlsStyles}>
-          {editable && <Button
-            icon={closeOutline}
-            size="small"
-            onClick={onClearClick}
-          />}
-          {
-            !editable && <Button
-            icon={createOutline}
-            size="small"
-            onClick={onEditClick}
-          />
-          }
-      </div>}
+      {(clearable || editable) && showEditBtn && (
+        <div className={controlsStyles}>
+          {editable && (
+            <Button icon={closeOutline} size="small" onClick={onClearClick} />
+          )}
+          {!editable && (
+            <Button icon={createOutline} size="small" onClick={onEditClick} />
+          )}
+        </div>
+      )}
     </div>
   );
 });

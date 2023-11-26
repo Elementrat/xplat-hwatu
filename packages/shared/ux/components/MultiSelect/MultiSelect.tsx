@@ -172,7 +172,8 @@ const MultiSelect = ({
       case "remove-value":
         {
           if (onRemoveValue) {
-            onRemoveValue(b.removedValue.value);
+            console.log("__REMOVE", b.removedValue);
+            onRemoveValue(b.removedValue.details);
             const newValue =
               value?.filter((e) => e.value !== b.removedValue.value) || [];
             setValue(newValue);

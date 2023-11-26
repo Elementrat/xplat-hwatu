@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useContext, useCallback, MouseEvent } from "react";
-import { CONSTANTS, UIContext, useCurrentUserCards } from "xplat-lib";
+import { CONSTANTS, TagClass, UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
 import { useCurrentUserTags } from "xplat-lib/client-api/tags";
@@ -43,8 +43,11 @@ const GlobalSearch = () => {
     }
   };
 
-  const onRemoveValue = (tagTitle: string) => {
-    const newSearchTags = searchTags?.filter((tag) => tag.title !== tagTitle);
+  const onRemoveValue = (removedTag: TagClass) => {
+    const newSearchTags = searchTags?.filter(
+      (tag) => tag._id !== removedTag._id
+    );
+
     updateSearchTags(newSearchTags);
   };
 
