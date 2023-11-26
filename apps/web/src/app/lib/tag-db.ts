@@ -84,7 +84,7 @@ export async function getTag(id: string) {
 
 export async function updateTag(
   id: string,
-  { cards }: { cards?: Array<string> }
+  { cards, title }: { cards?: Array<string>; title?: string }
 ) {
   try {
     await connectDB();
@@ -95,7 +95,11 @@ export async function updateTag(
       return { error: "Tag not found" };
     }
 
-    const tag = await Tag.findByIdAndUpdate(parsedId, { cards }, { new: true })
+    const tag = await Tag.findByIdAndUpdate(
+      parsedId,
+      { cards, title },
+      { new: true }
+    )
       .lean()
       .exec();
 

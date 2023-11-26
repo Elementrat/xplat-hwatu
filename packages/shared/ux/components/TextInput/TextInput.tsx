@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useLayoutEffect } from "react";
 import styles from "./TextInput.module.css";
 import { clsx } from "clsx";
 import { IonIcon } from "@ionic/react";
@@ -46,10 +46,10 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
     [styles.show]:showControls
   })
   
-  /*
+  
   useLayoutEffect(() => {
     setTextRowCount(controlledValue.split("\n").length);
-  }, [value]);*/
+  }, [value]);
 
   return (
     <div className={styles.TextInputContainer}>

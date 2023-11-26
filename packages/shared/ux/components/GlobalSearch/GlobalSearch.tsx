@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  useMemo,
-  useContext,
-  useCallback,
-  MouseEventHandler,
-  MouseEvent
-} from "react";
+import React, { useMemo, useContext, useCallback, MouseEvent } from "react";
 import { CONSTANTS, UIContext, useCurrentUserCards } from "xplat-lib";
 import s from "./GlobalSearch.module.css";
 import clsx from "clsx";
@@ -55,9 +49,9 @@ const GlobalSearch = () => {
   };
 
   const onClearSearch = () => {
-    const newSearchTags =[]
+    const newSearchTags = [];
     updateSearchTags(newSearchTags);
-  }
+  };
 
   const onSearchChange = useCallback(
     (newSearchText?: string) => {
@@ -90,7 +84,7 @@ const GlobalSearch = () => {
     return searchTags?.map((tag) => {
       return createOption(tag.title, tag);
     });
-  }, [searchTags]);
+  }, [searchTags, tags]);
 
   return (
     <div className={s.appControls} onClick={onClickAppControls}>
@@ -108,9 +102,8 @@ const GlobalSearch = () => {
         />
       </div>
       <div className={s.btns}>
-      
         <Button
-          icon={studyMode.active ? bookOutline :  schoolOutline}
+          icon={studyMode.active ? bookOutline : schoolOutline}
           fillSpace={true}
           onClick={onStudyModeClick}
           active={studyMode.active}

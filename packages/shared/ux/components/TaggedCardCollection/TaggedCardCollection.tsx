@@ -1,11 +1,23 @@
-import React, { useState, useContext, useRef } from "react";
-import { CONSTANTS, UIContext } from "xplat-lib";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import {
+  CONSTANTS,
+  KEY_CODES,
+  UIContext,
+  updateTag,
+  useCurrentUserTags
+} from "xplat-lib";
 import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
 import { Button } from "../Button/Button";
-import { trash, createOutline, close, cloudUploadOutline } from "ionicons/icons";
+import {
+  trash,
+  createOutline,
+  saveOutline,
+  cloudUploadOutline
+} from "ionicons/icons";
 import { TextInput } from "../TextInput/TextInput";
+import { fetchConfigs } from "xplat-lib/client-api/swr";
 
 const visibleCutoff = 14;
 
@@ -24,6 +36,7 @@ const TaggedCardCollection = ({
     toggleDeleteTagModal
   } = useContext(UIContext);
   const expand = searchTags?.find((searchTag) => searchTag._id === tag._id);
+  const { tags, mutate } = useCurrentUserTags();
   const [editable, setEditable] = useState(false);
   const [localValue, setLocalValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -105,7 +118,42 @@ const TaggedCardCollection = ({
   const onClear = () => {
     setEditable(false);
     setLocalValue(tag?.title);
-  }
+  };
+
+  const tryUpdateTagTitle = async () => {
+    const newTagData = {
+      ...tag,
+      title: localValue,
+      _id: String(tag._id)
+    };
+
+    const createResult = await updateTag(newTagData);
+    const newOrUpdatedTag = createResult?.data?.tag;
+    if (newOrUpdatedTag) {
+      const newTags = tags.map((existingTag) => {
+        return existingTag?.id === tag._id ? newTagData : existingTag;
+      });
+      mutate({ tags: newTags }, fetchConfigs.preservePrevious);
+
+      const newSearchTags = searchTags.map((searchTag) => {
+        return searchTag?.id === tag._id ? newTagData : searchTag;
+      });
+
+      updateSearchTags(newSearchTags);
+    }
+  };
+
+  const onKeyDownTitleChange = (e) => {
+    if (e.keyCode === KEY_CODES.ENTER) {
+      e.preventDefault();
+      e.stopPropagation();
+      tryUpdateTagTitle();
+    }
+  };
+
+  useEffect(() => {
+    setEditable(false);
+  }, [expand]);
 
   return (
     <div
@@ -113,28 +161,33 @@ const TaggedCardCollection = ({
       style={{ borderLeft: `1px solid ${tagColor}` }}
     >
       <div className={collectionTitleStyles}>
-        <div
-          className={styles.collectionTitleTextContainer}
-        >
+        <div className={styles.collectionTitleTextContainer}>
           <TextInput
             ref={inputRef}
             classNames={titleTextStyles}
             value={Boolean(editable) ? localValue : tag?.title}
-            editable={editable}
+            editable={editable && showTagControls}
             onChange={onTagTitleChange}
             clearable={true}
             onClearClick={onClear}
             onEditClick={onEditClick}
-            showEditBtn={expand}
+            showEditBtn={expand && showTagControls}
+            onKeyDown={onKeyDownTitleChange}
             onClick={toggleExpand}
           />
-          {!expand && <span className={styles.cardCount}>{` (${cards?.length})`}</span>}
+          {!expand && (
+            <span className={styles.cardCount}>{` (${cards?.length})`}</span>
+          )}
         </div>
         {showTagControls && (
           <>
-            {!localValue && <Button icon={trash} danger={true} onClick={onTrashClick} />}
-            {localValue && editable && <Button icon={cloudUploadOutline}/>}
-            </>
+            {!editable && (
+              <Button icon={trash} danger={true} onClick={onTrashClick} />
+            )}
+            {localValue && editable && (
+              <Button icon={saveOutline} onClick={tryUpdateTagTitle} />
+            )}
+          </>
         )}
       </div>
       <div>

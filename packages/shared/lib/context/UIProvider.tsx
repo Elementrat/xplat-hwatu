@@ -305,26 +305,26 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const studyModeMoveForwardAction = (prev:PersistentUIState) => {
-      let numDisplayCards = prev?.displayCards.length;
-      let newIndex = prev.studyMode.index;
+  const studyModeMoveForwardAction = (prev: PersistentUIState) => {
+    let numDisplayCards = prev?.displayCards.length;
+    let newIndex = prev.studyMode.index;
 
-      if (prev.studyMode.index < numDisplayCards - 1) {
-        newIndex = newIndex + 1;
+    if (prev.studyMode.index < numDisplayCards - 1) {
+      newIndex = newIndex + 1;
+    }
+
+    return {
+      ...prev,
+      studyMode: {
+        ...prev.studyMode,
+        index: newIndex
       }
+    };
+  };
 
-      return {
-        ...prev,
-        studyMode: {
-          ...prev.studyMode,
-          index: newIndex
-        }
-      };
-  }
-
-  const studyModeMoveForwards =  () => {
-     setPersistentUIState((prev: PersistentUIState) => {
-     return studyModeMoveForwardAction(prev);
+  const studyModeMoveForwards = () => {
+    setPersistentUIState((prev: PersistentUIState) => {
+      return studyModeMoveForwardAction(prev);
     });
   };
 
@@ -360,7 +360,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       newCardProgress[String(curCard._id)] = progressType;
 
       let moveForward = false;
-      if (existingCardProgress === progressType){
+      if (existingCardProgress === progressType) {
         moveForward = true;
       }
 

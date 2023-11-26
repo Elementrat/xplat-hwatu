@@ -51,13 +51,15 @@ async function createTag({
 
 async function updateTag({
   _id,
-  cards
+  cards,
+  title,
 }: {
   _id: string | ObjectId;
   cards: Array<string>;
+  title: string
 }) {
   if (_id) {
-    return await patchRequest(`${tagsAPIURL}/${_id}`, { cards });
+    return await patchRequest(`${tagsAPIURL}/${_id}`, { cards, title });
   }
 }
 

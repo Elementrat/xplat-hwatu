@@ -43,8 +43,8 @@ export async function PATCH(
     const id = params.id;
 
     let body = await request.json();
-    const { cards } = body;
-    const { tag, error } = await updateTag(id, { cards });
+    const { cards, title } = body;
+    const { tag, error } = await updateTag(id, { cards, title });
 
     if (error) {
       throw error;
