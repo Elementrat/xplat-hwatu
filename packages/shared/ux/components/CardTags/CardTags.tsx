@@ -67,11 +67,12 @@ const CardTags = ({ cardID }) => {
   };
 
   const onRemoveValue = async (target) => {
-    const clickedTag = tags.find((e) => e.title === target);
+    const clickedTag = tags.find((e) => e._id === target._id);
 
     if (clickedTag?._id) {
       const tagCards = clickedTag?.cards;
       let newTagCards = tagCards?.filter((id) => id !== cardID);
+
 
       const newTags = tags?.map((tag) => {
         return tag?._id === clickedTag._id
