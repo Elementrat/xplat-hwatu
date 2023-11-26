@@ -60,7 +60,9 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
   const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
 
   useEffect(() => {
-    setItemProgress(progressMap?.get(cardID));
+    setItemProgress((prev) => {
+      return progressMap?.get(cardID)
+    });
   }, [progressMap]);
 
   const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
