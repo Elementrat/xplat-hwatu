@@ -174,6 +174,7 @@ const TaggedCardCollection = ({
             showEditBtn={expand && showTagControls}
             onKeyDown={onKeyDownTitleChange}
             onClick={toggleExpand}
+            maxlength={11}
           />
           {!expand && (
             <span className={styles.cardCount}>{` (${cards?.length})`}</span>

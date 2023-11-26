@@ -25,7 +25,8 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
     onClearClick,
     onEditClick,
     clearable,
-    showEditBtn
+    showEditBtn,
+    maxlength
   } = props;
 
   let controlledValue = value || "";
@@ -67,7 +68,7 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
         id={inputID}
         name={inputID}
         disabled={disabled}
-        maxLength={11}
+        maxLength={maxlength}
       />
       {(clearable || editable) && showEditBtn && (
         <div className={controlsStyles}>
