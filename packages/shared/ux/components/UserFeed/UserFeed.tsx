@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import { Button } from "../Button/Button";
 import { schoolOutline } from "ionicons/icons";
+import { FeedCardGroup } from "../FeedCardGroup/FeedCardGroup";
 
 const UserFeed = () => {
   const { displayCards, searchText, studyMode, toggleStudyMode } =
@@ -60,49 +61,10 @@ const UserFeed = () => {
 
       {!studyMode.active && (
         <>
-          {cardsNoProgress?.length > 0 && (
-            <Heading text={STR.UNREVIEWED} action={openStudyModeBtn} />
-          )}
-          {cardsNoProgress?.map((card) => {
-            return (
-              card?._id && (
-                <InputCard
-                  cardID={card?._id}
-                  key={card?._id}
-                  progressMap={progressMap}
-                />
-              )
-            );
-          })}
-          {cardsNegativeProgress?.length > 0 && (
-            <Heading text={STR.NEEDS_STUDY} action={openStudyModeBtn} />
-          )}
-          {cardsNegativeProgress?.map((card) => {
-            return (
-              card?._id && (
-                <InputCard
-                  cardID={card?._id}
-                  key={card?._id}
-                  progressMap={progressMap}
-                />
-              )
-            );
-          })}
-
-          {cardsPositiveProgress?.length > 0 && <Heading text={STR.MASTERED} />}
-          {cardsPositiveProgress?.map((card) => {
-            return (
-              card?._id && (
-                <InputCard
-                  cardID={card?._id}
-                  key={card?._id}
-                  progressMap={progressMap}
-                />
-              )
-            );
-          })}
-        </>
-      )}
+        <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeBtn} progressMap={progressMap}/>
+        <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeBtn} progressMap={progressMap}/>
+        <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} progressMap={progressMap}/>
+        </>)}
 
       {studyMode.active && (
         <>

@@ -28,7 +28,8 @@ const STR = {
   DELETE: "Delete",
   NEEDS_REVIEW: "Needs Review",
   NEEDS_STUDY: "Needs Study",
-  GOT_IT: "Got it!"
+  GOT_IT: "Got it!",
+  SHOW_MORE: 'Show More',
 };
 
 export default STR;

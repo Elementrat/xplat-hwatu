@@ -34,7 +34,7 @@ import { CardAttachmentRenderer } from "../CardAttachmentRenderer/CardAttachment
 
 const ANIMATION_DURATION = 500;
 
-const InputCard = ({ cardID, progressMap }: { cardID?: string }) => {
+const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
