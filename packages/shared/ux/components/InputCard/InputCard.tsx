@@ -318,7 +318,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     [styles.textInput]: true,
     [styles.sideBInput]: true,
     [styles.show]: hasValidInput,
-    [styles.obscure]: studyMode.obscure
+    [styles.obscure]: studyMode.active && studyMode.obscure
   });
 
   const inputSideAStyles = clsx({
@@ -351,7 +351,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
 
       <CardAttachmentRenderer
         attachments={existingCard?.attachments}
-        obscure={studyMode.obscure}
+        obscure={studyMode.active && studyMode.obscure}
       />
 
       {!cardID && (
