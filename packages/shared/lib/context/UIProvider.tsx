@@ -45,6 +45,7 @@ interface PersistentUIState {
 interface StudyModeState {
   active: boolean;
   index: number;
+  obscure: boolean;
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -58,6 +59,7 @@ interface UIStateAndControls extends PersistentUIState {
   updateCardProgressPositive: Function;
   updateCardProgress: Function;
   toggleStudyMode: Function;
+  studyModeToggleObscure: Function;
   closeAllModals: Function;
   updateStudyModeIndex: Function;
   studyModeMoveBackwards: Function;
@@ -71,7 +73,8 @@ const defaultPersistentUIState: PersistentUIState = {
   languages: ["en", "ko"],
   studyMode: {
     active: false,
-    index: 0
+    index: 0,
+    obscure: true,
   }
 };
 
@@ -86,6 +89,7 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   updateCardProgress: Function,
   closeAllModals: Function,
   toggleStudyMode: Function,
+  studyModeToggleObscure: Function,
   updateStudyModeIndex: Function,
   addLanguagePreference: Function,
   studyModeMoveBackwards: Function,
@@ -317,7 +321,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       ...prev,
       studyMode: {
         ...prev.studyMode,
-        index: newIndex
+        index: newIndex,
+        obscure: true,
       }
     };
   };
@@ -338,7 +343,22 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         ...prev,
         studyMode: {
           ...prev.studyMode,
-          index: newIndex
+          index: newIndex,
+          obscure: true,
+        }
+      };
+    });
+  };
+
+  const studyModeToggleObscure = (newValue: boolean) => {
+    setPersistentUIState((prev: PersistentUIState) => {
+      const newStudyModeObscureState =
+        typeof newValue !== "undefined" ? newValue : !prev.studyMode?.obscure;
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          obscure: newStudyModeObscureState
         }
       };
     });
@@ -372,7 +392,12 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         fetchConfigs.preservePrevious
       );
 
-      return { ...prev };
+      return { ...prev, 
+        studyMode: {
+          ...prev.studyMode,
+          obscure: false,
+        }
+      };
     });
   };
 
@@ -393,7 +418,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateStudyModeIndex,
         studyModeMoveBackwards,
         studyModeMoveForwards,
-        updateCardProgress
+        updateCardProgress,
+        studyModeToggleObscure
       }}
     >
       {children}

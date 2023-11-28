@@ -9,7 +9,6 @@ import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import { Heading } from "../Heading/Heading";
 import STR from "../../strings/strings";
 import clsx from "clsx";
-import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import { Button } from "../Button/Button";
 import { schoolOutline } from "ionicons/icons";
 import { FeedCardGroup } from "../FeedCardGroup/FeedCardGroup";
@@ -61,27 +60,16 @@ const UserFeed = () => {
 
       {!studyMode.active && (
         <>
-        <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeBtn} progressMap={progressMap}/>
-        <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeBtn} progressMap={progressMap}/>
-        <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} progressMap={progressMap}/>
-        </>)}
-
-      {studyMode.active && (
-        <>
-          <Heading text={STR.STUDY_MODE} />
-          {visibleCards?.map((card) => {
-            return (
-              card?._id && (
-                <InputCard
-                  cardID={card?._id}
-                  key={card?._id}
-                  progressMap={progressMap}
-                />
-              )
-            );
-          })}
+          <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeBtn} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeBtn} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} progressMap={progressMap}/>
         </>
       )}
+
+      {studyMode.active && (
+         <FeedCardGroup cards={visibleCards} headingText={STR.STUDY_MODE} action={openStudyModeBtn} progressMap={progressMap}/>
+         )
+      }
 
       {studyMode.active && <StudyControls />}
     </div>

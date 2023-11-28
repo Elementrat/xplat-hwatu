@@ -34,7 +34,7 @@ import { CardAttachmentRenderer } from "../CardAttachmentRenderer/CardAttachment
 
 const ANIMATION_DURATION = 500;
 
-const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any }) => {
+const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any }) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
@@ -44,7 +44,8 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
     studyMode,
     studyModeMoveBackwards,
     studyModeMoveForwards,
-    toggleImageUploaderModal
+    toggleImageUploaderModal,
+    studyModeToggleObscure
   } = useContext(UIContext);
 
   let existingCard = cards?.find((card) => card?._id === cardID);
@@ -55,7 +56,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
   const [edited, setEdited] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [obscure, setObscure] = useState(studyMode.active);
   const [imageURL, setImageURL] = useState("");
   const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
 
@@ -68,14 +68,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
   const isNegativeProgress = itemProgress === CARD_PROGRESS.NEGATIVE;
   const isPositiveProgress = itemProgress === CARD_PROGRESS.POSITIVE;
 
-  useEffect(() => {
-    if (studyMode.active) {
-      setObscure(true);
-    } else {
-      setObscure(false);
-    }
-  }, [studyMode]);
-
   const handleKeyDown = (e) => {
     if (
       e.keyCode === KEY_CODES.CTRL_LEFT ||
@@ -83,7 +75,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
       e.key === KEY_NAMES.ARROW_UP ||
       e.key === KEY_NAMES.ARROW_DOWN
     ) {
-      setObscure(false);
+      studyModeToggleObscure(false);
     }
   };
 
@@ -308,7 +300,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
   };
 
   const onMouseOverSideB = () => {
-    setObscure(false);
+    studyModeToggleObscure(false);
   };
 
   const hasValidInput = sideA?.length > 0;
@@ -326,7 +318,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
     [styles.textInput]: true,
     [styles.sideBInput]: true,
     [styles.show]: hasValidInput,
-    [styles.obscure]: obscure
+    [styles.obscure]: studyMode.obscure
   });
 
   const inputSideAStyles = clsx({
@@ -346,11 +338,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
     [styles.show]: showModifiers
   });
 
-  const onClickImageUpload = () => {
-    //toggleMessageModal({title: "Image uploads coming soon!"})
-    toggleImageUploaderModal();
-  };
-
   return (
     <div
       className={cardStyles}
@@ -364,7 +351,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap: any 
 
       <CardAttachmentRenderer
         attachments={existingCard?.attachments}
-        obscure={obscure}
+        obscure={studyMode.obscure}
       />
 
       {!cardID && (

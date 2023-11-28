@@ -3,7 +3,6 @@
 import React, { forwardRef, useState, useLayoutEffect } from "react";
 import styles from "./TextInput.module.css";
 import { clsx } from "clsx";
-import { IonIcon } from "@ionic/react";
 import { closeOutline, createOutline } from "ionicons/icons";
 import { Button } from "../Button/Button";
 
