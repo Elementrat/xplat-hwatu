@@ -37,6 +37,12 @@ const TranslationProvider = ({ children }: { children: ReactNode }) => {
   const tryTranslate = async (
     inputText: string
   ): Promise<Array<any> | undefined> => {
+
+
+    if (process.env.NODE_ENV === "development"){
+      return;
+    }
+
     let sourceLang = detect(inputText);
     let targetLang;
 

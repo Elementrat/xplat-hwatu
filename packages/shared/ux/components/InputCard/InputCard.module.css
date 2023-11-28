@@ -37,10 +37,12 @@
   }
   .sideAInput {
     transition: all 0.3s;
+    height: min-content;
   }
   .sideBInput {
     max-height: 0px;
     transition: all 0.3s;
+    height: min-content;
     padding: 0px;
   }
   .sideBInput.obscure {
