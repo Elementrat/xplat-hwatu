@@ -38,11 +38,7 @@ const UserFeed = () => {
 
   const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(visibleCards, progressMap);
 
-  let studyModeCards = visibleCards;
-
-  if (studyMode?.filters?.find((filter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
-    studyModeCards = cardsNegativeProgress;
-  }
+  let studyModeCards = [studyMode?.cards?.[studyMode.index]];
 
   const openStudyModeNegativeBtn = (
     <Button

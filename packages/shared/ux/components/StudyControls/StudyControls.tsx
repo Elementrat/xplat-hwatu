@@ -20,13 +20,12 @@ const StudyControls = () => {
     studyMode,
     studyModeMoveForwards,
     studyModeMoveBackwards,
-    displayCards,
     updateCardProgress
   } = useContext(UIContext);
 
   const { userProfile } = useCurrentUserProfile();
 
-  const currentItem = displayCards[studyMode.index];
+  const currentItem = studyMode?.cards?.[studyMode.index];
 
   const [keys, setKeys] = useState({
     left: false,
@@ -82,7 +81,7 @@ const StudyControls = () => {
         })
       }
     },
-    [studyMode.index, displayCards, currentItem]
+    [studyMode.index, studyMode.cards, currentItem]
   );
 
   
@@ -113,7 +112,7 @@ const StudyControls = () => {
         })
       }
     },
-    [studyMode.index, displayCards]
+    [studyMode.index, studyMode.cards]
   );
 
 
@@ -147,7 +146,7 @@ const StudyControls = () => {
     <div className={styles.StudyControlsRoot}>
       {studyMode.active && (
         <ProgressIndicator
-          items={displayCards}
+          items={studyMode.cards}
           currentIndex={studyMode.index}
           progressStatuses={userProfile?.cardProgress}
         />
@@ -170,7 +169,7 @@ const StudyControls = () => {
             <Button icon={chevronBack} onClick={onClickBack} size="large" />
           </div>
           <div className={styles.Counts}>
-            {studyMode.index + 1}/{displayCards?.length}
+            {studyMode.index + 1}/{studyMode.cards?.length}
           </div>
           <div className={rightBtnStyles}>
             <Button icon={chevronForward} onClick={onClickForward} size="large" />

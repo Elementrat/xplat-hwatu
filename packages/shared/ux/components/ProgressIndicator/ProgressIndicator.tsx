@@ -25,7 +25,7 @@ const ProgressIndicator = ({
           style={{ width: `${completionPercentage}%` }}
         />
       </div>
-      {items.map((item, index) => {
+      {items?.map((item, index) => {
         const percentage = (index / (items?.length - 1)) * 100;
         const { isNegativeProgress, hasProgress, isPositiveProgress } = getItemProgressStatuses(progressStatuses, item);
 

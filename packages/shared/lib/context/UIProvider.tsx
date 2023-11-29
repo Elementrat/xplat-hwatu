@@ -57,6 +57,7 @@ interface StudyModeState {
   index: number;
   obscure: boolean;
   filters: Array<StudyModeFilter>
+  cards: Array<CardClass>
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -87,6 +88,7 @@ const defaultPersistentUIState: PersistentUIState = {
     index: 0,
     obscure: true,
     filters: [],
+    cards: [],
   }
 };
 
@@ -171,27 +173,6 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       );
     }
 
-    let progressMap;
-
-    if (userProfile?.cardProgress) {
-      progressMap = new Map(Object.entries(userProfile?.cardProgress));
-    }
-
-    const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(displayCards, progressMap);
-  
-    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
-      displayCards = cardsNegativeProgress;
-    }
-
-    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS)){
-      displayCards = cardsNoProgress;
-    }
-
-    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS)){
-      displayCards = cardsPositiveProgress;
-    }
-
-  
     setPersistentUIState({
       ...persistentUIState,
       displayCards,
@@ -317,15 +298,39 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const toggleStudyMode = (newValue: boolean, filters: Array<StudyModeFilter>) => {
+
     setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeState =
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
+
+        let progressMap;
+        let studyCards;
+    
+        if (userProfile?.cardProgress) {
+          progressMap = new Map(Object.entries(userProfile?.cardProgress));
+        }
+    
+        const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(prev.displayCards, progressMap);
+      
+        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
+          studyCards = cardsNegativeProgress;
+        }
+    
+        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS)){
+          studyCards = cardsNoProgress;
+        }
+    
+        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS)){
+          studyCards = cardsPositiveProgress;
+        }
+
       return {
         ...prev,
         studyMode: {
           ...prev.studyMode,
           active: newStudyModeState,
           filters,
+          cards: studyCards
         }
       };
     });
@@ -344,7 +349,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const studyModeMoveForwardAction = (prev: PersistentUIState) => {
-    let numDisplayCards = prev?.displayCards.length;
+    let numDisplayCards = prev?.studyMode.cards?.length;
     let newIndex = prev.studyMode.index;
 
     if (prev.studyMode.index < numDisplayCards - 1) {
@@ -400,7 +405,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateCardProgress = async (progressType: CARD_PROGRESS) => {
     setPersistentUIState((prev: PersistentUIState) => {
-      const curCard = prev.displayCards[prev.studyMode.index];
+      const curCard = prev.studyMode.cards[prev.studyMode.index];
       const cardPatch = {
         [String(curCard._id)]: progressType
       };
