@@ -10,8 +10,9 @@ import { Heading } from "../Heading/Heading";
 import STR from "../../strings/strings";
 import clsx from "clsx";
 import { Button } from "../Button/Button";
-import { schoolOutline } from "ionicons/icons";
+import { schoolOutline, bookOutline } from "ionicons/icons";
 import { FeedCardGroup } from "../FeedCardGroup/FeedCardGroup";
+import { StudyModeFilterType } from "xplat-lib/context/UIProvider";
 
 const UserFeed = () => {
   const { displayCards, searchText, studyMode, toggleStudyMode } =
@@ -37,10 +38,52 @@ const UserFeed = () => {
 
   const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(visibleCards, progressMap);
 
-  const openStudyModeBtn = (
+  let studyModeCards = visibleCards;
+
+  if (studyMode?.filters?.find((filter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
+    studyModeCards = cardsNegativeProgress;
+  }
+
+  const openStudyModeNegativeBtn = (
     <Button
       label="Review"
       icon={schoolOutline}
+      onClick={() => {
+        toggleStudyMode(true, [{
+          type: StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS
+        }]);
+      }}
+    />
+  );
+
+  const openStudyModePositiveBtn = (
+    <Button
+      label="Review"
+      icon={schoolOutline}
+      onClick={() => {
+        toggleStudyMode(true, [{
+          type: StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS
+        }]);
+      }}
+    />
+  );
+
+  const openStudyModeNoProgressBtn = (
+    <Button
+      label="Review"
+      icon={schoolOutline}
+      onClick={() => {
+        toggleStudyMode(true, [{
+          type: StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS
+        }]);
+      }}
+    />
+  );
+
+  const openEditModeBtn = (
+    <Button
+      label="Exit Review"
+      icon={bookOutline}
       onClick={() => {
         toggleStudyMode();
       }}
@@ -60,14 +103,14 @@ const UserFeed = () => {
 
       {!studyMode.active && (
         <>
-          <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeBtn} progressMap={progressMap}/>
-          <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeBtn} progressMap={progressMap}/>
-          <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeNoProgressBtn} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeNegativeBtn} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} action={openStudyModePositiveBtn} progressMap={progressMap}/>
         </>
       )}
 
       {studyMode.active && (
-         <FeedCardGroup cards={visibleCards} headingText={STR.STUDY_MODE} action={openStudyModeBtn} progressMap={progressMap}/>
+         <FeedCardGroup cards={studyModeCards} headingText={STR.STUDY_MODE} action={openEditModeBtn} progressMap={progressMap}/>
          )
       }
 

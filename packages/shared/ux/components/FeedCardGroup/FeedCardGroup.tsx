@@ -24,7 +24,7 @@ const FeedCardGroup = ({headingText, cards, progressMap, action}:{headingText:st
         }
     }
 
-    const limitedCards = cards?.slice(0,numShown);
+    const limitedCards = cards?.slice(0, numShown);
 
     return <>
             {numCardsInSet > 0 && <Heading text={headingText} action={action} />}

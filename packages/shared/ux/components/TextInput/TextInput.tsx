@@ -49,7 +49,7 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
   function getTextareaNumberOfLines(textarea) {
     var previous_height = textarea.style.height, lines
     textarea.style.height = 0
-    lines = parseInt( textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) )
+    lines = parseInt(textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) )
     textarea.style.height = previous_height
     return lines
 }

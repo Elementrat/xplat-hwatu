@@ -7,6 +7,7 @@ import {
   CardClass,
   TagClass,
   filters,
+  getCardProgressGroups,
   mergeDeep,
   sorts,
   useCurrentUserCards,
@@ -42,10 +43,20 @@ interface PersistentUIState {
   displayCards: Array<CardClass>;
 }
 
+export enum StudyModeFilterType{
+  STUDY_MODE_FILTER_NEGATIVE_PROGRESS = 0,
+  STUDY_MODE_FILTER_NO_PROGRESS = 1, 
+  STUDY_MODE_FILTER_POSITIVE_PROGRESS = 2
+}
+export interface StudyModeFilter{
+  type: StudyModeFilterType;
+}
+
 interface StudyModeState {
   active: boolean;
   index: number;
   obscure: boolean;
+  filters: Array<StudyModeFilter>
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -75,6 +86,7 @@ const defaultPersistentUIState: PersistentUIState = {
     active: false,
     index: 0,
     obscure: true,
+    filters: [],
   }
 };
 
@@ -159,6 +171,27 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       );
     }
 
+    let progressMap;
+
+    if (userProfile?.cardProgress) {
+      progressMap = new Map(Object.entries(userProfile?.cardProgress));
+    }
+
+    const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(displayCards, progressMap);
+  
+    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
+      displayCards = cardsNegativeProgress;
+    }
+
+    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS)){
+      displayCards = cardsNoProgress;
+    }
+
+    if (persistentUIState?.studyMode?.filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS)){
+      displayCards = cardsPositiveProgress;
+    }
+
+  
     setPersistentUIState({
       ...persistentUIState,
       displayCards,
@@ -167,7 +200,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         index: 0
       }
     });
-  }, [persistentUIState.searchText, persistentUIState.searchTags, cards, tags]);
+  }, [persistentUIState.searchText, persistentUIState.searchTags, cards, tags, persistentUIState.studyMode.filters]);
 
   useEffect(() => {
     localStorage.setItem(cacheKey, JSON.stringify(persistentUIState));
@@ -283,7 +316,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const toggleStudyMode = (newValue: boolean) => {
+  const toggleStudyMode = (newValue: boolean, filters: Array<StudyModeFilter>) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeState =
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
@@ -291,7 +324,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         ...prev,
         studyMode: {
           ...prev.studyMode,
-          active: newStudyModeState
+          active: newStudyModeState,
+          filters,
         }
       };
     });
