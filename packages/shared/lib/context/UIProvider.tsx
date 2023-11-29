@@ -304,7 +304,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
 
         let progressMap;
-        let studyCards;
+        let studyCards = prev.displayCards;
     
         if (userProfile?.cardProgress) {
           progressMap = new Map(Object.entries(userProfile?.cardProgress));
