@@ -44,12 +44,14 @@ export type SessionUser = {
 };
 
 import { KEY_CODES, KEY_NAMES } from "./util/keys";
+import {shuffleArray} from "./util/arrays";
 
 export {
   KEY_CODES,
   KEY_NAMES,
   sorts,
   filters,
+  shuffleArray,
   getCardProgressGroups,
   getItemProgressStatuses,
   mergeDeep,

@@ -10,11 +10,16 @@ import {
   checkmarkOutline,
   invertModeOutline
 } from "ionicons/icons";
-import {  KEY_NAMES, UIContext, getItemProgressStatuses } from "xplat-lib";
+import {  CardClass, KEY_NAMES, UIContext, getItemProgressStatuses, shuffleArray } from "xplat-lib";
 import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 import { useCurrentUserProfile } from "xplat-lib/client-api/user-profile";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import clsx from "clsx";
+
+interface AnswerCardWithClickStatus extends CardClass{
+  clickedWrong: boolean,
+  clickedCorrect: boolean
+}
 
 const StudyControls = () => {
   const {
@@ -22,9 +27,12 @@ const StudyControls = () => {
     studyModeMoveForwards,
     studyModeMoveBackwards,
     updateCardProgress,
-    studyModeToggleObscure
+    studyModeToggleObscure,
+    displayCards
   } = useContext(UIContext);
 
+  const [answers, setAnswers] = useState<Array<AnswerCardWithClickStatus>>([]);
+  const [hasGuessed, setHasGuessed] = useState(false);
   const { userProfile } = useCurrentUserProfile();
 
   const currentItem = studyMode?.cards?.[studyMode.index];
@@ -163,8 +171,77 @@ const StudyControls = () => {
     [styles.active]: isNegativeProgress
   })
 
+
+  const onClickAnswer = (clickedAnswer: AnswerCardWithClickStatus) => {
+    let clickedCorrect = clickedAnswer?._id === currentItem?._id;
+    let clickedWrong = clickedAnswer?._id !== currentItem?._id;
+
+    let newAnswers = answers.map((answer) => {
+      if(answer._id === clickedAnswer._id){
+        return {
+          ...answer,
+          clickedCorrect, 
+          clickedWrong
+        }
+      }
+      else{
+        return answer;
+      }
+    })
+
+    if(!hasGuessed){
+      if(clickedWrong){
+        negativeProgress();
+      }
+      if(clickedCorrect){
+        positiveProgress();
+      }
+    }
+
+    setAnswers(newAnswers)
+    setHasGuessed(true);
+  }
+
+
+  useEffect(() => {
+    if(!currentItem?.sideB){
+      setAnswers([])
+      return;
+    }
+    const cardsWithAnswer = displayCards?.filter((e) => Boolean(e?.sideB) && e._id !== currentItem._id);
+    let answers:Array<any> = [];
+    let numIndicesToSelect = cardsWithAnswer?.length > 4 ? 3 : cardsWithAnswer?.length - 1;
+    let answerPool = cardsWithAnswer?.slice();
+    answers.push(currentItem);
+
+    for (let x = 0; x < numIndicesToSelect; x++){
+      let randomIndex = Math.round(Math.random() * (answerPool.length - 1));
+      answers.push(answerPool[randomIndex])
+      answerPool.splice(randomIndex, 1);
+    }
+
+    shuffleArray(answers)
+    setAnswers(answers)
+    setHasGuessed(false);
+  
+  },[currentItem])
+
+
   return (
     <div className={styles.StudyControlsRoot}>
+      <div className={styles.QuizAnswers}>
+        {
+          answers.map((answer) => {
+
+            const answerClasses = clsx({
+              [styles.clickedWrong]: answer.clickedWrong,
+              [styles.clickedCorrect]: answer.clickedCorrect,
+              [styles.quizAnswer]: true
+            })
+            return <div key={answer._id} className={answerClasses} onClick={() => {onClickAnswer(answer)}}>{answer?.sideB}</div>
+          })
+        }
+      </div>
       {studyMode.active && (
         <ProgressIndicator
           items={studyMode.cards}
@@ -207,13 +284,10 @@ const StudyControls = () => {
           </div>
         </div>
         <div className={styles.row}>
-        <div className={rightBtnStyles}>
+          <div className={rightBtnStyles}>
             <Button icon={chevronForward} onClick={onClickForward} size="large" />
           </div>
         </div>
-      </div>
-      <div className={styles.Counts}>
-        <span>{studyMode.index + 1}/{studyMode.cards?.length}</span> 
       </div>
     </div>
   );

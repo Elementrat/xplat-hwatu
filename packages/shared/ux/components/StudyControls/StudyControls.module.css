@@ -9,6 +9,30 @@
   gap: var(--spacing-3);
 }
 
+.QuizAnswers {
+  display: flex;
+  gap: var(--spacing-3);
+  .quizAnswer {
+    border: 1px solid var(--grey-800);
+    color: var(--grey-600);
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-2);
+    cursor: pointer;
+    &:hover {
+      border: 1px solid var(--grey-400);
+      color: var(--grey-400);
+    }
+    &.clickedWrong {
+      border: 1px solid var(--negative);
+      color: var(--negative);
+    }
+    &.clickedCorrect {
+      border: 1px solid var(--positive);
+      color: var(--positive);
+    }
+  }
+}
+
 .StudyControls {
   width: 100%;
   display: flex;

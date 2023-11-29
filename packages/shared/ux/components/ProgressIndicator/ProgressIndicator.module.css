@@ -18,6 +18,7 @@
   transition: all 0.2s;
   position: absolute;
   transform: translate(-50%), scale(1);
+  opacity: 0;
 }
 
 .Item.active {
@@ -30,6 +31,7 @@
     /* outer white */ -0px 0 20px white,
     /* outer left magenta */ 0px 0 40px #0ff; /* outer right cyan */
   border: 1px solid black;
+  opacity: 1;
 }
 
 .Item.negativeProgress.active {
@@ -66,6 +68,7 @@
 .Item.negativeProgress.itemComplete,
 .Item.positiveProgress.itemComplete {
   border: 1px solid white;
+  opacity: 1;
 }
 
 .Item.negativeProgress.itemComplete {
