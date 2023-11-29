@@ -311,7 +311,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     [styles.hovered]: hovered,
     [styles.StudyMode]: studyMode.active,
     [styles.negativeProgress]: isNegativeProgress,
-    [styles.positiveProgress]: isPositiveProgress
+    [styles.positiveProgress]: isPositiveProgress,
   });
 
   const inputSideBStyles = clsx({

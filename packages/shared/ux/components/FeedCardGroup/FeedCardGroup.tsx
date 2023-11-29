@@ -28,7 +28,8 @@ const FeedCardGroup = ({headingText, cards, progressMap, action}:{headingText:st
 
     return <>
             {numCardsInSet > 0 && <Heading text={headingText} action={action} />}
-            {limitedCards?.map((card) => {
+            {limitedCards?.map((card, index) => {
+
             return (
               card?._id && (
                 <InputCard
