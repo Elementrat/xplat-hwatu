@@ -7,9 +7,10 @@ import {
   chevronBack,
   chevronForward,
   closeOutline,
-  checkmarkOutline
+  checkmarkOutline,
+  invertModeOutline
 } from "ionicons/icons";
-import { CONSTANTS, KEY_NAMES, UIContext, getItemProgressStatuses } from "xplat-lib";
+import {  KEY_NAMES, UIContext, getItemProgressStatuses } from "xplat-lib";
 import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 import { useCurrentUserProfile } from "xplat-lib/client-api/user-profile";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
@@ -20,7 +21,8 @@ const StudyControls = () => {
     studyMode,
     studyModeMoveForwards,
     studyModeMoveBackwards,
-    updateCardProgress
+    updateCardProgress,
+    studyModeToggleObscure
   } = useContext(UIContext);
 
   const { userProfile } = useCurrentUserProfile();
@@ -41,6 +43,10 @@ const StudyControls = () => {
   const onClickForward = () => {
     studyModeMoveForwards();
   };
+
+  const onClickToggleObscure = () => {
+    studyModeToggleObscure();
+  }
 
   const positiveProgress = () => {
     updateCardProgress(CARD_PROGRESS.POSITIVE);
@@ -134,12 +140,27 @@ const StudyControls = () => {
     [styles.pressed]: keys.right
   })
 
+
+  const inverterBtnStyles = clsx({
+    [styles.Inverter]: true,
+    [styles.Inverted]: studyMode.obscure,
+    [styles.Missing]: Boolean(!currentItem?.sideB)
+  })
+
+  const { isNegativeProgress,  isPositiveProgress } = getItemProgressStatuses(userProfile?.cardProgress, currentItem);
+
   const upBtnStyles = clsx({
-    [styles.pressed]: keys.up
+    [styles.positive]: true,
+    [styles.progressBtn]: true,
+    [styles.pressed]: keys.up,
+    [styles.active]: isPositiveProgress,
   })
 
   const downBtnStyles = clsx({
-    [styles.pressed]: keys.down
+    [styles.negative]: true,
+    [styles.progressBtn]: true,
+    [styles.pressed]: keys.down,
+    [styles.active]: isNegativeProgress
   })
 
   return (
@@ -154,6 +175,27 @@ const StudyControls = () => {
 
       <div className={styles.StudyControls}>
         <div className={styles.row}>
+        <div className={leftBtnStyles}>
+            <Button icon={chevronBack} onClick={onClickBack} size="large" />
+          </div>
+        </div>
+        <div className={styles.row}>
+        <div className={styles.negativeBtn}>
+            <div className={downBtnStyles}>
+              <Button
+                icon={closeOutline}
+                onClick={negativeProgress}
+                size="large"
+              />
+            </div>
+          </div>
+          <div className={inverterBtnStyles}>
+             <Button
+                icon={invertModeOutline}
+                onClick={onClickToggleObscure}
+                size="large"
+              />
+          </div>
           <div className={styles.positiveBtn}>
             <div className={upBtnStyles}>
               <Button
@@ -165,27 +207,13 @@ const StudyControls = () => {
           </div>
         </div>
         <div className={styles.row}>
-          <div className={leftBtnStyles}>
-            <Button icon={chevronBack} onClick={onClickBack} size="large" />
-          </div>
-          <div className={styles.Counts}>
-            {studyMode.index + 1}/{studyMode.cards?.length}
-          </div>
-          <div className={rightBtnStyles}>
+        <div className={rightBtnStyles}>
             <Button icon={chevronForward} onClick={onClickForward} size="large" />
           </div>
         </div>
-        <div className={styles.row}>
-          <div className={styles.negativeBtn}>
-            <div className={downBtnStyles}>
-              <Button
-                icon={closeOutline}
-                onClick={negativeProgress}
-                size="large"
-              />
-            </div>
-          </div>
-        </div>
+      </div>
+      <div className={styles.Counts}>
+        <span>{studyMode.index + 1}/{studyMode.cards?.length}</span> 
       </div>
     </div>
   );

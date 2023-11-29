@@ -1,9 +1,20 @@
+.StudyControlsRoot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 1;
+  position: relative;
+  gap: var(--spacing-3);
+}
+
 .StudyControls {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   color: var(--grey-500);
   .row {
     display: flex;
@@ -39,18 +50,36 @@
   outline: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.StudyControlsRoot {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 1;
-  position: relative;
-  gap: var(--spacing-3);
-}
-
 .Counts {
   min-width: 50px;
   text-align: center;
+  color: var(--grey-600);
+}
+
+.progressBtn {
+  border-radius: var(--border-radius-2);
+  border: 2px solid transparent;
+  &.negative {
+    &.active {
+      border: 2px solid var(--negative);
+    }
+  }
+  &.positive {
+    &.active {
+      border: 2px solid var(--positive);
+    }
+  }
+}
+
+.Inverter {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
+}
+
+.Inverted {
+  transform: rotate(-90deg);
+}
+
+.Missing {
+  opacity: 0.1;
 }

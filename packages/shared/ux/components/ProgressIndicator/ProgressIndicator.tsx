@@ -2,9 +2,8 @@ import React from "react";
 
 import styles from "./ProgressIndicator.module.css";
 import clsx from "clsx";
-import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import mongoose from "mongoose";
-import { CONSTANTS, getItemProgressStatuses } from "xplat-lib";
+import { getItemProgressStatuses } from "xplat-lib";
 
 const ProgressIndicator = ({
   items,
