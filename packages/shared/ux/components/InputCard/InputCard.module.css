@@ -219,6 +219,7 @@
 @media screen and (max-width: 1024px) {
   .InputCard,
   .InputCard.StudyMode {
+    height: auto;
     .textInputs {
       .textInput {
         font-size: var(--font-size-xl);

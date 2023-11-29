@@ -415,12 +415,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
           )}
         </div>
       </div>
-      {studyMode.active && (
-        <div className={styles.progressStatus}>
-          {isNegativeProgress && STR.NEEDS_REVIEW}
-          {isPositiveProgress && STR.GOT_IT}
-        </div>
-      )}
     </div>
   );
 };
