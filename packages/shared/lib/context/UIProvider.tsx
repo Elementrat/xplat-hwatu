@@ -330,7 +330,8 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
           ...prev.studyMode,
           active: newStudyModeState,
           filters,
-          cards: studyCards
+          cards: studyCards,
+          obscure: true,
         }
       };
     });
