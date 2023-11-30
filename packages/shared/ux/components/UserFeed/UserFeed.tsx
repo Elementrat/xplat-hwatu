@@ -105,12 +105,12 @@ const UserFeed = () => {
         </>
       )}
 
-      {studyMode.active && (
-         <FeedCardGroup cards={studyModeCards} headingText={STR.STUDY_MODE} action={openEditModeBtn} progressMap={progressMap}/>
-         )
+      {studyMode.active && <> 
+          <FeedCardGroup cards={studyModeCards} headingText={STR.STUDY_MODE} action={openEditModeBtn} progressMap={progressMap}/>
+         </>
       }
 
-      {studyMode.active && <StudyControls />}
+      {studyMode.active && <StudyControls progressMap={progressMap}/>}
     </div>
   );
 };

@@ -14,19 +14,6 @@
   color: var(--grey-100);
 }
 
-.btn:hover {
-  border: 1px solid var(--primary-accent);
-  color: white;
-}
-
-.btn.primary:hover {
-  border: 1px solid var(--primary-accent);
-}
-
-.btn.danger:hover {
-  border: 1px solid var(--danger);
-}
-
 .btn.danger.primary {
   background-color: var(--danger);
   color: var(--grey-100);
@@ -45,4 +32,19 @@
 .btn.fillSpace {
   width: 100%;
   height: 100%;
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    border: 1px solid var(--primary-accent);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    border: 1px solid var(--primary-accent);
+  }
+
+  .btn.danger:hover {
+    border: 1px solid var(--danger);
+  }
 }

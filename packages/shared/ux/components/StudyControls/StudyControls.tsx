@@ -15,13 +15,15 @@ import { ProgressIndicator } from "../ProgressIndicator/ProgressIndicator";
 import { useCurrentUserProfile } from "xplat-lib/client-api/user-profile";
 import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import clsx from "clsx";
+import { StudyModeSummary } from "../StudyModeSummary/StudyModeSummary";
+
 
 interface AnswerCardWithClickStatus extends CardClass{
   clickedWrong: boolean,
   clickedCorrect: boolean
 }
 
-const StudyControls = () => {
+const StudyControls = ({progressMap}) => {
   const {
     studyMode,
     studyModeMoveForwards,
@@ -129,7 +131,6 @@ const StudyControls = () => {
     [studyMode.index, studyMode.cards]
   );
 
-
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp)
@@ -147,7 +148,6 @@ const StudyControls = () => {
   const rightBtnStyles = clsx({
     [styles.pressed]: keys.right
   })
-
 
   const inverterBtnStyles = clsx({
     [styles.Inverter]: true,
@@ -170,7 +170,6 @@ const StudyControls = () => {
     [styles.pressed]: keys.down,
     [styles.active]: isNegativeProgress
   })
-
 
   const onClickAnswer = (clickedAnswer: AnswerCardWithClickStatus) => {
     let clickedCorrect = clickedAnswer?._id === currentItem?._id;
@@ -226,13 +225,15 @@ const StudyControls = () => {
   
   },[currentItem])
 
+  const showSummary = (studyMode?.index === studyMode?.cards?.length);
+  const showProgress = (studyMode?.index < studyMode?.cards?.length);
+  const showNonBackActions = !showSummary;
 
   return (
     <div className={styles.StudyControlsRoot}>
       <div className={styles.QuizAnswers}>
         {
-          answers.map((answer) => {
-
+          answers?.length > 1 && answers.map((answer) => {
             const answerClasses = clsx({
               [styles.clickedWrong]: answer.clickedWrong,
               [styles.clickedCorrect]: answer.clickedCorrect,
@@ -242,7 +243,9 @@ const StudyControls = () => {
           })
         }
       </div>
-      {studyMode.active && (
+      {showSummary && <StudyModeSummary progressMap={progressMap}/>}
+
+      {showProgress && (
         <ProgressIndicator
           items={studyMode.cards}
           currentIndex={studyMode.index}
@@ -256,38 +259,36 @@ const StudyControls = () => {
             <Button icon={chevronBack} onClick={onClickBack} size="large" />
           </div>
         </div>
-        <div className={styles.row}>
-        <div className={styles.negativeBtn}>
-            <div className={downBtnStyles}>
-              <Button
-                icon={closeOutline}
-                onClick={negativeProgress}
-                size="large"
-              />
+        {showNonBackActions && <div className={styles.row}>
+          <div className={styles.negativeBtn}>
+              <div className={downBtnStyles}>
+                <Button
+                  icon={closeOutline}
+                  onClick={negativeProgress}
+                  size="large"
+                />
+              </div>
             </div>
-          </div>
-          <div className={inverterBtnStyles}>
-             <Button
-                icon={invertModeOutline}
-                onClick={onClickToggleObscure}
-                size="large"
-              />
-          </div>
-          <div className={styles.positiveBtn}>
-            <div className={upBtnStyles}>
+            <div className={inverterBtnStyles}>
               <Button
-                icon={checkmarkOutline}
-                onClick={positiveProgress}
-                size="large"
-              />
+                  icon={invertModeOutline}
+                  onClick={onClickToggleObscure}
+                  size="large"
+                />
             </div>
-          </div>
-        </div>
-        <div className={styles.row}>
-          <div className={rightBtnStyles}>
-            <Button icon={chevronForward} onClick={onClickForward} size="large" />
-          </div>
-        </div>
+            <div className={styles.positiveBtn}>
+              <div className={upBtnStyles}>
+                <Button
+                  icon={checkmarkOutline}
+                  onClick={positiveProgress}
+                  size="large"
+                />
+              </div>
+            </div>
+            <div className={rightBtnStyles}>
+              <Button icon={chevronForward} onClick={onClickForward} size="large" />
+            </div>
+          </div>}
       </div>
     </div>
   );

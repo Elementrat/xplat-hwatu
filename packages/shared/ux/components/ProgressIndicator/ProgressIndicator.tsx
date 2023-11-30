@@ -14,7 +14,12 @@ const ProgressIndicator = ({
   currentIndex: number;
   progressStatuses: Map<mongoose.Types.ObjectId, number>;
 }) => {
-  const completionPercentage = (currentIndex / (items?.length - 1)) * 100;
+  let completionPercentage = (currentIndex / (items?.length - 1)) * 100;
+
+  if (completionPercentage > 100){
+    completionPercentage = 100;
+  }
+
 
   return (
     <div className={styles.ProgressIndicator}>
@@ -26,6 +31,9 @@ const ProgressIndicator = ({
       </div>
       {items?.map((item, index) => {
         const percentage = (index / (items?.length - 1)) * 100;
+        if(!item){
+          return <></>
+        }
         const { isNegativeProgress, hasProgress, isPositiveProgress } = getItemProgressStatuses(progressStatuses, item);
 
         const itemStyles = clsx({

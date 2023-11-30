@@ -9,17 +9,27 @@ const getCardProgressGroups = (cards: Array<CardClass>, progressMap:any) => {
   }
   
   const cardsNegativeProgress = cards?.filter((card:CardClass) => {
-        let hasNeedsReviewProgress =
-          progressMap.get(card._id) === CARD_PROGRESS.NEGATIVE;
+    if (!card || !card._id || !cards) {
+      return  {
+        isNegativeProgress: false,
+        isPositiveProgress: false,
+        hasProgress: false
+      }
+    }
+
+      let hasNeedsReviewProgress =
+          progressMap.get(card?._id) === CARD_PROGRESS.NEGATIVE;
         return hasNeedsReviewProgress;
       }) || [];
     
-      const cardsNoProgress = cards.filter((card:CardClass) => {
+      const cardsNoProgress = cards?.filter((card:CardClass) => {
+        if(!card) return;
         const hasNoProgress = typeof progressMap.get(card._id) === "undefined";
         return hasNoProgress;
       }) || [];
     
-      const cardsPositiveProgress = cards.filter((card:CardClass) => {
+      const cardsPositiveProgress = cards?.filter((card:CardClass) => {
+        if(!card) return;
         let hasPositiveProgress =
           progressMap.get(card._id) === CARD_PROGRESS.POSITIVE;
         return hasPositiveProgress;
@@ -31,6 +41,14 @@ const getCardProgressGroups = (cards: Array<CardClass>, progressMap:any) => {
 }
 
 const getItemProgressStatuses = (progressStatuses: Map<mongoose.Types.ObjectId, number>, item:CardClass) => {
+  if (!progressStatuses || !item) {
+    return  {
+      isNegativeProgress: false,
+      isPositiveProgress: false,
+      hasProgress: false
+    }
+  }
+
     const localMap = new Map(Object.entries(progressStatuses));
     const itemProgress = localMap.get(String(item._id));
     const hasProgress = typeof itemProgress !== CONSTANTS.UNDEFINED;

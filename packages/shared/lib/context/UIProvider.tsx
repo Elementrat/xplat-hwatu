@@ -1,7 +1,6 @@
 "use client";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
-import { TranslationProvider } from "./TranslationProvider";
 import {
   CONSTANTS,
   CardClass,
@@ -353,7 +352,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     let numDisplayCards = prev?.studyMode.cards?.length;
     let newIndex = prev.studyMode.index;
 
-    if (prev.studyMode.index < numDisplayCards - 1) {
+    if (prev.studyMode.index < numDisplayCards) {
       newIndex = newIndex + 1;
     }
 
@@ -407,6 +406,11 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const updateCardProgress = async (progressType: CARD_PROGRESS) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const curCard = prev.studyMode.cards[prev.studyMode.index];
+
+      if (!curCard){
+        return prev;
+      }
+
       const cardPatch = {
         [String(curCard._id)]: progressType
       };

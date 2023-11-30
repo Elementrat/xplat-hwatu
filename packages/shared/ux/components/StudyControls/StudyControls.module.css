@@ -41,6 +41,7 @@
   align-items: center;
   flex-direction: row;
   color: var(--grey-500);
+  gap: var(--spacing-1);
   .row {
     display: flex;
     justify-content: center;

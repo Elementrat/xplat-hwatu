@@ -1,0 +1,54 @@
+.StudyModeSummary {
+  border: 1px solid var(--grey-800);
+  box-shadow: var(--box-shadow-1);
+  border-radius: var(--border-radius-2);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-5);
+  margin-bottom: var(--spacing-5);
+  animation: appearStudyMode 0.3s forwards;
+}
+.summaryTitle {
+  margin-bottom: var(--spacing-3);
+  font-size: 48px;
+}
+.summaryLineText {
+  font-size: 24px;
+}
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.positive {
+  color: var(--positive);
+}
+
+.negative {
+  color: var(--negative);
+}
+
+@media screen and (max-width: 1024px) {
+  .summaryTitle {
+    font-size: 24px;
+  }
+  .summaryLineText {
+    font-size: 18px;
+  }
+}
+
+@keyframes appearStudyMode {
+  0% {
+    border: 1px solid transparent;
+    opacity: 0%;
+    transform: translate(0px, 20px);
+  }
+  50% {
+    opacity: 50%;
+    border: 5px solid white;
+  }
+  100% {
+    opacity: 100%;
+    border: 1px solid var(--grey-800);
+  }
+}

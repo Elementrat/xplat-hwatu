@@ -3,6 +3,7 @@ const STR = {
   LOADING: "Loading...",
   NEW_CARD: "New Card",
   UNREVIEWED: "Unreviewed",
+  UNKNOWN: "Unknown",
   MASTERED: "Mastered",
   MAKE_FIRST_CARD: "Make your first card!",
   YOUR_CARDS: "Your Cards",
