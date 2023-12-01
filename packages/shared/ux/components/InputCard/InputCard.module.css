@@ -192,6 +192,7 @@
       width: 0px;
       height: auto;
       max-height: unset;
+      overflow: hidden;
     }
     .sideBInput.show {
       overflow-y: scroll;
