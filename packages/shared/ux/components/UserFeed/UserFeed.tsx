@@ -78,7 +78,7 @@ const UserFeed = () => {
 
   const openEditModeBtn = (
     <Button
-      label="Exit Review"
+      label={STR.EXIT_REVIEW}
       icon={bookOutline}
       onClick={() => {
         toggleStudyMode();
@@ -100,7 +100,7 @@ const UserFeed = () => {
       {!studyMode.active && (
         <>
           <FeedCardGroup cards={cardsNoProgress} headingText={STR.UNREVIEWED} action={openStudyModeNoProgressBtn} progressMap={progressMap}/>
-          <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_STUDY} action={openStudyModeNegativeBtn} progressMap={progressMap}/>
+          <FeedCardGroup cards={cardsNegativeProgress} headingText={STR.NEEDS_REVIEW} action={openStudyModeNegativeBtn} progressMap={progressMap}/>
           <FeedCardGroup cards={cardsPositiveProgress} headingText={STR.MASTERED} action={openStudyModePositiveBtn} progressMap={progressMap}/>
         </>
       )}

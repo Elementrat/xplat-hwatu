@@ -13,11 +13,18 @@
 .QuizAnswers {
   display: flex;
   gap: var(--spacing-3);
+  flex-wrap: wrap;
+  flex: 1;
+  flex-shrink: 1;
+  flex-grow: 0;
+  align-items: center;
+  padding: var(--spacing-3) 0px;
   .quizAnswer {
     border: 1px solid var(--grey-800);
     color: var(--grey-600);
-    padding: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
     border-radius: var(--border-radius-2);
+    font-size: var(--font-size-lg);
     cursor: pointer;
     &:hover {
       border: 1px solid var(--grey-400);
@@ -34,6 +41,14 @@
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .QuizAnswers {
+    .quizAnswer {
+      font-size: var(--font-size-md);
+    }
+  }
+}
+
 .StudyControls {
   width: 100%;
   display: flex;
@@ -42,6 +57,7 @@
   flex-direction: row;
   color: var(--grey-500);
   gap: var(--spacing-1);
+  flex-grow: 1;
   .row {
     display: flex;
     justify-content: center;

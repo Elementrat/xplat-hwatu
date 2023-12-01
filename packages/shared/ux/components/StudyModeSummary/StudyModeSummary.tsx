@@ -1,14 +1,20 @@
 import React, { useContext } from 'react';
 import styles from "./StudyModeSummary.module.css";
-import { Heading } from '../Heading/Heading';
-import  { getCardProgressGroups, getItemProgressStatuses } from  "xplat-lib"
+import  { getCardProgressGroups } from  "xplat-lib"
 import {  UIContext } from "xplat-lib";
 import STR from '../../strings/strings';
 import clsx from 'clsx';
+import { Button } from '../Button/Button';
+
+import {
+    schoolOutline,
+    bookOutline
+  } from "ionicons/icons";
 
 const StudyModeSummary = ({progressMap}) => {
     const {
         studyMode,
+        studyModeMoveToBeginning
       } = useContext(UIContext);
 
     const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(studyMode?.cards, progressMap);
@@ -30,6 +36,10 @@ const StudyModeSummary = ({progressMap}) => {
         [styles.summaryLineText]: true,
     })
 
+    const onClickStartOver = () => {
+        studyModeMoveToBeginning();
+    }
+
     return <div className={styles.StudyModeSummary}>
       <div className={summaryTitleStyles}>Review Complete!</div>
       <div className={styles.summaryRow}>
@@ -42,6 +52,14 @@ const StudyModeSummary = ({progressMap}) => {
                 <span className={styles.summaryLineText}> {cardsNoProgress?.length}/{numCards} {STR.UNKNOWN}</span>
              </div>
              }
+
+
+
+             <div className={styles.actions}>
+        <Button label={STR.START_OVER} icon={bookOutline} onClick={onClickStartOver}/>
+        <Button label={STR.EXIT_REVIEW} icon={schoolOutline} onClick={onClickStartOver}/>
+
+        </div>
     </div>
 }
 

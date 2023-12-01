@@ -17,7 +17,6 @@ import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
 import clsx from "clsx";
 import { StudyModeSummary } from "../StudyModeSummary/StudyModeSummary";
 
-
 interface AnswerCardWithClickStatus extends CardClass{
   clickedWrong: boolean,
   clickedCorrect: boolean
@@ -231,6 +230,7 @@ const StudyControls = ({progressMap}) => {
 
   return (
     <div className={styles.StudyControlsRoot}>
+      {!showSummary && 
       <div className={styles.QuizAnswers}>
         {
           answers?.length > 1 && answers.map((answer) => {
@@ -242,7 +242,8 @@ const StudyControls = ({progressMap}) => {
             return <div key={answer._id} className={answerClasses} onClick={() => {onClickAnswer(answer)}}>{answer?.sideB}</div>
           })
         }
-      </div>
+      </div>}
+      
       {showSummary && <StudyModeSummary progressMap={progressMap}/>}
 
       {showProgress && (

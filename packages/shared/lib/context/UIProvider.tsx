@@ -67,6 +67,7 @@ interface UIStateAndControls extends PersistentUIState {
   toggleMessageModal: Function;
   toggleImageUploaderModal: Function;
   toggleDeleteTagModal: Function;
+  studyModeMoveToBeginning: Function;
   updateCardProgressPositive: Function;
   updateCardProgress: Function;
   toggleStudyMode: Function;
@@ -100,6 +101,7 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   toggleMessageModal: Function,
   toggleDeleteTagModal: Function,
   updateCardProgress: Function,
+  studyModeMoveToBeginning: Function,
   closeAllModals: Function,
   toggleStudyMode: Function,
   studyModeToggleObscure: Function,
@@ -389,6 +391,19 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const studyModeMoveToBeginning = () => {
+    setPersistentUIState((prev: PersistentUIState) => {
+      return {
+        ...prev,
+        studyMode: {
+          ...prev.studyMode,
+          index: 0,
+          obscure: true,
+        }
+      };
+    });
+  };
+
   const studyModeToggleObscure = (newValue: boolean) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeObscureState =
@@ -462,6 +477,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         updateStudyModeIndex,
         studyModeMoveBackwards,
         studyModeMoveForwards,
+        studyModeMoveToBeginning,
         updateCardProgress,
         studyModeToggleObscure
       }}

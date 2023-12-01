@@ -31,6 +31,8 @@ const STR = {
   NEEDS_STUDY: "Needs Study",
   GOT_IT: "Got it!",
   SHOW_MORE: 'Show More',
+  START_OVER: "Start Over",
+  EXIT_REVIEW: "Exit Review",
 };
 
 export default STR;
