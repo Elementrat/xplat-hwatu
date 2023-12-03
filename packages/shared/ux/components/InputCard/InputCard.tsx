@@ -11,10 +11,10 @@ import {
   updateTag,
   useCurrentUserTags,
   CardClass,
-  CardAttachment,
   TagClass,
   KEY_NAMES,
-  CONSTANTS
+  CONSTANTS,
+  url
 } from "xplat-lib";
 import { clsx } from "clsx";
 import { TextInput } from "../TextInput/TextInput";
@@ -34,7 +34,13 @@ import { CardAttachmentRenderer } from "../CardAttachmentRenderer/CardAttachment
 
 const ANIMATION_DURATION = 500;
 
-const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any }) => {
+const InputCard = ({
+  cardID,
+  progressMap
+}: {
+  cardID?: string;
+  progressMap?: any;
+}) => {
   const { cards, mutate: mutateCards } = useCurrentUserCards();
   const { tags, mutate: mutateTags } = useCurrentUserTags();
   const { status } = useSession();
@@ -44,7 +50,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     studyMode,
     studyModeMoveBackwards,
     studyModeMoveForwards,
-    toggleImageUploaderModal,
     studyModeToggleObscure
   } = useContext(UIContext);
 
@@ -58,10 +63,19 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
   const [submitted, setSubmitted] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [itemProgress, setItemProgress] = useState(progressMap?.get(cardID));
+  const [attachments, setAttachments] = useState(
+    existingCard?.attachments || []
+  );
+
+  useEffect(() => {
+    if (existingCard?.attachments) {
+      setAttachments(existingCard.attachments);
+    }
+  }, [existingCard]);
 
   useEffect(() => {
     setItemProgress((prev) => {
-      return progressMap?.get(cardID)
+      return progressMap?.get(cardID);
     });
   }, [progressMap]);
 
@@ -106,13 +120,51 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     setEdited(true);
   };
 
-  const onInputChangeSideA = (e) => {
+  const tryGetURLTitle = async (url) => {
+    const res = await fetch(`/api/url?url=${url}`);
+    const json = await res.json();
+    return json?.title;
+  };
+
+  const onInputChangeSideA = async (e) => {
     const newValue = e?.target?.value;
+    const isURL = url.isURL(newValue);
+
+    if (isURL) {
+      const pageTitle = await tryGetURLTitle(newValue);
+
+      setAttachments([
+        ...attachments,
+        {
+          type: CARD_ATTACHMENT_TYPES.LINK,
+          title: pageTitle || "link",
+          url: newValue
+        }
+      ]);
+      updateSideA("");
+      return;
+    }
     updateSideA(newValue);
   };
 
-  const onInputChangeSideB = (e) => {
+  const onInputChangeSideB = async (e) => {
     const newValue = e?.target?.value;
+    const isURL = url.isURL(newValue);
+
+    if (isURL) {
+      const pageTitle = await tryGetURLTitle(newValue);
+
+      setAttachments([
+        ...attachments,
+        {
+          type: CARD_ATTACHMENT_TYPES.LINK,
+          title: pageTitle || "link",
+          url: newValue
+        }
+      ]);
+      updateSideB("");
+      return;
+    }
     updateSideB(newValue);
   };
 
@@ -159,7 +211,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     const localSideB = dirtySideB || sideB;
 
     if (!cardID) {
-      const createResult = await createCard(sideA, localSideB);
+      const createResult = await createCard(sideA, localSideB, attachments);
       newOrUpdatedCard = createResult?.data?.card;
       if (newOrUpdatedCard) {
         const newCards = [...cards, newOrUpdatedCard];
@@ -167,16 +219,16 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
       }
       applySearchTags(newOrUpdatedCard);
     } else {
-      let attachments = existingCard?.attachments || [];
-
       let url = fileURL || imageURL;
+      let newAttachments = attachments || [];
 
       if (fileURL || imageURL) {
-        attachments = [
+        newAttachments = [
+          ...attachments,
           {
             type: CARD_ATTACHMENT_TYPES.IMAGE,
             url
-          }
+          } as ImageCardAttachment
         ];
       }
 
@@ -184,7 +236,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
         ...existingCard,
         title: sideA,
         sideB: localSideB,
-        attachments
+        attachments: newAttachments
       };
 
       const createResult = await updateCard(newCardData);
@@ -206,6 +258,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
       if (!cardID) {
         setSideA("");
         setCardTextSideB("");
+        setAttachments([]);
         setEdited(false);
         if (aRef?.current) {
           aRef.current.focus();
@@ -311,7 +364,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     [styles.hovered]: hovered,
     [styles.StudyMode]: studyMode.active,
     [styles.negativeProgress]: isNegativeProgress,
-    [styles.positiveProgress]: isPositiveProgress,
+    [styles.positiveProgress]: isPositiveProgress
   });
 
   const inputSideBStyles = clsx({
@@ -331,7 +384,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
     [styles.controlsDivider]: true
   });
 
-  const showModifiers = cardID || (!cardID && hasValidInput);
+  const showModifiers = cardID || (!cardID && hasValidInput) || edited;
 
   const modifierStyles = clsx({
     [styles.cardModifiers]: true,
@@ -348,11 +401,6 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
       onClick={onClick}
     >
       <div className={styles.progressLine} />
-
-      <CardAttachmentRenderer
-        attachments={existingCard?.attachments}
-        obscure={studyMode.active && studyMode.obscure}
-      />
 
       {!cardID && (
         <div className={styles.newCardIndicator}>
@@ -387,6 +435,12 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
           />
         </form>
       </div>
+
+      <CardAttachmentRenderer
+        attachments={attachments}
+        obscure={studyMode.active && studyMode.obscure}
+      />
+
       {sideA && <div className={controlsDivider} />}
 
       <div className={modifierStyles}>
@@ -395,7 +449,7 @@ const InputCard = ({ cardID, progressMap }: { cardID?: string, progressMap?: any
             inputText={lastUpdatedText}
             onClickSuggestion={onClickSuggestion}
           />
-          {!cardID && hasValidInput && (
+          {(edited || (!cardID && hasValidInput)) && (
             <Button
               icon={cloudUploadOutline}
               onClick={onClickCreate}

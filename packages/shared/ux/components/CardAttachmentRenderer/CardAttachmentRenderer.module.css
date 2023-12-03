@@ -4,13 +4,31 @@
   max-height: 0px;
   transition: all 1s;
   overflow: hidden;
-
+  flex-direction: column;
+  .attachment {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
+  }
   .pictureAttachment {
     border-radius: var(--border-radius-2);
     transition: all 0.2s;
     object-fit: contain;
     overflow: hidden;
     max-height: 350px;
+  }
+  .linkAttachment {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 24px;
+    color: var(--link);
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
   }
   .obscure {
     filter: blur(25px);

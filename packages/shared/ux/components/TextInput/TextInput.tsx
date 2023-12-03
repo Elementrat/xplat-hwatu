@@ -45,14 +45,16 @@ const TextInput = forwardRef<HTMLInputElement>((props, ref) => {
     [styles.show]: showControls
   });
 
-
   function getTextareaNumberOfLines(textarea) {
-    var previous_height = textarea.style.height, lines
-    textarea.style.height = 0
-    lines = parseInt(textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) )
-    textarea.style.height = previous_height
-    return lines
-}
+    var previous_height = textarea.style.height,
+      lines;
+    textarea.style.height = 0;
+    lines = parseInt(
+      textarea.scrollHeight / parseInt(getComputedStyle(textarea).lineHeight)
+    );
+    textarea.style.height = previous_height;
+    return lines;
+  }
 
   useLayoutEffect(() => {
     const lines = value?.length > 2 ? getTextareaNumberOfLines(ref.current) : 1;

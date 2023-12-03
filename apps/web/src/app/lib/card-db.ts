@@ -42,16 +42,18 @@ export async function getCards(filter: CardFilter = {}) {
 export async function createCard({
   title,
   sideB,
-  userID
+  userID,
+  attachments
 }: {
   title: string;
   sideB: string;
   userID: string;
+  attachments: Array<CardAttachment>;
 }) {
   try {
     await connectDB();
 
-    const card = await Card.create({ title, sideB, userID });
+    const card = await Card.create({ title, sideB, userID, attachments });
 
     return {
       card

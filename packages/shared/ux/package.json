@@ -9,6 +9,7 @@
     "format": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
+    "ionicons": "^7.2.1",
     "react-select": "^5.8.0",
     "xplat-lib": "*"
   },

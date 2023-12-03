@@ -10,12 +10,14 @@ import {
 import mongoose from "mongoose";
 
 export const CARD_ATTACHMENT_TYPES = {
-  IMAGE: "image"
+  IMAGE: "image",
+  LINK: "link"
 };
 
 export interface CardAttachment {
   type: string;
-  url?: string;
+  title?: string,
+  url?: string,
 }
 
 @post<CardClass>("save", function (doc) {

@@ -2,7 +2,7 @@
 import useSWR, { KeyedMutator } from "swr";
 import { useSession } from "next-auth/react";
 import { postRequest, deleteRequest, patchRequest } from "../util/fetch";
-import { CardClass, SessionUser } from "..";
+import { CardAttachment, CardClass, SessionUser } from "..";
 import { apiBaseURL } from "./config";
 import { SWRState, fetcher, fetchConfigs } from "./swr";
 
@@ -50,8 +50,12 @@ function useCurrentUserCards(): UserCardData {
   };
 }
 
-async function createCard(title: string, sideB: string) {
-  return await postRequest(cardsAPIURL, { title, sideB });
+async function createCard(
+  title: string,
+  sideB: string,
+  attachments?: Array<CardAttachment>
+) {
+  return await postRequest(cardsAPIURL, { title, sideB, attachments });
 }
 
 async function updateCard(card: any) {

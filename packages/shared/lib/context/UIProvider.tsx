@@ -42,12 +42,12 @@ interface PersistentUIState {
   displayCards: Array<CardClass>;
 }
 
-export enum StudyModeFilterType{
+export enum StudyModeFilterType {
   STUDY_MODE_FILTER_NEGATIVE_PROGRESS = 0,
-  STUDY_MODE_FILTER_NO_PROGRESS = 1, 
+  STUDY_MODE_FILTER_NO_PROGRESS = 1,
   STUDY_MODE_FILTER_POSITIVE_PROGRESS = 2
 }
-export interface StudyModeFilter{
+export interface StudyModeFilter {
   type: StudyModeFilterType;
 }
 
@@ -55,8 +55,8 @@ interface StudyModeState {
   active: boolean;
   index: number;
   obscure: boolean;
-  filters: Array<StudyModeFilter>
-  cards: Array<CardClass>
+  filters: Array<StudyModeFilter>;
+  cards: Array<CardClass>;
 }
 
 interface UIStateAndControls extends PersistentUIState {
@@ -88,7 +88,7 @@ const defaultPersistentUIState: PersistentUIState = {
     index: 0,
     obscure: true,
     filters: [],
-    cards: [],
+    cards: []
   }
 };
 
@@ -182,7 +182,13 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         index: 0
       }
     });
-  }, [persistentUIState.searchText, persistentUIState.searchTags, cards, tags, persistentUIState.studyMode.filters]);
+  }, [
+    persistentUIState.searchText,
+    persistentUIState.searchTags,
+    cards,
+    tags,
+    persistentUIState.studyMode.filters
+  ]);
 
   useEffect(() => {
     localStorage.setItem(cacheKey, JSON.stringify(persistentUIState));
@@ -298,32 +304,52 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const toggleStudyMode = (newValue: boolean, filters: Array<StudyModeFilter>) => {
-
+  const toggleStudyMode = (
+    newValue: boolean,
+    filters: Array<StudyModeFilter>
+  ) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const newStudyModeState =
         typeof newValue !== "undefined" ? newValue : !prev.studyMode?.active;
 
-        let progressMap;
-        let studyCards = prev.displayCards;
-    
-        if (userProfile?.cardProgress) {
-          progressMap = new Map(Object.entries(userProfile?.cardProgress));
-        }
-    
-        const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress} = getCardProgressGroups(prev.displayCards, progressMap);
-      
-        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS)){
-          studyCards = cardsNegativeProgress;
-        }
-    
-        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS)){
-          studyCards = cardsNoProgress;
-        }
-    
-        if (filters?.find((filter:StudyModeFilter) => filter.type === StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS)){
-          studyCards = cardsPositiveProgress;
-        }
+      let progressMap;
+      let studyCards = prev.displayCards;
+
+      if (userProfile?.cardProgress) {
+        progressMap = new Map(Object.entries(userProfile?.cardProgress));
+      }
+
+      const { cardsNegativeProgress, cardsPositiveProgress, cardsNoProgress } =
+        getCardProgressGroups(prev.displayCards, progressMap);
+
+      if (
+        filters?.find(
+          (filter: StudyModeFilter) =>
+            filter.type ===
+            StudyModeFilterType.STUDY_MODE_FILTER_NEGATIVE_PROGRESS
+        )
+      ) {
+        studyCards = cardsNegativeProgress;
+      }
+
+      if (
+        filters?.find(
+          (filter: StudyModeFilter) =>
+            filter.type === StudyModeFilterType.STUDY_MODE_FILTER_NO_PROGRESS
+        )
+      ) {
+        studyCards = cardsNoProgress;
+      }
+
+      if (
+        filters?.find(
+          (filter: StudyModeFilter) =>
+            filter.type ===
+            StudyModeFilterType.STUDY_MODE_FILTER_POSITIVE_PROGRESS
+        )
+      ) {
+        studyCards = cardsPositiveProgress;
+      }
 
       return {
         ...prev,
@@ -332,7 +358,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
           active: newStudyModeState,
           filters,
           cards: studyCards,
-          obscure: true,
+          obscure: true
         }
       };
     });
@@ -363,7 +389,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
       studyMode: {
         ...prev.studyMode,
         index: newIndex,
-        obscure: true,
+        obscure: true
       }
     };
   };
@@ -385,7 +411,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         studyMode: {
           ...prev.studyMode,
           index: newIndex,
-          obscure: true,
+          obscure: true
         }
       };
     });
@@ -398,7 +424,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         studyMode: {
           ...prev.studyMode,
           index: 0,
-          obscure: true,
+          obscure: true
         }
       };
     });
@@ -422,7 +448,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
     setPersistentUIState((prev: PersistentUIState) => {
       const curCard = prev.studyMode.cards[prev.studyMode.index];
 
-      if (!curCard){
+      if (!curCard) {
         return prev;
       }
 
@@ -451,10 +477,11 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         fetchConfigs.preservePrevious
       );
 
-      return { ...prev, 
+      return {
+        ...prev,
         studyMode: {
           ...prev.studyMode,
-          obscure: false,
+          obscure: false
         }
       };
     });

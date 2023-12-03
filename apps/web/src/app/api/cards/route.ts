@@ -80,6 +80,7 @@ export async function POST(request: Request) {
     const { card, error } = await createCard({
       title: body.title,
       sideB: body.sideB,
+      attachments: body.attachments,
       userID
     });
 
