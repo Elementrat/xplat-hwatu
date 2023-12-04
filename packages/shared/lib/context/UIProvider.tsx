@@ -140,6 +140,14 @@ try {
   }
 } catch (e) {}
 
+function arrayWithNoDuplicates(array: any, field: any) {
+  const arrayWithoutNoDuplicates = array.filter(
+    (value: any, index: any, self: any) =>
+      index === self.findIndex((t: any) => t[field] === value[field])
+  );
+  return arrayWithoutNoDuplicates;
+}
+
 const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [persistentUIState, setPersistentUIState] = useState(initialValue);
   const [temporalUIState, setTemporalUIState] = useState(
@@ -153,27 +161,54 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const cardsSortedNewestFirst = sorts.sortByCreatedDate(cards);
 
-    let displayCards = filters.filterBySearchText(
-      cardsSortedNewestFirst,
-      persistentUIState.searchText
-    );
+    let displayCards;
 
-    const validSearchTags = tags?.filter((tag) => {
-      let matchingTag = persistentUIState.searchTags?.find(
-        (e: TagClass) => e._id === tag.id
-      );
-      return Boolean(matchingTag);
+    // Include cards that have a tag that matches the search
+    let appliedSearchTags =
+      tags?.filter((tag) => {
+        let matchingTag = persistentUIState.searchTags?.find((e: TagClass) => {
+          return e._id === tag.id;
+        });
+        return Boolean(matchingTag);
+      }) || [];
+
+    let partialMatchSearchTags = tags?.filter((tag) => {
+      let match =
+        persistentUIState?.searchText?.length > 0 &&
+        tag?.title?.includes(persistentUIState?.searchText);
+
+      return match;
     });
+
+    let validSearchTags = [...appliedSearchTags, ...partialMatchSearchTags];
+    console.log("__VALID_SEARCH_TAGS", validSearchTags);
 
     let untaggedSearch = persistentUIState.searchTags.find(
       (tag: TagClass) => tag._id === CONSTANTS.UNTAGGED
     );
     if (untaggedSearch) {
+      displayCards = filters.filterBySearchText(
+        cardsSortedNewestFirst,
+        persistentUIState.searchText
+      );
       displayCards = filters.untaggedCards(tags, displayCards);
     } else {
-      displayCards = filters.filterCardsBySearchTags(
-        displayCards,
+      let displayCardsMatchingTags = filters.filterCardsBySearchTags(
+        cardsSortedNewestFirst,
         validSearchTags
+      );
+
+      let displayCardsMatchingText =
+        persistentUIState?.searchText?.length > 0
+          ? filters.filterBySearchText(
+              cardsSortedNewestFirst,
+              persistentUIState.searchText
+            )
+          : [];
+
+      displayCards = arrayWithNoDuplicates(
+        [...displayCardsMatchingTags, ...displayCardsMatchingText],
+        "_id"
       );
     }
 
