@@ -14,13 +14,13 @@ const AppRoot = ({ children }) => {
   });
 
   useEffect(() => {
-    if (!userProfile.themeColorPreference) {
+    if (!userProfile?.themeColorPreference) {
       setStyle({});
       return;
     }
     const test_colors = [
       [255, 255, 255],
-      userProfile.themeColorPreference,
+      userProfile?.themeColorPreference,
       [0, 0, 0]
     ];
 
@@ -51,7 +51,7 @@ const AppRoot = ({ children }) => {
       "--grey-950": temp950?.toHex
     } as React.CSSProperties;
     setStyle(style);
-  }, [userProfile.themeColorPreference]);
+  }, [userProfile?.themeColorPreference]);
 
   return (
     <div className={appRootStyles} style={style}>
