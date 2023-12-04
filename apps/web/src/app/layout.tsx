@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { UIProvider, LocalStorageProvider } from "xplat-lib";
 import { TranslationProvider } from "xplat-lib";
-import { Modals } from "ux";
+import { Modals, AppRoot } from "ux";
 
 const inter = Poppins({ subsets: ["latin"], weight: ["300", "500"] });
 
@@ -33,19 +33,19 @@ export default async function RootLayout({
         content="width=device-width, initial-scale=1, viewport-fit=cover"
       />
       <body className={inter.className}>
-        <div className={styles.appRoot}>
-          <AppWrapperClient session={session}>
-            <LocalStorageProvider>
-              <UIProvider>
+        <AppWrapperClient session={session}>
+          <LocalStorageProvider>
+            <UIProvider>
+              <AppRoot>
                 <TranslationProvider>
                   <GlobalNavigation />
                   <AppContent>{children}</AppContent>
                   <Modals />
                 </TranslationProvider>
-              </UIProvider>
-            </LocalStorageProvider>
-          </AppWrapperClient>
-        </div>
+              </AppRoot>
+            </UIProvider>
+          </LocalStorageProvider>
+        </AppWrapperClient>
       </body>
     </html>
   );

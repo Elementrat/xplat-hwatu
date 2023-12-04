@@ -9,6 +9,8 @@
     "format": "eslint --fix --ext .js,.jsx ."
   },
   "dependencies": {
+    "@heyeso/color-range": "^3.0.1",
+    "clsx": "^2.0.0",
     "ionicons": "^7.2.1",
     "react-select": "^5.8.0",
     "xplat-lib": "*"

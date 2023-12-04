@@ -437,6 +437,11 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
   integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
 
+"@heyeso/color-range@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@heyeso/color-range/-/color-range-3.0.1.tgz#66ddfa424c3c69141e4494b48e81fb2ab30ba169"
+  integrity sha512-ltVXbLglqMEGygxX9GqKEXiEMknyatp548m4PfV+ijbyW+UXiVaCCbHZKvBwcAb13PCV2BGeQQU2Jgi5eL4MAg==
+
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.13"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.13.tgz#075dc9684f40a531d9b26b0822153c1e832ee297"

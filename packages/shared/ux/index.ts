@@ -16,8 +16,10 @@ import { StudyControls } from "./components/StudyControls/StudyControls";
 import STR from "./strings/strings";
 import { colors, randomColor } from "./colors/colors";
 import GlobalSearch from "./components/GlobalSearch/GlobalSearch";
+import { AppRoot } from "./components/AppRoot/AppRoot";
 
 export {
+  AppRoot,
   colors,
   randomColor,
   Modals,

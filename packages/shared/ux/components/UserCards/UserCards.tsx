@@ -6,8 +6,11 @@ import { ErrorIndicator } from "../ErrorIndicator/ErrorIndicator";
 import { useCurrentUserCards } from "xplat-lib/client-api/cards";
 import STR from "../../strings/strings";
 
-const UserCards = () => {
-  const { cards, isLoading, isError } = useCurrentUserCards();
+
+const UserCards = ({ cards }) => {
+  const { cards: userCards, isLoading, isError } = useCurrentUserCards();
+
+  const displayCards = cards || userCards;
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -18,14 +21,8 @@ const UserCards = () => {
   }
 
   return (
-    <div>
-      <div className="flex align-items-center justify-content-space-between">
-        <h2 className="text-md font-bold">
-          {STR.CARDS} ({cards?.length})
-        </h2>
-      </div>
       <div className={styles.userCards}>
-        {cards?.map((card) => {
+        {displayCards?.map((card) => {
           const cardKey = card?.title + "-" + card?._id;
           return (
             <div key={cardKey} id={cardKey} className={styles.userCard}>
@@ -34,7 +31,6 @@ const UserCards = () => {
             </div>
           );
         })}
-      </div>
     </div>
   );
 };

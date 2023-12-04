@@ -1,0 +1,45 @@
+.appRoot {
+  display: flex;
+  justify-content: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: stretch;
+  width: 100%;
+  background-color: var(--grey-800);
+  min-height: 100vh;
+  height: 100%;
+  font-weight: 300;
+}
+/*https://colorkit.co/color-palette-generator/6f6594-76659e-7c64a7-8362b1-8a61ba-936bc3-a07fcb-ac94d2-b9a8d9-c6bce0/*/
+/*#6f6594, #76659e, #7c64a7, #8362b1, #8a61ba, #936bc3, #a07fcb, #ac94d2, #b9a8d9, #c6bce0*/
+
+.appRoot.theme1 {
+  --grey-100: #c6bce0;
+  --grey-200: #f8fafb;
+  --grey-300: #f1f4f7;
+  --grey-400: #e3e9ef;
+  --grey-500: #d1dbe4;
+  --grey-600: #d1dbe4;
+  --grey-700: #a3b7ca;
+  --grey-800: #8ca5bd;
+  --grey-850: #7593af;
+  --grey-900: #0f2f4d;
+  --grey-950: #194a7a;
+  --accent-1: #845ec2;
+  --accent-2: #4b4453;
+  --accent-3: #b0a8b9;
+  --accent-4: #9674f4;
+  --accent-valid: #74f495;
+  --darken-bg-1: rgba(0, 0, 0, 0.2);
+  --primary-accent: #ffb4eb;
+  --link: #b4cdff;
+  --negative: #a75131;
+  --positive: #7ba461;
+  --danger: rgb(154, 33, 33);
+}
+
+@media screen and (max-width: 900px) {
+  .appRoot {
+    flex-direction: column;
+  }
+}

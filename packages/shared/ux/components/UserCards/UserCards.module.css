@@ -1,11 +1,15 @@
 .userCards {
-  margin-top: var(--spacing-2);
+  margin-top: var(--spacing-1);
+  max-height: 300px;
+  overflow-y: scroll;
+  margin-bottom: var(--spacing-1);
 }
 
 .userCard {
   border-left: 1px solid transparent;
+  border-bottom: 1px solid var(--grey-800);
   display: flex;
-  padding: 1px;
+  padding: var(--spacing-1);
   justify-content: space-between;
 }
 

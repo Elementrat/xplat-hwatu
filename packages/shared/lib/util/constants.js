@@ -7,4 +7,5 @@ const CONSTANTS = {
   UNTAGGED: "untagged",
   UNDEFINED: "undefined"
 };
+
 export { CONSTANTS };

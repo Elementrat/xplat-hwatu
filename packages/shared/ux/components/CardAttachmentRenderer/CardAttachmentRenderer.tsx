@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-
 import styles from "./CardAttachmentRenderer.module.css";
 import { CardAttachment } from "xplat-lib";
 import { CARD_ATTACHMENT_TYPES } from "xplat-lib/models/Card";
@@ -55,7 +54,6 @@ const CardAttachmentRenderer = ({
             contents = !studyMode.active && (
               <div className={styles.linkAttachment}>
                 <IonIcon icon={linkOutline} size="small" />
-
                 <a href={attachment.url} target="_blank">
                   {attachment.title}
                 </a>
