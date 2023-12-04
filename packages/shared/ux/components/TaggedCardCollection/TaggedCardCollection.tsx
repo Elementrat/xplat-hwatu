@@ -10,12 +10,7 @@ import styles from "./TaggedCardCollection.module.css";
 import { CardClass, TagClass } from "xplat-lib";
 import clsx from "clsx";
 import { Button } from "../Button/Button";
-import {
-  trash,
-  createOutline,
-  saveOutline,
-  cloudUploadOutline
-} from "ionicons/icons";
+import { trash, saveOutline } from "ionicons/icons";
 import { TextInput } from "../TextInput/TextInput";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 

@@ -17,3 +17,5 @@ ANDROID_SDK
 JAVA_HOME
 
 https://www.redbull.com/us-en/energydrink/red-bull-energy-drink-ingredients-list
+
+mongodb+srv://hwatu-admin:xvsGPNjw7DR7hIyX@cluster0.hyfbgxp.mongodb.net/?retryWrites=true&w=majority

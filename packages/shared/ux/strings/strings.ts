@@ -1,4 +1,5 @@
 const STR = {
+  YOUR_PROFILE: "Your Profile",
   SEARCH: "Search",
   LOADING: "Loading...",
   NEW_CARD: "New Card",
@@ -30,9 +31,9 @@ const STR = {
   NEEDS_REVIEW: "Needs Review",
   NEEDS_STUDY: "Needs Study",
   GOT_IT: "Got it!",
-  SHOW_MORE: 'Show More',
+  SHOW_MORE: "Show More",
   START_OVER: "Start Over",
-  EXIT_REVIEW: "Exit Review",
+  EXIT_REVIEW: "Exit Review"
 };
 
 export default STR;

@@ -1,0 +1,24 @@
+.ThemePicker {
+  display: flex;
+  flex-direction: column;
+  margin: var(--spacing-4);
+  .ThemePickerTitle {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2);
+  }
+  .ThemeColors {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+    .themeColor {
+      width: 40px;
+      height: 40px;
+      border: 2px solid transparent;
+      box-shadow: var(--box-shadow-1);
+      border-radius: var(--border-radius-sm);
+    }
+    .themeColor:hover {
+      border: 2px solid white;
+    }
+  }
+}

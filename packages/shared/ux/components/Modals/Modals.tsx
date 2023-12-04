@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-
+import { signOut } from "next-auth/react";
 import styles from "./Modals.module.css";
 import { useContext } from "react";
 import { CONSTANTS, UIContext, useCurrentUserTags } from "xplat-lib";
@@ -12,6 +12,7 @@ import { deleteTag } from "xplat-lib";
 import { fetchConfigs } from "xplat-lib/client-api/swr";
 import STR from "../../strings/strings";
 import { MessageModalState } from "xplat-lib/context/UIProvider";
+import { ThemePicker } from "../ThemePicker/ThemePicker";
 
 const modalInnerID = "modal-inner";
 const modalRootID = "modal-root";
@@ -30,7 +31,8 @@ const Modals = () => {
     modals?.login ||
     modals?.deleteTag ||
     modals?.message ||
-    modals?.imageUploader;
+    modals?.imageUploader ||
+    modals?.profile;
 
   const modalRootStyles = clsx({
     [styles.ModalRoot]: true,
@@ -62,6 +64,7 @@ const Modals = () => {
           {modals?.message && <MessageModalContent message={modals.message} />}
           {modals?.login && <SignInModalContent status={status} />}
           {modals?.deleteTag && <DeleteTagModalContent />}
+          {modals?.profile && <ProfileModalContent />}
         </div>
       </div>
     </div>
@@ -143,6 +146,18 @@ const SignInModalContent = ({ status }) => {
         label={STR.SIGN_IN}
       />
       <div className={styles.authStatus}>{status}</div>
+    </div>
+  );
+};
+
+const ProfileModalContent = () => {
+  const onClickSignOut = () => {
+    signOut();
+  };
+  return (
+    <div className={styles.ProfileModalContent}>
+      <ThemePicker />
+      <Button label="Sign Out" onClick={onClickSignOut}></Button>
     </div>
   );
 };

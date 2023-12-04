@@ -1,8 +1,6 @@
 import { UserProfile, UserProfileClass } from "xplat-lib";
 import connectDB from "./connect-db";
 import { stringToObjectId } from "./util";
-import { CARD_PROGRESS } from "xplat-lib/models/UserProfile";
-import { after } from "node:test";
 
 interface UserProfileFilter {
   page?: number;
@@ -33,6 +31,50 @@ export async function getUserProfile(filter: UserProfileFilter = {}) {
       page,
       limit
     };
+  } catch (error) {
+    return { error };
+  }
+}
+
+export async function updateThemePreference(
+  userID: string,
+  { themeColorPreference }: { themeColorPreference: string }
+) {
+  try {
+    await connectDB();
+    const parsedId = stringToObjectId(userID);
+
+    if (!parsedId) {
+      return { error: "User ID not found" };
+    }
+
+    let userProfile = await UserProfile.findOne<UserProfileClass>({
+      userID: userID
+    })
+      .lean()
+      .exec();
+
+    if (!userProfile) {
+      return { error: "Profile not found" };
+    }
+
+    userProfile.themeColorPreference = themeColorPreference;
+
+    const newProfile = await UserProfile.updateOne(
+      { userID: userID },
+      { themeColorPreference: themeColorPreference },
+      {
+        returnDocument: "after"
+      }
+    );
+
+    if (newProfile) {
+      return {
+        userProfile: true
+      };
+    } else {
+      return { error: "User Profile not found" };
+    }
   } catch (error) {
     return { error };
   }

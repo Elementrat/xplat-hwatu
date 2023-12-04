@@ -34,7 +34,7 @@
     pointer-events: all;
   }
   .tagTitleText {
-    color: var(--grey-500);
+    color: var(--grey-300);
     width: 100%;
   }
   .tagTitleText.active {

@@ -35,7 +35,7 @@ const getSelectStyles = (isCreate) => {
     control: (baseStyles, state) => ({
       cursor: "pointer",
       ...baseStyles,
-      backgroundColor: isCreate ? `transparent` : `#2b3035`,
+      backgroundColor: isCreate ? `transparent` : `var(--grey-900)`,
       border: isCreate ? `none` : `1px solid rgba(255, 255, 255, 0.1)`
     }),
     container: (baseStyles, state) => ({

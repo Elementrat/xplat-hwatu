@@ -18,7 +18,6 @@ import {
   useCurrentUserProfile
 } from "xplat-lib/client-api/user-profile";
 import { fetchConfigs } from "../client-api/swr";
-
 export interface MessageModalState {
   title: string;
 }
@@ -28,6 +27,7 @@ type ModalState = {
   deleteTag?: boolean;
   message?: MessageModalState;
   imageUploader?: boolean;
+  profile?: boolean;
 };
 
 interface TemporalUIState {
@@ -67,6 +67,7 @@ interface UIStateAndControls extends PersistentUIState {
   toggleMessageModal: Function;
   toggleImageUploaderModal: Function;
   toggleDeleteTagModal: Function;
+  toggleProfileModal: Function;
   studyModeMoveToBeginning: Function;
   updateCardProgressPositive: Function;
   updateCardProgress: Function;
@@ -104,6 +105,7 @@ const defaultUIStateAndControls: UIStateAndControls & TemporalUIState = {
   studyModeMoveToBeginning: Function,
   closeAllModals: Function,
   toggleStudyMode: Function,
+  toggleProfileModal: Function,
   studyModeToggleObscure: Function,
   updateStudyModeIndex: Function,
   addLanguagePreference: Function,
@@ -117,7 +119,8 @@ const defaultTemporalUIState: TemporalUIState = {
     login: false,
     deleteTag: false,
     message: undefined,
-    imageUploader: false
+    imageUploader: false,
+    profile: false
   }
 };
 
@@ -282,6 +285,20 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         modals: {
           ...prev.modals,
           deleteTag: newDeleteTag
+        }
+      };
+    });
+  };
+
+  const toggleProfileModal = (newValue: boolean) => {
+    setTemporalUIState((prev) => {
+      const newProfile =
+        typeof newValue !== "undefined" ? newValue : !prev.modals?.profile;
+      return {
+        ...prev,
+        modals: {
+          ...prev.modals,
+          profile: newProfile
         }
       };
     });
@@ -501,6 +518,7 @@ const UIProvider = ({ children }: { children: React.ReactNode }) => {
         toggleDeleteTagModal,
         closeAllModals,
         toggleStudyMode,
+        toggleProfileModal,
         updateStudyModeIndex,
         studyModeMoveBackwards,
         studyModeMoveForwards,

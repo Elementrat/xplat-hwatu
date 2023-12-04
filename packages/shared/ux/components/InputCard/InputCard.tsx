@@ -53,7 +53,8 @@ const InputCard = ({
     studyModeToggleObscure
   } = useContext(UIContext);
 
-  let existingCard = cards?.find((card) => card?._id === cardID);
+  let existingCard =
+    cards?.length && cards?.find((card) => card?._id === cardID);
 
   const [sideA, setSideA] = useState(existingCard?.title);
   const [sideB, setCardTextSideB] = useState(existingCard?.sideB);

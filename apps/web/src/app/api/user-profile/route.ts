@@ -3,7 +3,10 @@ import { createErrorResponse } from "@/app/lib/util";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/app/lib/auth";
 import { getServerSession } from "next-auth/next";
-import { updateCardProgress } from "@/app/lib/user-profile-db";
+import {
+  updateCardProgress,
+  updateThemePreference
+} from "@/app/lib/user-profile-db";
 
 // ID = userID
 export async function PATCH(
@@ -23,16 +26,31 @@ export async function PATCH(
 
     const body = await request.json();
 
-    if (!body.cards) {
-      return createErrorResponse("Cards needed", 400);
+    if (
+      body["cards"] === undefined &&
+      body["themeColorPreference"] === undefined
+    ) {
+      return createErrorResponse("Cards or theme color needed", 400);
     }
 
-    const { error } = await updateCardProgress(userID, {
-      cards: body.cards
-    });
+    if (body.cards) {
+      const { error } = await updateCardProgress(userID, {
+        cards: body.cards
+      });
 
-    if (error) {
-      throw error;
+      if (error) {
+        throw error;
+      }
+    }
+
+    if (body["themeColorPreference"] !== undefined) {
+      const { error } = await updateThemePreference(userID, {
+        themeColorPreference: body.themeColorPreference as string
+      });
+
+      if (error) {
+        throw error;
+      }
     }
 
     let json_response = {
@@ -45,7 +63,7 @@ export async function PATCH(
     });
   } catch (error: any) {
     if (error.code === 11000) {
-      return createErrorResponse("Card with title already exists", 409);
+      return createErrorResponse("profile already exists", 409);
     }
 
     return createErrorResponse(error.message, 500);

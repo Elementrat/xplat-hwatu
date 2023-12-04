@@ -48,6 +48,9 @@ class UserProfileClass {
   @prop({ required: true })
   userID: mongoose.Types.ObjectId | string;
 
+  @prop()
+  themeColorPreference: string;
+
   _id: mongoose.Types.ObjectId | string;
   id: string;
 }

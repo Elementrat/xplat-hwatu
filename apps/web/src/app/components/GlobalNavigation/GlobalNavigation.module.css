@@ -9,7 +9,7 @@
   flex-shrink: 0;
   overflow-y: scroll;
   overflow-x: hidden;
-  color: var(--grey-500);
+  color: var(--grey-200);
   border-right: var(--border-1);
   border-bottom-left-radius: var(--border-radius-1);
   border-bottom-right-radius: var(--border-radius-1);
