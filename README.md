@@ -1,5 +1,6 @@
 # Reqs
-A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic.
+A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic.  
+Running live at [https://xplat-hwatu-web.vercel.app/](https://xplat-hwatu-web.vercel.app/)
 
 
 # Reqs
