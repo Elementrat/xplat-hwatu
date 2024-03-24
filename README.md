@@ -1,6 +1,6 @@
 # Reqs
-A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic. 
-|
+A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic.
+
 - Create cards more quickly and easily than quizlet, anki, etc.
 - Organize and browse your content with tags
 - Automatically see transalations for supported languages
