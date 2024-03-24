@@ -5,8 +5,10 @@ A powerful, minimalist self-study educational tool, built with react, redux, nex
 # Reqs
 
 - Mongo
-- JDK
 - Node
+- JDK (if deploying to Android)
+- XCode (if deploying to iOS)
+
 
 ---
 
