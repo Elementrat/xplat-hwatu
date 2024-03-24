@@ -1,7 +1,14 @@
 # Reqs
-A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic.  
-Running live at [https://xplat-hwatu-web.vercel.app/](https://xplat-hwatu-web.vercel.app/)
+A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic. 
+|
+- Create cards more quickly and easily than quizlet, anki, etc.
+- Organize and browse your content with tags
+- Automatically see transalations for supported languages
+- Themable UX 
+- Custom Image uploads
+- Deployable to iOS & Android
 
+Running live at [https://xplat-hwatu-web.vercel.app/](https://xplat-hwatu-web.vercel.app/)
 
 # Reqs
 
