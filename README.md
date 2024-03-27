@@ -6,7 +6,7 @@ A powerful, minimalist self-study educational tool, built with react, redux, nex
 - Automatically see transalations for supported languages
 - Themable UX 
 - Custom Image uploads
-- Deployable to iOS & Android
+- Deployable as App to iOS & Android (via Ionic)
 
 Running live at [https://xplat-hwatu-web.vercel.app/](https://xplat-hwatu-web.vercel.app/)
 
