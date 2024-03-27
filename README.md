@@ -1,4 +1,4 @@
-# Reqs
+# HWATU 
 A powerful, minimalist self-study educational tool, built with react, redux, nextjs, and Ionic.
 
 - Create cards more quickly and easily than quizlet, anki, etc.
